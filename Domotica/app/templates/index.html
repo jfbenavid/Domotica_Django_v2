@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Centro Domotica</title>
+	<link rel="stylesheet" href="../static/css/normalize.css" />
+	<link rel="stylesheet" href="../static/css/domo.css">
+	<link rel="stylesheet" href="../static/css/select.css">
+	
+</head>
+<body onload="Inicio()">
+	<header>
+		<div class="logo">
+			<img src="../static/imagenes/logo.png" alt="Domotica" title="Raspberry Pi" />
+		</div>
+		<div class="titulo">
+			<h1 class="title">
+				Central Domotica
+			</h1>
+		</div>
+		<div class="logoU">
+			<img src="../static/imagenes/logoU.png" alt="Universidad" title="Universidad" />
+		</div>
+	</header>
+	<section class="sec">
+		<article class="selPuerto">
+		<div class="cajaselect">
+			<hidden id="hiddenPuerto" value="{{luz}}" />
+			<span class="seleccionado">Seleccione</span>
+			<ul class="listaselect">
+				{% for l in luz %}
+					<li>
+						<a href="#">Puerto {{l.puerto}}</a>
+					</li>
+				{% endfor %}
+			</ul>
+			<span class="trianguloinf"></span>
+		</div>
+		</article>
+		<article class="controles">
+			<div id="welcome">
+				<span>Bienvenido al centro de domotica Benavides!</span>
+			</div>
+			<div id="control" style="display:none;">
+				<div class="onOff">
+					<figure>
+						<img src="../static/imagenes/botonOn.png" alt="on-off" id="imgOnOff" class="imagen" onClick="OnOff();" />
+					</figure>
+				</div>
+				<div class="divDimmer">
+					<input type="range" id="idDimmer" name="dimmer" value="100" min="0" max="100" step="1" onchange="EstadoDimmer()" />
+				</div>
+				<div class="info">
+					<strong class="estado">Estado:</strong>
+					<span class="port">
+						Puerto 0
+					</span>
+					<span class="infoEstadoDimmer">
+						Dimmer en 100%
+					</span>
+					<span class="infoEstadoOnOff">
+						Energia On
+					</span>
+				</div>
+			</div>
+			<div id="fancyClock"></div>
+		</article>
+	</section>
+
+	<footer>
+		<h3>
+			<strong>
+				Universidad Antonio Nariño
+			</strong>
+			<span class="electronica">
+				Electronica por Leonardo Benavides
+			</span>
+			<span class="design">
+				Pagina web por Fabian Benavides
+			</span>
+		</h3>
+	</footer>
+
+	<!--Carga de jquery y algunos scripts-->
+	<script type="text/javascript" src="../static/js/jquery-1.11.3.min.js" ></script>
+	<script type="text/javascript" src="../static/js/jquery.tzineClock.js" ></script>
+	<script type="text/javascript" src="../static/js/Domo.js" ></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+body{
+  /* Setting default text color, background and a font stack */
+  color:#dddddd;
+  font-size:13px;
+  background: #302b23;
+  font-family:Arial, Helvetica, sans-serif;
+}
+header {
+  background: #444;
+  color: #fff;
+  padding: 0.5em;
+}
+header .logo {
+  border-right: 1px solid #22bce0;
+  width: 60px;
+}
+header .logo img {
+  width: 52px;
+}
+header .titulo {
+  margin: 0 80px 0 70px;
+}
+header .titulo .title {
+  font-size: 18px;
+  font-weight: normal;
+  height: 3.5em;
+  margin: 0;
+  padding: 0;
+}
+header .titulo .title h1 {
+  vertical-align: middle;
+}
+section {
+  background: #22bce0;
+}
+section .controles .onOff img {
+  width: 150px;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+#fancyClock{
+  margin:40px auto;
+  height:200px;
+  width:600px;
+}
+.clock {
+  background-color: #252525;
+  float: left;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  width: 200px;
+}
+.clock .front .left {
+  left: 0;
+  z-index: 10;
+}
+.clock .rotate {
+  height: 200px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 200px;
+}
+.clock .bg,
+.clock .front {
+  background-color: #252525;
+  height: 200px;
+  position: absolute;
+  top: 0;
+  width: 100px;
+}
+.clock .display {
+  color: #f5f5f5;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-size: 60px;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  text-shadow: 4px 4px 5px #333333;
+  top: 65px;
+  width: 200px;
+  z-index: 20;
+}
+.clock .bg .left {
+  left: 0;
+}
+.clock .bg .right {
+  left: 100px;
+}
+.green .bg .left {
+  background: url("../imagenes/bg_green.png") no-repeat left top;
+}
+.green .bg .right {
+  background: url("../imagenes/bg_green.png") no-repeat right top;
+}
+.rotate .right {
+  display: none;
+  z-index: 11;
+}
