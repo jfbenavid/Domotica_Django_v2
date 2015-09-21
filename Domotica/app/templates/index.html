@@ -25,7 +25,8 @@
 	<section class="sec">
 		<article class="selPuerto">
 		<div class="cajaselect">
-			<hidden id="hiddenPuerto" value="{{luz}}" />
+			<input type="hidden" id="hiddenPuerto" value="" />
+			<input type="hidden" id="hiddenDb" value="{{ sJsonLuz }}" />
 			<span class="seleccionado">Seleccione</span>
 			<ul class="listaselect">
 				{% for l in luz %}
@@ -44,11 +45,11 @@
 			<div id="control" style="display:none;">
 				<div class="onOff">
 					<figure>
-						<img src="../static/imagenes/botonOn.png" alt="on-off" id="imgOnOff" class="imagen" onClick="OnOff();" />
+						<img src="../static/imagenes/botonOn.png" alt="on-off" id="imgOnOff" class="imagen" onClick="ProcesoLuz('luz');" />
 					</figure>
 				</div>
 				<div class="divDimmer">
-					<input type="range" id="idDimmer" name="dimmer" value="100" min="0" max="100" step="1" onchange="EstadoDimmer()" />
+					<input type="range" id="idDimmer" name="dimmer" value="100" min="0" max="100" step="1" onchange="ProcesoLuz('dimmer')" />
 				</div>
 				<div class="info">
 					<strong class="estado">Estado:</strong>

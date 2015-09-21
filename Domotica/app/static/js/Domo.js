@@ -1,4 +1,6 @@
-var estado 	= 0;
+var gListaLuz = [];
+var gsOn  	= '../static/imagenes/botonOn.png';
+var gsOff 	= '../static/imagenes/botonOff.png';
 
 function CambiarVista(){
 	var select = $.trim($('.Seleccione').text());
@@ -36,7 +38,8 @@ function clickli(e) {
 	e.preventDefault();
 	e.stopPropagation();    
 	seleccionado.text(texto);
-	$("#hiddenPuerto").val(seleccionado.text());
+	$("#hiddenPuerto").val(texto);
+	InicializarControles();
 	CambiarVista();
 	lista.hide();
 	triangulo.removeClass("triangulosup").addClass("trianguloinf");
@@ -47,27 +50,40 @@ function Inicio(){
 	$(".cajaselect").on("click", "li", clickli);
 }
 
-//Para encender y apagar las luces, se activa cuando se da click al boton
-function OnOff(){
-	var on  	= '../static/imagenes/botonOn.png';
-	var off 	= '../static/imagenes/botonOff.png';
-	var listaPuerto	= ($("#hiddenPuerto").val()).split(" ");
-	var puerto  = listaPuerto[1];
-
-	if(estado === 0){
-		$('#imgOnOff').attr('src', on);
-		estado = 1;
+function InicializarControles(){	
+	if (gListaLuz.length === 0){
+		var hidden = $("#hiddenDb").val();
+		gListaLuz = $.parseJSON(hidden);
 	}
-	else{
-		$('#imgOnOff').attr('src', off);
-		estado = 0;
+	$("#hiddenPuerto").val($("#hiddenPuerto").val().replace("Puerto", ""));
+	//$("#hiddenPuerto").val(puerto);
+	var iPuerto = parseInt($("#hiddenPuerto").val());
+	for (var i = 0; i < gListaLuz.length; i++) {
+		if (gListaLuz[i].puerto == iPuerto) {
+			$("#imgOnOff").attr("src", (gListaLuz[i].valorLuz === 1) ? gsOn : gsOff);
+			$("#idDimmer").val(gListaLuz[i].valorDimmer);
+		}
 	}
-	$.get('Enciende/' + parseInt(puerto) + ' ' + estado + ' l', function(data){
-		alert('muy bien!');
-	});
 }
 
-
-
-
-
+//Para encender y apagar las luces, se activa cuando se da click al boton
+function ProcesoLuz(control){
+	var puerto	= parseInt($("#hiddenPuerto").val());
+	for (var i = 0; i < gListaLuz.length; i++) {
+		if (gListaLuz[i].puerto == puerto) {
+			if (control == "luz") {
+				gListaLuz[i].valorLuz = (gListaLuz[i].valorLuz === 1) ? 0 : 1;
+				$('#imgOnOff').attr('src', (gListaLuz[i].valorLuz === 1) ? gsOn : gsOff);
+				$.get('ProcesoLuz/' + puerto + ' ' + gListaLuz[i].valorLuz + ' l', function(data){
+					//alert('muy bien!');
+				});
+			}
+			else{
+				if (gListaLuz[i].valorLuz != 0) {
+					gListaLuz[i].valorDimmer = parseInt($("#idDimmer").val());
+				}
+			}
+			break;
+		}
+	}
+}

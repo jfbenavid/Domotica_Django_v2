@@ -6,4 +6,4 @@ class Luz(models.Model):
 	valorDimmer = models.IntegerField(default = 0)
 	
 	def __unicode__(self):
-		return "%s - %s" % (self.puerto, self.valorLuz)
+		return "%s - %s - %s" % (self.puerto, self.valorLuz, self.valorDimmer)
