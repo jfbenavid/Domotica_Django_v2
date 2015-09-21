@@ -36,15 +36,15 @@ def ProcesoLuz(request, id_puerto, valor, tipo):
 		luz.save()
 		print "el valor es %d y el puerto es %d" % (iValor, iPuerto)
 		
-		self.ProcesoRaspberry(iPuerto, iValor)
+		#self.ProcesoRaspberry(iPuerto, iValor)
 
 		return HttpResponseRedirect("/")
 	except Exception, e:
 		print "Error en ProcesoLuz"
 
-def ProcesoRaspberry(self, id_puerto, valor):
+#def ProcesoRaspberry(self, id_puerto, valor):
 	#aqui se hace el proceso de la luz en el puerto de la raspberry
-	try:
+	#try:
 		#GPIO.setmode(GPIO.BCM)
 		#GPIO.setup(iPuerto, GPIO.OUT)
 		#l = GPIO.PWM(iPuerto, iValor)
@@ -56,5 +56,5 @@ def ProcesoRaspberry(self, id_puerto, valor):
 		#	l.stop()
 		#	GPIO.cleanup()
 		#	print "hubo un problema en la luz " + e.message
-	except Exception, e:
-		print "Error en ProcesoRaspberry"
+	#except Exception, e:
+	#	print "Error en ProcesoRaspberry"

@@ -75,13 +75,14 @@ function ProcesoLuz(control){
 				gListaLuz[i].valorLuz = (gListaLuz[i].valorLuz === 1) ? 0 : 1;
 				$('#imgOnOff').attr('src', (gListaLuz[i].valorLuz === 1) ? gsOn : gsOff);
 				$.get('ProcesoLuz/' + puerto + ' ' + gListaLuz[i].valorLuz + ' l', function(data){
-					//alert('muy bien!');
+					alert('muy bien la luz!');
 				});
 			}
 			else{
-				if (gListaLuz[i].valorLuz != 0) {
-					gListaLuz[i].valorDimmer = parseInt($("#idDimmer").val());
-				}
+				gListaLuz[i].valorDimmer = parseInt($("#idDimmer").val());
+				$.get('ProcesoLuz/' + puerto + ' ' + gListaLuz[i].valorDimmer + ' d', function(data){
+					alert('muy bien el dimmer!');
+				});
 			}
 			break;
 		}
