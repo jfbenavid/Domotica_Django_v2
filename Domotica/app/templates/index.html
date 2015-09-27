@@ -38,11 +38,13 @@
 			<span class="trianguloinf"></span>
 		</div>
 		</article>
-		<article class="controles">
-			<div id="welcome">
+		<article id="welcome">
+			<div>
 				<span>Bienvenido al centro de domotica Benavides!</span>
 			</div>
-			<div id="control" style="display:none;">
+		</article>
+		<article class="controles" style="display:none;">
+			<div id="control">
 				<div class="onOff">
 					<figure>
 						<img src="../static/imagenes/botonOn.png" alt="on-off" id="imgOnOff" class="imagen" onClick="ProcesoLuz('luz');" />
@@ -51,23 +53,31 @@
 				<div class="divDimmer">
 					<input type="range" id="idDimmer" name="dimmer" value="100" min="0" max="100" step="1" onchange="ProcesoLuz('dimmer')" />
 				</div>
-				<div class="info">
-					<strong class="estado">Estado:</strong>
+			</div>
+			<div class="info">
+				<div>
+					<span>
+						<strong class="estado">Estado:</strong>
+					</span>
+				</div>
+				<div>
 					<span class="port">
 						Puerto 0
 					</span>
+				</div>
+				<div>
 					<span class="infoEstadoDimmer">
 						Dimmer en 100%
 					</span>
+				</div>
+				<div>
 					<span class="infoEstadoOnOff">
 						Energia On
 					</span>
 				</div>
 			</div>
-			<div id="fancyClock"></div>
 		</article>
 	</section>
-
 	<footer>
 		<h3>
 			<strong>
@@ -84,7 +94,6 @@
 
 	<!--Carga de jquery y algunos scripts-->
 	<script type="text/javascript" src="../static/js/jquery-1.11.3.min.js" ></script>
-	<script type="text/javascript" src="../static/js/jquery.tzineClock.js" ></script>
 	<script type="text/javascript" src="../static/js/Domo.js" ></script>
 </body>
 </html>

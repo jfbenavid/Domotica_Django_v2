@@ -1,4 +1,5 @@
 var gListaLuz = [];
+var gRespuestaLuz = [];
 var gsOn  	= '../static/imagenes/botonOn.png';
 var gsOff 	= '../static/imagenes/botonOff.png';
 
@@ -6,10 +7,10 @@ function CambiarVista(){
 	var select = $.trim($('.Seleccione').text());
 	if(select!=="Seleccione"){
 		$('#welcome').hide();
-		$('#control').show();
+		$('.controles').show();
 	}
 	else{
-		$('#control').hide();
+		$('.controles').hide();
 		$('#welcome').show();
 	}
 }
@@ -56,12 +57,19 @@ function InicializarControles(){
 		gListaLuz = $.parseJSON(hidden);
 	}
 	$("#hiddenPuerto").val($("#hiddenPuerto").val().replace("Puerto", ""));
-	//$("#hiddenPuerto").val(puerto);
+	CambiosEstados();
+}
+
+function CambiosEstados(){
 	var iPuerto = parseInt($("#hiddenPuerto").val());
 	for (var i = 0; i < gListaLuz.length; i++) {
 		if (gListaLuz[i].puerto == iPuerto) {
 			$("#imgOnOff").attr("src", (gListaLuz[i].valorLuz === 1) ? gsOn : gsOff);
 			$("#idDimmer").val(gListaLuz[i].valorDimmer);
+			$(".port").text("Puerto " + gListaLuz[i].puerto);
+			$(".infoEstadoDimmer").text("Dimmer en " + gListaLuz[i].valorDimmer + "%");
+			$(".infoEstadoOnOff").text((gListaLuz[i].valorLuz == 1) ? "Energia On" : "Energia Off");
+			break;
 		}
 	}
 }
@@ -72,16 +80,18 @@ function ProcesoLuz(control){
 	for (var i = 0; i < gListaLuz.length; i++) {
 		if (gListaLuz[i].puerto == puerto) {
 			if (control == "luz") {
-				gListaLuz[i].valorLuz = (gListaLuz[i].valorLuz === 1) ? 0 : 1;
-				$('#imgOnOff').attr('src', (gListaLuz[i].valorLuz === 1) ? gsOn : gsOff);
-				$.get('ProcesoLuz/' + puerto + ' ' + gListaLuz[i].valorLuz + ' l', function(data){
-					alert('muy bien la luz!');
+				var sLuz = (gListaLuz[i].valorLuz == 1) ? " 0" : " 1";
+				$.get('ProcesoLuz/' + puerto + sLuz + ' l', function(data){
+					gListaLuz[i] = $.parseJSON(data)[0];
+					CambiosEstados();
+					alert('muy bien la luz!' + gListaLuz[i].valorLuz);
 				});
 			}
 			else{
-				gListaLuz[i].valorDimmer = parseInt($("#idDimmer").val());
-				$.get('ProcesoLuz/' + puerto + ' ' + gListaLuz[i].valorDimmer + ' d', function(data){
-					alert('muy bien el dimmer!');
+				$.get('ProcesoLuz/' + puerto + ' ' + parseInt($("#idDimmer").val()) + ' d', function(data){
+					gListaLuz[i] = $.parseJSON(data)[0];
+					CambiosEstados();
+					alert('muy bien el dimmer!' + gListaLuz[i].valorDimmer);
 				});
 			}
 			break;

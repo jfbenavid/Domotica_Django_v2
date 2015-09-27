@@ -31,30 +31,35 @@ def ProcesoLuz(request, id_puerto, valor, tipo):
 		luz = Luz.objects.get(puerto = iPuerto)
 		if (tipo == "l"):
 			luz.valorLuz = iValor
+			luz.valorDimmer = 0 if (luz.valorLuz == 0) else 100
 		else:
 			luz.valorDimmer = iValor
+		
 		luz.save()
 		print "el valor es %d y el puerto es %d" % (iValor, iPuerto)
 		
-		#self.ProcesoRaspberry(iPuerto, iValor)
+		self.ProcesoRaspberry(iPuerto, iValor)
 
-		return HttpResponseRedirect("/")
+		lista = [{'puerto':luz.puerto, 'valorLuz':luz.valorLuz, 'valorDimmer':luz.valorDimmer}]
+		sJsonLuz = json.dumps(lista)
+		print sJsonLuz
+		return HttpResponse(sJsonLuz)
 	except Exception, e:
 		print "Error en ProcesoLuz"
 
-#def ProcesoRaspberry(self, id_puerto, valor):
+def ProcesoRaspberry(self, id_puerto, valor):
 	#aqui se hace el proceso de la luz en el puerto de la raspberry
-	#try:
-		#GPIO.setmode(GPIO.BCM)
-		#GPIO.setup(iPuerto, GPIO.OUT)
-		#l = GPIO.PWM(iPuerto, iValor)
-		#l.start(0)
-		#try:
-		#	while True:
-		#		l.ChangeDutyCycle(iValor)
-		#except Exception, e:
-		#	l.stop()
-		#	GPIO.cleanup()
-		#	print "hubo un problema en la luz " + e.message
-	#except Exception, e:
-	#	print "Error en ProcesoRaspberry"
+	try:
+		GPIO.setmode(GPIO.BCM)
+		GPIO.setup(iPuerto, GPIO.OUT)
+		l = GPIO.PWM(iPuerto, iValor)
+		l.start(0)
+		try:
+			while True:
+				l.ChangeDutyCycle(iValor)
+		except Exception, e:
+			l.stop()
+			GPIO.cleanup()
+			print "hubo un problema en la luz " + e.message
+	except Exception, e:
+		print "Error en ProcesoRaspberry"
