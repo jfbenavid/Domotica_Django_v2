@@ -38,7 +38,7 @@ def ProcesoLuz(request, id_puerto, valor, tipo):
 		luz.save()
 		print "el valor es %d y el puerto es %d" % (iValor, iPuerto)
 		
-		#self.ProcesoRaspberry(iPuerto, iValor)
+		#aqui se hace el envio de datos a la clase ProcesosLuces para que haga el proceso respectivo		
 		rpi = ProcesosLuces(iPuerto, iValor)
 		rpi.ProcesoRaspberry()
 		

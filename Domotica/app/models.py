@@ -15,6 +15,7 @@ class ProcesosLuces():
 		self.valor = valor
 
 	def ProcesoRaspberry(self):
+		print "Aqui es Models.py este es el puerto: %s y el valor es este %s" % (self.puerto, self.valor)
 		#aqui se hace el proceso de la luz en el puerto de la raspberry
 		try:
 			GPIO.setmode(GPIO.BCM)
@@ -26,4 +27,4 @@ class ProcesosLuces():
 		except Exception, e:
 			luz.stop()
 			GPIO.cleanup()
-			print "Error en ProcesoRaspberry: %s" % e
+			print "Error en ProcesosLuces/ProcesoRaspberry: %s" % e
