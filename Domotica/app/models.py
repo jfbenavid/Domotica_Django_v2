@@ -1,4 +1,5 @@
 from django.db import models
+import RPi.GPIO as GPIO
 
 class Luz(models.Model):
 	puerto = models.IntegerField(default = 0)
@@ -7,3 +8,22 @@ class Luz(models.Model):
 	
 	def __unicode__(self):
 		return "%s - %s - %s" % (self.puerto, self.valorLuz, self.valorDimmer)
+
+class ProcesosLuces():
+	def __init__(self, id_puerto, valor):
+		self.puerto = id_puerto
+		self.valor = valor
+
+	def ProcesoRaspberry(self):
+		#aqui se hace el proceso de la luz en el puerto de la raspberry
+		try:
+			GPIO.setmode(GPIO.BCM)
+			GPIO.setup(self.puerto, GPIO.OUT)
+			luz = GPIO.PWM(self.puerto, self.valor)
+			luz.start(0)
+			while True:
+				luz.ChangeDutyCycle(self.valor)
+		except Exception, e:
+			luz.stop()
+			GPIO.cleanup()
+			print "Error en ProcesoRaspberry: %s" % e
