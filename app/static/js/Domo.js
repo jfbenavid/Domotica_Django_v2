@@ -6,12 +6,14 @@ var gsOff 	= '../static/imagenes/botonOff.png';
 function CambiarVista(){
 	var select = $.trim($('.Seleccione').text());
 	if(select!=="Seleccione"){
-		$('#welcome').hide();
+		$('.welcome').hide();
 		$('.controles').show();
+		$('.infoLuz').show();
 	}
 	else{
+		$('.infoLuz').hide();
 		$('.controles').hide();
-		$('#welcome').show();
+		$('.welcome').show();
 	}
 }
 
@@ -20,7 +22,6 @@ function clickcaja(e) {
 	var lista = $(this).find("ul"),
 		triangulo = $(this).find("span:last-child");
 	e.preventDefault();
-	//lista.is(":hidden") ? $(this).find("ul").show() : $(this).find("ul").hide();
 	$(this).find("ul").toggle();
 	if(lista.is(":hidden")) {
 		triangulo.removeClass("triangulosup").addClass("trianguloinf");
@@ -39,8 +40,15 @@ function clickli(e) {
 	e.preventDefault();
 	e.stopPropagation();    
 	seleccionado.text(texto);
-	$("#hiddenPuerto").val(texto);
-	InicializarControles();
+	//se coloca el numero de puerto en el hidden para procesar
+	for (var i = 0; i < gListaLuz.length; i++) {
+		if (texto.trim() === gListaLuz[i].nombre) {
+			$("#hiddenPuerto").val(gListaLuz[i].puerto);
+			break;
+		}
+	}
+	//InicializarControles();
+	CambiosEstados();
 	CambiarVista();
 	lista.hide();
 	triangulo.removeClass("triangulosup").addClass("trianguloinf");
@@ -49,6 +57,7 @@ function clickli(e) {
 function Inicio(){
 	$(".cajaselect").click(clickcaja);
 	$(".cajaselect").on("click", "li", clickli);
+	InicializarControles();
 }
 
 function InicializarControles(){	
@@ -56,15 +65,22 @@ function InicializarControles(){
 		var hidden = $("#hiddenDb").val();
 		gListaLuz = $.parseJSON(hidden);
 	}
-	$("#hiddenPuerto").val($("#hiddenPuerto").val().replace("Puerto", ""));
-	CambiosEstados();
+	//$("#hiddenPuerto").val($("#hiddenPuerto").val().replace("Puerto", ""));
+	//CambiosEstados();
 }
 
 function CambiosEstados(){
 	var iPuerto = parseInt($("#hiddenPuerto").val());
 	for (var i = 0; i < gListaLuz.length; i++) {
 		if (gListaLuz[i].puerto == iPuerto) {
-			$("#imgOnOff").attr("src", (gListaLuz[i].valorLuz === 1) ? gsOn : gsOff);
+			if (gListaLuz[i].valorLuz === 1) {
+				$("#imgOnOff").attr("src", gsOn);
+				$("#idDimmer").removeAttr("disabled");
+			}
+			else{
+				$("#imgOnOff").attr("src", gsOff);
+				$("#idDimmer").attr("disabled", "disabled");
+			}
 			$("#idDimmer").val(gListaLuz[i].valorDimmer);
 			$(".port").text("Puerto " + gListaLuz[i].puerto);
 			$(".infoEstadoDimmer").text("Dimmer en " + gListaLuz[i].valorDimmer + "%");

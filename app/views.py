@@ -1,5 +1,4 @@
 from django.shortcuts import render_to_response
-from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template
 from django.template import Context
@@ -7,59 +6,54 @@ from datetime import datetime
 from models import *
 from time import sleep
 import json
-#import RPi.GPIO as GPIO
 
 # Create your views here.
 
 def home(request):
 	try:
 		luz = Luz.objects.all()
-		lista = [{'puerto':l.puerto, 'valorLuz':l.valorLuz, 'valorDimmer':l.valorDimmer} for l in luz]
+		lista = [{'nombre':l.nombre, 'puerto':l.puerto, 'valorLuz':l.valorLuz, 'valorDimmer':l.valorDimmer} for l in luz]
 		sJsonLuz = json.dumps(lista)
 		template = "index.html"
-		#diccionario = {"luz": luz}
 		return render_to_response(template, locals())
 	except Exception, e:
-		print "Error en Home"
+		print "Error en Home: %s" % e
 	
 
 def ProcesoLuz(request, id_puerto, valor, tipo):
 	try:
+		#convertir los parametros en numeros
 		iPuerto = int(id_puerto)
 		iValor	= int(valor)
 
+		#se consulta el objeto luz que contenga el puerto recibido
 		luz = Luz.objects.get(puerto = iPuerto)
+
+		#si el tipo de cambio lo ejecuta el switch de la luz o el dimer
+		#luego de eso cambia los valores del objeto luz
 		if (tipo == "l"):
 			luz.valorLuz = iValor
 			luz.valorDimmer = 0 if (luz.valorLuz == 0) else 100
 		else:
 			luz.valorDimmer = iValor
 		
+		#guarda los cambios en el objeto
 		luz.save()
-		print "el valor es %d y el puerto es %d" % (iValor, iPuerto)
+
+		#punto de control...
+		print "el valor es %d y el puerto es %d el tipo es %s" % (iValor, iPuerto, tipo)
 		
-		self.ProcesoRaspberry(iPuerto, iValor)
-
-		lista = [{'puerto':luz.puerto, 'valorLuz':luz.valorLuz, 'valorDimmer':luz.valorDimmer}]
+		#se envian los datos a la clase ProcesosLuces para que haga el proceso respectivo (dimmer/luz)		
+		rpi = ProcesosLuces(iPuerto, iValor)
+		rpi.ProcesoRaspberry()
+		
+		#el objeto cambiado se formatea en un json para retornar a la pagina
+		lista = [{'nombre':luz.nombre, 'puerto':luz.puerto, 'valorLuz':luz.valorLuz, 'valorDimmer':luz.valorDimmer}]
 		sJsonLuz = json.dumps(lista)
-		print sJsonLuz
-		return HttpResponse(sJsonLuz)
-	except Exception, e:
-		print "Error en ProcesoLuz"
+		#punto de control...
+		print "aqui volvio al proceso original, el json es: %s" % sJsonLuz
 
-def ProcesoRaspberry(self, id_puerto, valor):
-	#aqui se hace el proceso de la luz en el puerto de la raspberry
-	try:
-		GPIO.setmode(GPIO.BCM)
-		GPIO.setup(iPuerto, GPIO.OUT)
-		l = GPIO.PWM(iPuerto, iValor)
-		l.start(0)
-		try:
-			while True:
-				l.ChangeDutyCycle(iValor)
-		except Exception, e:
-			l.stop()
-			GPIO.cleanup()
-			print "hubo un problema en la luz " + e.message
+		return HttpResponse(sJsonLuz)
+
 	except Exception, e:
-		print "Error en ProcesoRaspberry"
+		print "Error en ProcesoLuz: %s" % e

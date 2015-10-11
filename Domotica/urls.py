@@ -19,6 +19,6 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'app.views.home', name='home'),
-    url(r'^ProcesoLuz/(\d+) (\d+) (l|d)/$', 'app.views.ProcesoLuz', name='ProcesoLuz'),
+    url(r'^$', 'app.views.home', name = 'home'),
+    url(r'^ProcesoLuz/(\d+) (\d+) (l|d)/$', 'app.views.ProcesoLuz', name = 'ProcesoLuz'),
 ]
