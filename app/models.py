@@ -24,12 +24,12 @@ class ProcesosLuces():
 		self.valor = int(valor)
 
 	def ProcesarLuz(self):
-		GPIO.setmode(GPIO.BOARD)
+		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(self.puerto, GPIO.OUT)
-		if (self.valor == 100):
+		bOnOff = False
+
+		if (self.valor == 1):
 			bOnOff = True
-		else:
-			bOnOff = False
 
 		GPIO.output(self.puerto, bOnOff)
 
