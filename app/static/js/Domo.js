@@ -3,17 +3,13 @@ var gRespuestaLuz = [];
 var gsOn  	= '../static/imagenes/botonOn.png';
 var gsOff 	= '../static/imagenes/botonOff.png';
 
-function CambiarVista(){
-	var select = $.trim($('.Seleccione').text());
-	if(select!=="Seleccione"){
-		$('.welcome').hide();
-		$('.controles').show();
-		$('.infoLuz').show();
-	}
-	else{
-		$('.infoLuz').hide();
-		$('.controles').hide();
-		$('.welcome').show();
+function luzOverClick (puerto) {
+	if(screen.width < 768){
+		$("#hiddenPuerto").val(puerto);
+		CambiosEstados();
+		$(".controles").show();
+		$(".infoLuz").show();
+		$(".tablaLuz").hide();	
 	}
 }
 
@@ -29,6 +25,13 @@ function clickcaja(e) {
 	else {
 		triangulo.removeClass("trianguloinf").addClass("triangulosup");
 	}
+}
+
+function mostrarTablaLuz(){
+	$(".welcome").hide();
+	$(".controles").hide();
+	$(".infoLuz").hide();
+	$(".tablaLuz").show();
 }
 
 //para el combobox
@@ -47,7 +50,6 @@ function clickli(e) {
 			break;
 		}
 	}
-	//InicializarControles();
 	CambiosEstados();
 	CambiarVista();
 	lista.hide();
@@ -65,14 +67,12 @@ function InicializarControles(){
 		var hidden = $("#hiddenDb").val();
 		gListaLuz = $.parseJSON(hidden);
 	}
-	//$("#hiddenPuerto").val($("#hiddenPuerto").val().replace("Puerto", ""));
-	//CambiosEstados();
 }
 
 function CambiosEstados(){
 	var iPuerto = parseInt($("#hiddenPuerto").val());
 	for (var i = 0; i < gListaLuz.length; i++) {
-		if (gListaLuz[i].puerto == iPuerto) {
+		if (gListaLuz[i].puerto == iPuerto) { 
 			if (gListaLuz[i].valorLuz === 1) {
 				$("#imgOnOff").attr("src", gsOn);
 				$("#idDimmer").removeAttr("disabled");
@@ -81,6 +81,8 @@ function CambiosEstados(){
 				$("#imgOnOff").attr("src", gsOff);
 				$("#idDimmer").attr("disabled", "disabled");
 			}
+			$("#estadoPuerto" + iPuerto).text(gListaLuz[i].valorLuz);
+			$("#valorDimmer" + iPuerto).text(gListaLuz[i].valorDimmer);
 			$("#idDimmer").val(gListaLuz[i].valorDimmer);
 			$(".port").text("Puerto " + gListaLuz[i].puerto);
 			$(".infoEstadoDimmer").text("Dimmer en " + gListaLuz[i].valorDimmer + "%");

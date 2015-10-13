@@ -22,25 +22,50 @@
 		</div>
 	</header>
 	<nav>
-		<div class="cajaselect">
-				<input type="hidden" id="hiddenPuerto" value="" />
-				<input type="hidden" id="hiddenDb" value="{{ sJsonLuz }}" />
-				<span class="seleccionado">Seleccione</span>
-				<ul class="listaselect">
-					{% for l in luz %}
-						<li>
-							<a href="#">{{l.nombre}}</a>
-						</li>
-					{% endfor %}
-				</ul>
-				<span class="trianguloInf"></span>
-			</div>
+		<input type="hidden" id="hiddenPuerto" value="" />
+		<input type="hidden" id="hiddenDb" value="{{ sJsonLuz }}" />
+
+		<ul class="menu">
+			<li class="menuLuz" onclick="mostrarTablaLuz()">
+				<span class="Luz">Luz</span>
+			</li>
+			<li>
+				<span class="Aire">Aire</span>
+			</li>
+			<!-- <li>
+				<div class="cajaselect">
+					<span class="seleccionado">Seleccione</span>
+					<ul class="listaselect">
+						{% for l in luz %}
+							<li>
+								<a href="#">{{l.nombre}}</a>
+							</li>
+						{% endfor %}
+					</ul>
+					<span class="trianguloInf"></span>
+				</div>
+			</li> -->
+		</ul>
 	</nav>
 	<section>
 		<article class="welcome">
 			<div>
 				<span>Bienvenido al centro de domotica Benavides!</span>
 			</div>
+		</article>
+		<article class="tablaLuz">
+			<div class="nombrePuerto" align="center"><strong>Nombre</strong></div>
+			<div class="numeroPuerto" align="center"><strong>Puerto</strong></div>
+			<div class="estadoPuerto" align="center"><strong>Estado</strong></div>
+			<div class="valorDimmer" align="center"><strong>Dimmer</strong></div>
+			{% for l in luz %}
+				<div class="luzOver" onclick="luzOverClick({{l.puerto}})">
+					<div class="nombrePuerto" align="center"><span id="nombrePuerto{{l.puerto}}">{{l.nombre}}</span></div>
+					<div class="numeroPuerto" align="center"><span id="numeroPuerto{{l.puerto}}">{{l.puerto}}</span></div>
+					<div class="estadoPuerto" align="center"><span id="estadoPuerto{{l.puerto}}">{{l.valorLuz}}</span></div>
+					<div class="valorDimmer" align="center"><span id="valorDimmer{{l.puerto}}">{{l.valorDimmer}}</span></div>
+				</div>
+			{% endfor %}
 		</article>
 		<article class="controles" >
 			<div class="onOff">

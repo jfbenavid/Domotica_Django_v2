@@ -1,7 +1,7 @@
 from django.db import models
 #import RPi.GPIO as GPIO
 
-class Usuarios(models.Model):
+class Propietarios(models.Model):
 	nombre = models.CharField(max_length = 100)
 	usuario = models.CharField(max_length = 20)
 	contrasena = models.CharField(max_length = 20)
@@ -16,7 +16,7 @@ class Luz(models.Model):
 	valorDimmer = models.IntegerField(default = 0)
 	
 	def __unicode__(self):
-		return "Nombre: %s - Puerto: %s - EstadoLuz: %s - ValorDimmer %s" % (self.nombre, self.puerto, self.valorLuz, self.valorDimmer)
+		return "Nombre: %s - Puerto: %s - EstadoLuz: %s - ValorDimmer: %s" % (self.nombre, self.puerto, self.valorLuz, self.valorDimmer)
 
 class ProcesosLuces():
 	def __init__(self, id_puerto, valor):

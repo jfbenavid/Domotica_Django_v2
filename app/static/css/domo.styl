@@ -1,6 +1,17 @@
 color_fondo = #444
 color_letras = rgba(white,0.5)
 azul = #22BCE0
+//#4CBEFF
+
+triangulo(){
+	border-left 9px solid rgba(0, 0, 0, 0)
+	border-right 9px solid rgba(0, 0, 0, 0)
+	height 0
+	position absolute
+	right 10px
+	top 17px
+	width 0
+}
 
 body
 	color color_fondo
@@ -74,78 +85,42 @@ header
 			line-height 60px
 
 nav
-	.cajaselect
-		background none repeat scroll 0 0 #4CBEFF
-		border-radius 0 0 0 0
+	background azul
+	border-left 10px solid white
+	position relative
+	
+	&:before
+		border-bottom 20px solid transparent
+		border-left 7px solid white
+		border-top 20px solid transparent
+		content ""
+		left 0px
+		position absolute
+		top 0
+	
+	.menu
 		cursor pointer
-		margin-top 10px
-		padding 5px 10px
-		position relative
-		z-index 1
+		height 40px
+		line-height 40px
+		margin 0
+		padding 0
+		overflow-x auto
+		white-space nowrap
 		
-		span.seleccionado
-			color white
-			display block
-			font-weight 700
-			line-height 3
-			text-indent 10px
-
-		span.trianguloInf
-			border-left 9px solid rgba(0, 0, 0, 0)
-			border-right 9px solid rgba(0, 0, 0, 0)
-			border-top 13px solid #CFECFC
-			height 0
-			position absolute
-			right 10px
-			top 17px
-			width 0
-
-		span.triangulosup
-			border-bottom 13px solid #CFECFC
-			border-left 9px solid rgba(0, 0, 0, 0)
-			border-right 9px solis rgba(0, 0, 0, 0)
-			height 0
-			position absolute
-			right 10px
-			top 17px
-			width 0
-
-		ul.listaselect
-			background none repeat scroll 0 0 #FFF
-			border 1px solid #DEDEDE
-			display none
-			left -1px
-			margin-left 0
-			margin-top 49px
-			padding-left 0
-			position absolute
-			text-indent 15px
-			top 0
-			width 100%
-
-			li
-				border-bottom 1px solid #EFEFEF
-				cursor pointer
+		li
+			display inline-block
+		
+			span
+				color white
 				display block
-				line-height 15px
-				list-style outside none none
-				margin 0
-				padding 1.1em 0.3em
+				margin 0 0.5em
+				padding 0 0.2em
+
+			&:hover
+				background rgba(black,0.1)
 				
-				a
-					color #333
-					text-decoration none
-
-			li:hover
-				background color_fondo
-
-				a
+				span
 					color color_letras
-					text-decoration none
-
-					&:before
-					&:after
-						content " - "
 
 section
 	
@@ -174,6 +149,31 @@ section
 		margin-left 10%
 		margin-top 5px
 		width 80%
+	
+	article.tablaLuz
+		display none
+		width 100%
+		
+		.nombrePuerto
+		.numeroPuerto
+		.estadoPuerto
+		.valorDimmer
+			display inline-block
+			width 24%
+
+		.luzOver:hover
+			background rgba(black,0.2)
 
 	article.welcome
 		margin-top 10px
+
+@media screen and (min-width: 768px)
+	nav
+		.menu
+			.menuLuz
+				display none
+
+	section
+		
+		article.tablaLuz
+			display block
