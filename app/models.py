@@ -1,5 +1,5 @@
 from django.db import models
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 class Propietarios(models.Model):
 	nombre = models.CharField(max_length = 100)
@@ -26,14 +26,16 @@ class ProcesosLuces():
 	def ProcesoRaspberry(self):
 		print "Aqui es Models.py este es el puerto: %s y el valor es este %s" % (self.puerto, self.valor)
 		#aqui se hace el proceso de la luz en el puerto de la raspberry
-		# try:
-		# 	GPIO.setmode(GPIO.BCM)
-		# 	GPIO.setup(self.puerto, GPIO.OUT)
-		# 	luz = GPIO.PWM(self.puerto, self.valor)
-		# 	luz.start(0)
-		# 	while True:
-		# 		luz.ChangeDutyCycle(self.valor)
-		# except Exception, e:
-		# 	luz.stop()
-		# 	GPIO.cleanup()
-		# 	print "Error en ProcesosLuces/ProcesoRaspberry: %s" % e
+		try:
+			GPIO.setmode(GPIO.BCM)
+			GPIO.setup(self.puerto, GPIO.OUT)
+			luz = GPIO.PWM(self.puerto, self.valor)
+			luz.start(self.valor)
+			while True:
+				luz.ChangeDutyCycle(self.valor)
+				sleep(0.1)
+			print "aqui se ejecuto todo bien en el metodo ProcesoRaspberry .l."
+		except Exception, e:
+			luz.stop()
+			GPIO.cleanup()
+			print "Error en ProcesosLuces/ProcesoRaspberry: %s" % e
