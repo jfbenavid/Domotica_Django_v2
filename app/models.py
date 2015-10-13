@@ -20,22 +20,32 @@ class Luz(models.Model):
 
 class ProcesosLuces():
 	def __init__(self, id_puerto, valor):
-		self.puerto = id_puerto
-		self.valor = valor
+		self.puerto = int(id_puerto)
+		self.valor = int(valor)
+
+	def ProcesarLuz(self):
+		GPIO.setmode(GPIO.BOARD)
+		GPIO.setup(self.puerto, GPIO.OUT)
+		if (self.valor == 100):
+			bOnOff = True
+		else:
+			bOnOff = False
+
+		GPIO.output(self.puerto, bOnOff)
 
 	def ProcesoRaspberry(self):
 		print "Aqui es Models.py este es el puerto: %s y el valor es este %s" % (self.puerto, self.valor)
 		#aqui se hace el proceso de la luz en el puerto de la raspberry
-		try:
-			GPIO.setmode(GPIO.BCM)
-			GPIO.setup(self.puerto, GPIO.OUT)
-			luz = GPIO.PWM(self.puerto, self.valor)
-			luz.start(self.valor)
-			while True:
-				luz.ChangeDutyCycle(self.valor)
-				sleep(0.1)
-			print "aqui se ejecuto todo bien en el metodo ProcesoRaspberry .l."
-		except Exception, e:
-			luz.stop()
-			GPIO.cleanup()
-			print "Error en ProcesosLuces/ProcesoRaspberry: %s" % e
+	# 	GPIO.setmode(GPIO.BCM)
+	# 	GPIO.setup(self.puerto, GPIO.OUT)
+	# 	l = GPIO.PWM(self.puerto, self.valor)
+	# 	l.start(self.valor)
+		# try:
+		# 	while True:
+		# 		l.ChangeDutyCycle(self.valor)
+		# 		sleep(0.1)
+		# 	print "aqui se ejecuto todo bien en el metodo ProcesoRaspberry .l."
+		# except Exception, e:
+		# 	luz.stop()
+		# 	GPIO.cleanup()
+		# 	print "Error en ProcesosLuces/ProcesoRaspberry: %s" % e
