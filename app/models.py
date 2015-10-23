@@ -1,6 +1,8 @@
 from django.db import models
-import RPi.GPIO as GPIO
+import threading
+import logging
 import time
+#import RPi.GPIO as GPIO
 
 class Propietarios(models.Model):
 	nombre = models.CharField(max_length = 100)
@@ -25,28 +27,30 @@ class ProcesosLuces():
 		self.valor = int(valor)
 
 	def ProcesarLuz(self):
-		GPIO.setmode(GPIO.BCM)
-		GPIO.setup(self.puerto, GPIO.OUT)
-		bOnOff = False
+		print "Entro al metodo ProcesarLuz: [puerto: %s][valor: %s]" % (self.puerto, self.valor)
+		# GPIO.setmode(GPIO.BCM)
+		# GPIO.setup(self.puerto, GPIO.OUT)
+		# bOnOff = False
 
-		if (self.valor == 1):
-			bOnOff = True
+		# if (self.valor == 1):
+		# 	bOnOff = True
 
-		GPIO.output(self.puerto, bOnOff)
+		# GPIO.output(self.puerto, bOnOff)
 
 	def ProcesarDimmer(self):
-		print "Aqui es Models.py este es el puerto: %s y el valor es este %s" % (self.puerto, self.valor)
+		while True:
+			print "este ciclo infinito se ejecuta en segundo plano"
 		#aqui se hace el proceso de la luz en el puerto de la raspberry
-	#	GPIO.setmode(GPIO.BCM)
-	#	GPIO.setup(self.puerto, GPIO.OUT)
-	#	l = GPIO.PWM(self.puerto, 100)
-	#	l.start(100)
-		#try:
-		#	while True:
-		#		l.ChangeDutyCycle(self.valor)
-		#		time.sleep(0.1)
-		#	print "aqui se ejecuto todo bien en el metodo ProcesarDimmer .l."
-		#except Exception, e:
-		#	luz.stop()
-		#	GPIO.cleanup()
-		#	print "Error en ProcesosLuces/ProcesoRaspberry: %s" % e
+		# GPIO.setmode(GPIO.BCM)
+		# GPIO.setup(self.puerto, GPIO.OUT)
+		# l = GPIO.PWM(self.puerto, 100)
+		# l.start(100)
+		# try:
+		# 	while True:
+		# 		l.ChangeDutyCycle(self.valor)
+		# 		time.sleep(0.1)
+		# 	print "aqui se ejecuto todo bien en el metodo ProcesarDimmer .l."
+		# except Exception, e:
+		# 	luz.stop()
+		# 	GPIO.cleanup()
+		# 	print "Error en ProcesosLuces/ProcesoRaspberry: %s" % e

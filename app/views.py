@@ -4,8 +4,10 @@ from django.template.loader import get_template
 from django.template import Context
 from datetime import datetime
 from models import *
-from time import sleep
 import json
+import threading
+import logging
+import time
 
 # Create your views here.
 
@@ -39,7 +41,10 @@ def ProcesoLuz(request, id_puerto, valor, tipo):
 			rpi.ProcesarLuz()
 		else:
 			luz.valorDimmer = iValor
-			rpi.ProcesoRaspberry()
+			hiloDimmer = threading.Thread(target=rpi.ProcesarDimmer, name='dimmer' + str(iPuerto))
+			hiloDimmer.setDaemon(True)
+			hiloDimmer.start()
+			#rpi.ProcesarDimmer()
 		
 		#guarda los cambios en el objeto
 		luz.save()
