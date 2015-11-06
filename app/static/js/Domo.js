@@ -4,7 +4,7 @@ var gsOn  	= '../static/imagenes/botonOn.png';
 var gsOff 	= '../static/imagenes/botonOff.png';
 
 function luzOverClick (puerto) {
-	if(screen.width < 768){
+	if(screen.width <= 768){
 		$("#hiddenPuerto").val(puerto);
 		CambiosEstados();
 		$(".controles").show();
@@ -13,52 +13,23 @@ function luzOverClick (puerto) {
 	}
 }
 
-//para el combobox
-function clickcaja(e) {
-	var lista = $(this).find("ul"),
-		triangulo = $(this).find("span:last-child");
-	e.preventDefault();
-	$(this).find("ul").toggle();
-	if(lista.is(":hidden")) {
-		triangulo.removeClass("triangulosup").addClass("trianguloinf");
-	}
-	else {
-		triangulo.removeClass("trianguloinf").addClass("triangulosup");
-	}
+function mostrarAire() {
+	$(".welcome").hide();
+	$(".controles").hide();
+	$(".infoLuz").hide();
+	$(".tablaLuz").hide();
+	$(".termometro").show();
 }
 
 function mostrarTablaLuz(){
 	$(".welcome").hide();
 	$(".controles").hide();
 	$(".infoLuz").hide();
+	$(".termometro").hide();
 	$(".tablaLuz").show();
 }
 
-//para el combobox
-function clickli(e) {
-	var texto = $(this).text(),
-		seleccionado = $(this).parent().prev(),
-		lista = $(this).closest("ul"),
-		triangulo = $(this).parent().next();
-	e.preventDefault();
-	e.stopPropagation();    
-	seleccionado.text(texto);
-	//se coloca el numero de puerto en el hidden para procesar
-	for (var i = 0; i < gListaLuz.length; i++) {
-		if (texto.trim() === gListaLuz[i].nombre) {
-			$("#hiddenPuerto").val(gListaLuz[i].puerto);
-			break;
-		}
-	}
-	CambiosEstados();
-	CambiarVista();
-	lista.hide();
-	triangulo.removeClass("triangulosup").addClass("trianguloinf");
-}
-
 function Inicio(){
-	$(".cajaselect").click(clickcaja);
-	$(".cajaselect").on("click", "li", clickli);
 	InicializarControles();
 }
 

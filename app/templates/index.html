@@ -29,22 +29,9 @@
 			<li class="menuLuz" onclick="mostrarTablaLuz()">
 				<span class="Luz">Luz</span>
 			</li>
-			<li>
+			<li class="menuAire" onclick="mostrarAire()">
 				<span class="Aire">Aire</span>
 			</li>
-			<!-- <li>
-				<div class="cajaselect">
-					<span class="seleccionado">Seleccione</span>
-					<ul class="listaselect">
-						{% for l in luz %}
-							<li>
-								<a href="#">{{l.nombre}}</a>
-							</li>
-						{% endfor %}
-					</ul>
-					<span class="trianguloInf"></span>
-				</div>
-			</li> -->
 		</ul>
 	</nav>
 	<section>
@@ -54,49 +41,57 @@
 			</div>
 		</article>
 		<article class="tablaLuz">
-			<div class="nombrePuerto" align="center"><strong>Nombre</strong></div>
-			<div class="numeroPuerto" align="center"><strong>Puerto</strong></div>
-			<div class="estadoPuerto" align="center"><strong>Estado</strong></div>
-			<div class="valorDimmer" align="center"><strong>Dimmer</strong></div>
+			<div class="cabecera">
+				<div class="tabla"><strong>Nombre</strong></div>
+				<div class="tabla"><strong>Puerto</strong></div>
+				<div class="tabla"><strong>Estado</strong></div>
+				<div class="tabla"><strong>Dimmer</strong></div>
+			</div>
 			{% for l in luz %}
 				<div class="luzOver" onclick="luzOverClick({{l.puerto}})">
-					<div class="nombrePuerto" align="center"><span id="nombrePuerto{{l.puerto}}">{{l.nombre}}</span></div>
-					<div class="numeroPuerto" align="center"><span id="numeroPuerto{{l.puerto}}">{{l.puerto}}</span></div>
-					<div class="estadoPuerto" align="center"><span id="estadoPuerto{{l.puerto}}">{{l.valorLuz}}</span></div>
-					<div class="valorDimmer" align="center"><span id="valorDimmer{{l.puerto}}">{{l.valorDimmer}}</span></div>
+					<div class="tabla"><span id="nombrePuerto{{l.puerto}}">{{l.nombre}}</span></div>
+					<div class="tabla"><span id="numeroPuerto{{l.puerto}}">{{l.puerto}}</span></div>
+					<div class="tabla"><span id="estadoPuerto{{l.puerto}}">{{l.valorLuz}}</span></div>
+					<div class="tabla"><span id="valorDimmer{{l.puerto}}">{{l.valorDimmer}}</span></div>
 				</div>
 			{% endfor %}
 		</article>
-		<article class="controles" >
-			<div class="onOff">
-				<figure>
-					<img src="../static/imagenes/botonOn.png" alt="on-off" id="imgOnOff" class="imagen" onClick="ProcesoLuz('luz');" />
-				</figure>
+		<article>
+			<div class="controles">
+				<div class="onOff">
+					<figure>
+						<img src="../static/imagenes/botonOn.png" alt="on-off" id="imgOnOff" class="imagen" onClick="ProcesoLuz('luz');" />
+					</figure>
+				</div>
+				<div class="divDimmer">
+					<input type="range" id="idDimmer" name="dimmer" value="100" min="0" max="100" step="1" onchange="ProcesoLuz('dimmer')" />
+				</div>
 			</div>
-			<div class="divDimmer">
-				<input type="range" id="idDimmer" name="dimmer" value="100" min="0" max="100" step="1" onchange="ProcesoLuz('dimmer')" />
-			</div>
-		</article>
-		<article class="infoLuz">
-			<div>
+			<div class="infoLuz">
 				<span>
 					<strong class="estado">Estado:</strong>
 				</span>
-			</div>
-			<div>
 				<span class="port">
 					Puerto 0
 				</span>
-			</div>
-			<div>
 				<span class="infoEstadoDimmer">
 					Dimmer en 100%
 				</span>
-			</div>
-			<div>
 				<span class="infoEstadoOnOff">
 					Energia On
 				</span>
+			</div>
+			<div class="termometro">
+				<svg class="vector" viewBox="0 0 200 200">
+					<circle class="contenedor" cx="100" cy="70" r="50" />
+					<line class="medidor" x1="100" y1="70" x2="78" y2="103" />
+					<line class="seccionReloj" x1="67" y1="70" x2="60" y2="70" />
+					<line class="seccionReloj" x1="81.8" y1="42.5" x2="78" y2="37" />
+					<line class="seccionReloj" x1="118.2" y1="42.5" x2="122" y2="37" />
+					<line class="seccionReloj" x1="133" y1="70" x2="140" y2="70" />
+					<text class="medida" x="78" y="103" >0</text>
+					<text class="medida" x="112" y="103" >100</text>
+				</svg>
 			</div>
 		</article>
 	</section>

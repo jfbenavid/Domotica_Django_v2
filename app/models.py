@@ -39,7 +39,7 @@ class ProcesosLuces():
 
 	def ProcesarDimmer(self):
 		while True:
-			print "este ciclo infinito se ejecuta en segundo plano"
+			print "este hilo es el del puerto %s puerto" % self.puerto
 		#aqui se hace el proceso de la luz en el puerto de la raspberry
 		# GPIO.setmode(GPIO.BCM)
 		# GPIO.setup(self.puerto, GPIO.OUT)
@@ -54,3 +54,6 @@ class ProcesosLuces():
 		# 	luz.stop()
 		# 	GPIO.cleanup()
 		# 	print "Error en ProcesosLuces/ProcesoRaspberry: %s" % e
+
+
+

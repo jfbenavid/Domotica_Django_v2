@@ -1,16 +1,12 @@
 color_fondo = #444
 color_letras = rgba(white,0.5)
 azul = #22BCE0
-//#4CBEFF
 
-triangulo(){
-	border-left 9px solid rgba(0, 0, 0, 0)
-	border-right 9px solid rgba(0, 0, 0, 0)
-	height 0
-	position absolute
-	right 10px
-	top 17px
-	width 0
+alineacionEscritorio(anchoDiv, margenIzq){
+	display block
+	float left
+	margin 30px 0 0 margenIzq
+	width anchoDiv
 }
 
 body
@@ -99,11 +95,10 @@ nav
 		top 0
 	
 	.menu
-		cursor pointer
 		height 40px
 		line-height 40px
 		margin 0
-		padding 0
+		padding-left: 10px;
 		overflow-x auto
 		white-space nowrap
 		
@@ -118,62 +113,102 @@ nav
 
 			&:hover
 				background rgba(black,0.1)
+				cursor pointer
 				
 				span
 					color color_letras
 
 section
-	
-	article.controles
-		align center
-		display none
-		margin-top 10px
-		top 10px
+	article
+		.controles
+			display none
+			margin-top 10px
+			top 10px
 
-		.onOff
-			margin-left 7.5%
-			width 85%
-			
-			figure
-				img
-					margin-left 5%
-					width 90%
+			.onOff
+				margin-left 7.5%
+				width 85%
+				
+				figure
+					img
+						margin-left 5%
+						width 90%
 
-		.divDimmer
-			margin-left 10%
-			text-align center
+			.divDimmer
+				margin-left 10%
+				text-align center
+				width 80%
+
+		.infoLuz
+			display none
+			margin-left 20%
+			margin-top 20px
 			width 80%
 
-	article.infoLuz
-		display none
-		margin-left 10%
-		margin-top 5px
-		width 80%
-	
+			span
+				display block
+
+		.termometro
+			display none
+			
+			.vector
+				stroke color_fondo
+				
+				.contenedor
+					fill white
+					stroke-width 3
+
+				.medidor
+					stroke-linecap round
+					stroke-width 1.4
+
+				.medida
+					fill color_fondo
+					font-size 0.5em
+					stroke-width 0.5
+
+				.seccionReloj
+					stroke-width 0.5
+
 	article.tablaLuz
+		background rgba(black, 0.1)
 		display none
+		margin-top 1px
+		text-align center
 		width 100%
 		
-		.nombrePuerto
-		.numeroPuerto
-		.estadoPuerto
-		.valorDimmer
+		.cabecera
+			background rgba(black,0.2)
+			margin-bottom 1px
+
+		.tabla
 			display inline-block
+			height 40px
+			line-height 40px
 			width 24%
+			
+			&:hover
+				cursor pointer
 
 		.luzOver:hover
-			background rgba(black,0.2)
+			background rgba(black,0.1)
 
 	article.welcome
 		margin-top 10px
 
 @media screen and (min-width: 768px)
 	nav
-		.menu
-			.menuLuz
-				display none
+		display none
 
 	section
-		
+
+		article
+			.controles
+				alineacionEscritorio(25%, 15%)
+
 		article.tablaLuz
-			display block
+			alineacionEscritorio(40%, 60px)
+
+		article.welcome
+			display none
+
