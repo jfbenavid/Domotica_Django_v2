@@ -4,12 +4,16 @@ var gsOn  	= '../static/imagenes/botonOn.png';
 var gsOff 	= '../static/imagenes/botonOff.png';
 
 function luzOverClick (puerto) {
+	$("#hiddenPuerto").val(puerto);
+	CambiosEstados();
+	$(".luzOver").css('background','none');
 	if(screen.width <= 768){
-		$("#hiddenPuerto").val(puerto);
-		CambiosEstados();
 		$(".controles").show();
 		$(".infoLuz").show();
 		$(".tablaLuz").hide();	
+	}
+	else{
+		$("#puertoLuz" + puerto).css('background','rgba(0,0,0,0.1)');
 	}
 }
 
@@ -87,3 +91,7 @@ function ProcesoLuz(control){
 		}
 	}
 }
+
+//funciones para manejar el puntero del termometro
+function x2(n,i,x1,r) {return x1 + r * Math.sin(2 * Math.PI * n / i);}
+function y2(n,i,y1,r) {return y1 - r * Math.cos(2 * Math.PI * n / i);}

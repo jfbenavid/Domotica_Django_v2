@@ -48,7 +48,7 @@
 				<div class="tabla"><strong>Dimmer</strong></div>
 			</div>
 			{% for l in luz %}
-				<div class="luzOver" onclick="luzOverClick({{l.puerto}})">
+				<div class="luzOver" id="puertoLuz{{l.puerto}}" onclick="luzOverClick({{l.puerto}})">
 					<div class="tabla"><span id="nombrePuerto{{l.puerto}}">{{l.nombre}}</span></div>
 					<div class="tabla"><span id="numeroPuerto{{l.puerto}}">{{l.puerto}}</span></div>
 					<div class="tabla"><span id="estadoPuerto{{l.puerto}}">{{l.valorLuz}}</span></div>
