@@ -22,7 +22,6 @@ def home(request):
 	except Exception, e:
 		print "Error en Home: %s" % e
 	
-
 def ProcesoLuz(request, id_puerto, valor, tipo):
 	try:
 		#convertir los parametros en numeros
@@ -31,33 +30,41 @@ def ProcesoLuz(request, id_puerto, valor, tipo):
 
 		#se consulta el objeto luz que contenga el puerto recibido
 		luz = Luz.objects.get(puerto = iPuerto)
-		#se crea objeto de la clase ProcesosLuces con los valores de los parametros
-		rpi = ProcesosLuces(iPuerto, iValor)
 
 		#si el tipo de cambio lo ejecuta el switch de la luz o el dimer
 		#luego de eso cambia los valores del objeto luz
+	
 		if (tipo == "l"):
 			luz.valorLuz = iValor
-			luz.valorDimmer = 0 if (luz.valorLuz == 0) else 100
+			if (luz.valorLuz == 0):
+				luz.valorDimmer = 0
+				#se crea objeto de la clase ProcesosLuces con los valores de los parametros
+				rpi = ProcesosLuces(iPuerto, iValor, False)
+
+			else:
+				luz.valorDimmer = 100
+				rpi = ProcesosLuces(iPuerto, iValor)
+					
 			rpi.ProcesarLuz()
 		else:
+			rpi = ProcesosLuces(iPuerto, iValor, False)
+			time.sleep(0.05)
 			luz.valorDimmer = iValor
-			hiloDimmer = threading.Thread(target=rpi.ProcesarDimmer, name='dimmer' + str(iPuerto))
+			if (luz.valorDimmer != 100): 
+				rpi = ProcesosLuces(iPuerto, iValor)
+			else:
+				return ProcesoLuz(iPuerto, 100, 'l')
+
+			hiloDimmer = threading.Thread(target = rpi.ProcesarDimmer, name = 'dimmer' + str(iPuerto))
 			hiloDimmer.setDaemon(True)
 			hiloDimmer.start()
-			#rpi.ProcesarDimmer()
 		
 		#guarda los cambios en el objeto
 		luz.save()
 
-		#punto de control...
-		print "el valor es %d y el puerto es %d el tipo es %s" % (iValor, iPuerto, tipo)
-		
 		#el objeto cambiado se formatea en un json para retornar a la pagina
 		lista = [{'nombre':luz.nombre, 'puerto':luz.puerto, 'valorLuz':luz.valorLuz, 'valorDimmer':luz.valorDimmer}]
 		sJsonLuz = json.dumps(lista)
-		#punto de control...
-		print "aqui volvio al proceso original, el json es: %s" % sJsonLuz
 
 		return HttpResponse(sJsonLuz)
 
