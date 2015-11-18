@@ -53,7 +53,11 @@
 				<div class="luzOver" id="puertoLuz{{l.puerto}}" onclick="luzOverClick({{l.puerto}})">
 					<div class="tabla"><span id="nombrePuerto{{l.puerto}}">{{l.nombre}}</span></div>
 					<div class="tabla"><span id="numeroPuerto{{l.puerto}}">{{l.puerto}}</span></div>
-					<div class="tabla"><span id="estadoPuerto{{l.puerto}}">{{l.valorLuz}}</span></div>
+					{%if l.valorLuz == 1%}
+						<div class="tabla"><span id="estadoPuerto{{l.puerto}}">Encendido</span></div>
+					{%else%}
+						<div class="tabla"><span id="estadoPuerto{{l.puerto}}">Apagado</span></div>
+					{%endif%}
 					<div class="tabla"><span id="valorDimmer{{l.puerto}}">{{l.valorDimmer}}</span></div>
 				</div>
 			{% endfor %}

@@ -2,7 +2,7 @@ from django.db import models
 import threading
 import logging
 import time
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 nombreHilo = {}
 
@@ -30,33 +30,33 @@ class ProcesosLuces():
 		nombreHilo['puerto' + str(self.puerto)] = bool(estadoHilo)
 
 	def ProcesarLuz(self):
-		print "Entro al metodo ProcesarLuz: [puerto: %s][valor: %s]" % (self.puerto, self.valor)
-		# GPIO.setmode(GPIO.BCM)
-		# GPIO.setup(self.puerto, GPIO.OUT)
-		# bOnOff = False
+		#print "Entro al metodo ProcesarLuz: [puerto: %s][valor: %s]" % (self.puerto, self.valor)
+		GPIO.setmode(GPIO.BCM)
+		GPIO.setup(self.puerto, GPIO.OUT)
+		bOnOff = False
 
-		# if (self.valor == 1):
-		# 	bOnOff = True
+		if (self.valor == 1):
+			bOnOff = True
 
-		# GPIO.output(self.puerto, bOnOff)
+		GPIO.output(self.puerto, bOnOff)
 
 	def ProcesarDimmer(self):
-		while nombreHilo['puerto' + str(self.puerto)]:
-			print "este hilo es el del puerto %s y tiene %d porciento" % (self.puerto,self.valor)
+		# while nombreHilo['puerto' + str(self.puerto)]:
+		# 	print "este hilo es el del puerto %s y tiene %d porciento" % (self.puerto,self.valor)
 		#aqui se hace el proceso de la luz en el puerto de la raspberry
-		# GPIO.setmode(GPIO.BCM)
-		# GPIO.setup(self.puerto, GPIO.OUT)
-		# l = GPIO.PWM(self.puerto, 100)
-		# l.start(100)
-		# try:
-		# 	while True:
-		# 		l.ChangeDutyCycle(self.valor)
-		# 		time.sleep(0.1)
-		# 	print "aqui se ejecuto todo bien en el metodo ProcesarDimmer .l."
-		# except Exception, e:
-		# 	luz.stop()
-		# 	GPIO.cleanup()
-		# 	print "Error en ProcesosLuces/ProcesoRaspberry: %s" % e
+		GPIO.setmode(GPIO.BCM)
+		GPIO.setup(self.puerto, GPIO.OUT)
+		l = GPIO.PWM(self.puerto, 100)
+		l.start(100)
+		try:
+			while nombreHilo['puerto' + str(self.puerto)]:
+				l.ChangeDutyCycle(self.valor)
+				time.sleep(0.1)
+			print "aqui se ejecuto todo bien en el metodo ProcesarDimmer .l."
+		except Exception, e:
+			luz.stop()
+			GPIO.cleanup()
+			print "Error en ProcesosLuces/ProcesoRaspberry: %s" % e
 
 
 

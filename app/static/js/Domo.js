@@ -56,7 +56,7 @@ function CambiosEstados(){
 				$("#imgOnOff").attr("src", gsOff);
 				$("#idDimmer").attr("disabled", "disabled");
 			}
-			$("#estadoPuerto" + iPuerto).text(gListaLuz[i].valorLuz);
+			$("#estadoPuerto" + iPuerto).text((gListaLuz[i].valorLuz == 1) ? "Encendido" : "Apagado");
 			$("#valorDimmer" + iPuerto).text(gListaLuz[i].valorDimmer);
 			$("#idDimmer").val(gListaLuz[i].valorDimmer);
 			$(".port").text("Puerto " + gListaLuz[i].puerto);
