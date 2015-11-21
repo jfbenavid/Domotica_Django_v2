@@ -35,6 +35,8 @@ function mostrarTablaLuz(){
 
 function Inicio(){
 	InicializarControles();
+	SoloNumeros('tTMinima');
+	SoloNumeros('tTMaxima');
 }
 
 function InicializarControles(){	
@@ -42,6 +44,24 @@ function InicializarControles(){
 		var hidden = $("#hiddenDb").val();
 		gListaLuz = $.parseJSON(hidden);
 	}
+}
+
+function SoloNumeros (sIdCampo) {
+	$('#' + sIdCampo).keydown(function (e) {
+		if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 || (e.keyCode == 65 && e.ctrlKey === true) || (e.keyCode >= 35 && e.keyCode <= 39)) {
+			return;
+		}
+		if ((e.shiftKey || (e.keyCode < 49 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+			e.preventDefault();
+		}
+		if ($('#' + sIdCampo).val() > 100){
+			e.preventDefault();
+		}
+	});
+}
+
+function cambiarValorPreferencia(sIdCambia, sIdOtro){
+	$('#' + sIdOtro).val($('#' + sIdCambia).val());
 }
 
 function CambiosEstados(){
@@ -93,5 +113,5 @@ function ProcesoLuz(control){
 }
 
 //funciones para manejar el puntero del termometro
-function x2(n,i,x1,r) {return x1 + r * Math.sin(2 * Math.PI * n / i);}
-function y2(n,i,y1,r) {return y1 - r * Math.cos(2 * Math.PI * n / i);}
+// function x2(n,i,x1,r) {return x1 + r * Math.sin(2 * Math.PI * n / i);}
+// function y2(n,i,y1,r) {return y1 - r * Math.cos(2 * Math.PI * n / i);}

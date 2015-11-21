@@ -31,10 +31,14 @@
 
 		<ul class="menu">
 			<li class="menuLuz" onclick="mostrarTablaLuz()">
-				<span class="Luz">Luz</span>
+				<a href="#">
+					<span class="Luz">Luz</span>
+				</a>
 			</li>
 			<li class="menuAire" onclick="mostrarAire()">
-				<span class="Aire">Aire</span>
+				<a href="#">
+					<span class="Aire">Aire</span>
+				</a>
 			</li>
 		</ul>
 	</nav>
@@ -70,7 +74,7 @@
 					</figure>
 				</div>
 				<div class="divDimmer">
-					<input type="range" id="idDimmer" name="dimmer" value="100" min="20" max="80" step="1" onchange="ProcesoLuz('dimmer')" />
+					<input type="range" id="idDimmer" name="dimmer" value="100" min="20" max="80" step="1" onmouseup="ProcesoLuz('dimmer')" />
 				</div>
 			</div>
 			<div class="infoLuz">
@@ -88,7 +92,7 @@
 				</span>
 			</div>
 			<div class="termometro">
-				<svg class="vector" viewBox="0 0 200 200">
+				<!-- <svg class="vector" viewBox="0 0 200 200">
 					<circle class="contenedor" cx="100" cy="70" r="50" />
 					<line class="medidor" x1="100" y1="70" x2="78" y2="103" />
 					<line class="seccionReloj" x1="67" y1="70" x2="60" y2="70" />
@@ -97,7 +101,29 @@
 					<line class="seccionReloj" x1="133" y1="70" x2="140" y2="70" />
 					<text class="medida" x="78" y="103" >0</text>
 					<text class="medida" x="112" y="103" >100</text>
+				</svg> -->
+				<svg class="temperatura">
+					<text>
+						<tspan x="130" y="30">Temperatura</tspan>
+						<tspan x="130" y="55" class="temp">25 °</tspan>
+						<tspan x="130" y="80">Humedad</tspan>
+						<tspan x="130" y="105" class="humedad">35 %</tspan>
+					</text>
 				</svg>
+				
+				<div class="controlTermometro">
+					<h3 class="controlPreferencia">Preferencias</h3>
+					<div class="tMinima">
+						<span class="controlPreferencia">Temperatura minima</span>
+						<input type="range" id="tRMinima" class="controlPreferencia" min="0" max="100" onmouseup="cambiarValorPreferencia('tRMinima','tTMinima')">
+						<input type="number" id="tTMinima" class="controlPreferencia" min="0" max="100" value="0" onkeyup="cambiarValorPreferencia('tTMinima','tRMinima')">
+					</div>
+					<div class="tMaxima">
+						<span class="controlPreferencia">Temperatura Maxima</span>
+						<input type="range" id="tRMaxima" class="controlPreferencia" min="0" max="100" onmouseup="cambiarValorPreferencia('tRMaxima','tTMaxima')">
+						<input type="number" id="tTMaxima" class="controlPreferencia" min="0" max="100" value="0" onkeyup="cambiarValorPreferencia('tTMaxima','tRMaxima')">
+					</div>
+				</div>
 			</div>
 		</article>
 	</section>
