@@ -1,0 +1,21 @@
+Para guardar en github:
+------------------------------------------------------------------
+git init
+
+si(va a colocar todo)? "git add ." : "git add nombre-del-archivo.extensión"
+
+git commit -m 'aqui va un comentario'
+
+git remote add origin git@github.com:jfbenavid/Domotica_Django.git
+
+si sale(fatal: remote origin already exists)? "git remote rm origin" : no haga esto
+
+git push -u origin master
+-------------------------------------------------------------------
+Proyecto Domotica
+cd Escritorio/Proyectos/Domotica
+git init
+git add .
+git commit -m 'Se abre el link al termometro y se crea la primera version del reloj del mismo'
+git remote add origin git@github.com:jfbenavid/Domotica_Django_v2.git
+git push -u origin master
