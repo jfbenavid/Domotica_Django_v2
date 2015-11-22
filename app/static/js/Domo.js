@@ -61,6 +61,7 @@ function SoloNumeros (sIdCampo) {
 }
 
 function cambiarValorPreferencia(sIdCambia, sIdOtro){
+<<<<<<< HEAD
 	$('#' + sIdOtro).text($('#' + sIdCambia).val());
 	var tMinima = parseInt($('#tRMinima').val());
 	var tMaxima = parseInt($('#tRMaxima').val());
@@ -68,6 +69,9 @@ function cambiarValorPreferencia(sIdCambia, sIdOtro){
 	$.get('preferenciasAire/' + tMinima + ' ' + tMaxima + ' 1' /*+ bEstado*/, function(data){
 		alert('Los cambios se han efectuado correctamente');
 	});
+=======
+	$('#' + sIdOtro).val($('#' + sIdCambia).val());
+>>>>>>> 733cffea32718edccf860316cc262cec88515965
 }
 
 function CambiosEstados(){
@@ -118,7 +122,10 @@ function ProcesoLuz(control){
 	}
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 733cffea32718edccf860316cc262cec88515965
 //funciones para manejar el puntero del termometro
 // function x2(n,i,x1,r) {return x1 + r * Math.sin(2 * Math.PI * n / i);}
 // function y2(n,i,y1,r) {return y1 - r * Math.cos(2 * Math.PI * n / i);}

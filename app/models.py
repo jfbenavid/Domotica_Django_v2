@@ -6,8 +6,21 @@ import time
 
 nombreHilo = {}
 
+<<<<<<< HEAD
 class Luz(models.Model):
 	nombre = models.CharField(max_length = 60, default = "")
+=======
+class Propietarios(models.Model):
+	nombre = models.CharField(max_length = 100)
+	usuario = models.CharField(max_length = 20)
+	contrasena = models.CharField(max_length = 20)
+
+	def __unicode__(self):
+		return "Nombre: %s - User: %s - Pass: %s" % (self.nombre, self.usuario, self.contrasena)
+
+class Luz(models.Model):
+	nombre = models.CharField(max_length = 60)
+>>>>>>> 733cffea32718edccf860316cc262cec88515965
 	puerto = models.IntegerField(default = 0)
 	valorLuz = models.IntegerField(default = 0)
 	valorDimmer = models.IntegerField(default = 0)
@@ -141,6 +154,7 @@ class ProcesosTemperatura():
 			print "ERR_RANGE"
 			exit(0)
 
+<<<<<<< HEAD
 		humedad = BinarioADecimal(HumidityBit)
 		temperatura = BinarioADecimal(TemperatureBit)
 
@@ -148,11 +162,21 @@ class ProcesosTemperatura():
 			print "Humidity: " + humedad + "%"
 			print "Temperature: " + temperatura + "C"
 			return humedad, temperatura
+=======
+		datos['humedad'] = BinarioADecimal(HumidityBit)
+		datos['Temperatura'] = BinarioADecimal(TemperatureBit)
+
+		if int(datos['humedad']) + int(datos['Temperatura']) - int(BinarioADecimal(crc)) == 0:
+			print "Humidity: " + datos['humedad'] + "%"
+			print "Temperature: " + datos['Temperatura'] + "C"
+			return datos
+>>>>>>> 733cffea32718edccf860316cc262cec88515965
 		else:
 			print "ERR_CRC"
 
 	def SensarTodo():
 		try:
+<<<<<<< HEAD
 			bCambiar = True
 			while self.estado:
 				humedad, temperatura = sensar()
@@ -171,5 +195,11 @@ class ProcesosTemperatura():
 					bCambiar = True
 
 				time.sleep(5)
+=======
+			while True:
+				datos = sensar()
+				#if (datos['humedad']):
+				time.sleep(3)
+>>>>>>> 733cffea32718edccf860316cc262cec88515965
 		except Exception, e:
 			print "Hubo un error en SensarTodo() - %s" % e

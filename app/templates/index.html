@@ -92,6 +92,19 @@
 				</span>
 			</div>
 			<div class="termometro">
+<<<<<<< HEAD
+=======
+				<!-- <svg class="vector" viewBox="0 0 200 200">
+					<circle class="contenedor" cx="100" cy="70" r="50" />
+					<line class="medidor" x1="100" y1="70" x2="78" y2="103" />
+					<line class="seccionReloj" x1="67" y1="70" x2="60" y2="70" />
+					<line class="seccionReloj" x1="81.8" y1="42.5" x2="78" y2="37" />
+					<line class="seccionReloj" x1="118.2" y1="42.5" x2="122" y2="37" />
+					<line class="seccionReloj" x1="133" y1="70" x2="140" y2="70" />
+					<text class="medida" x="78" y="103" >0</text>
+					<text class="medida" x="112" y="103" >100</text>
+				</svg> -->
+>>>>>>> 733cffea32718edccf860316cc262cec88515965
 				<svg class="temperatura">
 					<text>
 						<tspan x="130" y="30">Temperatura</tspan>
@@ -102,6 +115,7 @@
 				</svg>
 				
 				<div class="controlTermometro">
+<<<<<<< HEAD
 					<h3><span>Preferencias</span></h3>
 					<div class="tMinima">
 						<span>Temperatura Minima:</span>
@@ -112,6 +126,18 @@
 						<span>Temperatura Maxima:</span>
 						<span id="tTMaxima">{{aire.temperaturaMaxima}}</span>
 						<input type="range" id="	" min="0" max="100" onmouseup="cambiarValorPreferencia('tRMaxima','tTMaxima')" value="{{aire.temperaturaMaxima}}">
+=======
+					<h3 class="controlPreferencia">Preferencias</h3>
+					<div class="tMinima">
+						<span class="controlPreferencia">Temperatura minima</span>
+						<input type="range" id="tRMinima" class="controlPreferencia" min="0" max="100" onmouseup="cambiarValorPreferencia('tRMinima','tTMinima')">
+						<input type="number" id="tTMinima" class="controlPreferencia" min="0" max="100" value="0" onkeyup="cambiarValorPreferencia('tTMinima','tRMinima')">
+					</div>
+					<div class="tMaxima">
+						<span class="controlPreferencia">Temperatura Maxima</span>
+						<input type="range" id="tRMaxima" class="controlPreferencia" min="0" max="100" onmouseup="cambiarValorPreferencia('tRMaxima','tTMaxima')">
+						<input type="number" id="tTMaxima" class="controlPreferencia" min="0" max="100" value="0" onkeyup="cambiarValorPreferencia('tTMaxima','tRMaxima')">
+>>>>>>> 733cffea32718edccf860316cc262cec88515965
 					</div>
 				</div>
 			</div>

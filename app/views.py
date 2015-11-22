@@ -11,16 +11,24 @@ import time
 
 
 # Create your views here.
+<<<<<<< HEAD
+=======
+
+>>>>>>> 733cffea32718edccf860316cc262cec88515965
 def home(request):
 	try:
 		luz = Luz.objects.all()
 		lista = [{'nombre':l.nombre, 'puerto':l.puerto, 'valorLuz':l.valorLuz, 'valorDimmer':l.valorDimmer} for l in luz]
 		sJsonLuz = json.dumps(lista)
+<<<<<<< HEAD
 		aire = Aire.objects.get(puerto = 4)
+=======
+>>>>>>> 733cffea32718edccf860316cc262cec88515965
 		template = "index.html"
 		return render_to_response(template, locals())
 	except Exception, e:
 		print "Error en Home: %s" % e
+<<<<<<< HEAD
 
 def preferenciasAire(request, tMinimo, tMaximo, estado):
 	try:
@@ -45,6 +53,13 @@ def ProcesoLuz(request, idPuerto, valor, tipo):
 	try:
 		#convertir los parametros en numeros
 		iPuerto = int(idPuerto)
+=======
+	
+def ProcesoLuz(request, id_puerto, valor, tipo):
+	try:
+		#convertir los parametros en numeros
+		iPuerto = int(id_puerto)
+>>>>>>> 733cffea32718edccf860316cc262cec88515965
 		iValor	= int(valor)
 
 		#se consulta el objeto luz que contenga el puerto recibido
