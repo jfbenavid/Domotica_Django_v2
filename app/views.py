@@ -9,26 +9,17 @@ import threading
 import logging
 import time
 
-
 # Create your views here.
-<<<<<<< HEAD
-=======
-
->>>>>>> 733cffea32718edccf860316cc262cec88515965
 def home(request):
 	try:
 		luz = Luz.objects.all()
 		lista = [{'nombre':l.nombre, 'puerto':l.puerto, 'valorLuz':l.valorLuz, 'valorDimmer':l.valorDimmer} for l in luz]
 		sJsonLuz = json.dumps(lista)
-<<<<<<< HEAD
 		aire = Aire.objects.get(puerto = 4)
-=======
->>>>>>> 733cffea32718edccf860316cc262cec88515965
 		template = "index.html"
 		return render_to_response(template, locals())
 	except Exception, e:
 		print "Error en Home: %s" % e
-<<<<<<< HEAD
 
 def preferenciasAire(request, tMinimo, tMaximo, estado):
 	try:
@@ -47,19 +38,12 @@ def preferenciasAire(request, tMinimo, tMaximo, estado):
 		return HttpResponse(sJsonLuz)
 
 	except Exception, e:
-		raise e
+		print "Error en preferenciasAire - %s" % e
 
 def ProcesoLuz(request, idPuerto, valor, tipo):
 	try:
 		#convertir los parametros en numeros
 		iPuerto = int(idPuerto)
-=======
-	
-def ProcesoLuz(request, id_puerto, valor, tipo):
-	try:
-		#convertir los parametros en numeros
-		iPuerto = int(id_puerto)
->>>>>>> 733cffea32718edccf860316cc262cec88515965
 		iValor	= int(valor)
 
 		#se consulta el objeto luz que contenga el puerto recibido
@@ -67,7 +51,6 @@ def ProcesoLuz(request, id_puerto, valor, tipo):
 
 		#si el tipo de cambio lo ejecuta el switch de la luz o el dimer
 		#luego de eso cambia los valores del objeto luz
-	
 		if (tipo == "l"):
 			luz.valorLuz = iValor
 			if (luz.valorLuz == 0):
@@ -92,10 +75,8 @@ def ProcesoLuz(request, id_puerto, valor, tipo):
 			hiloDimmer = threading.Thread(target = rpi.ProcesarDimmer, name = 'dimmer' + str(iPuerto))
 			hiloDimmer.setDaemon(True)
 			hiloDimmer.start()
-		
 		#guarda los cambios en el objeto
 		luz.save()
-
 		#el objeto cambiado se formatea en un json para retornar a la pagina
 		lista = [{'nombre':luz.nombre, 'puerto':luz.puerto, 'valorLuz':luz.valorLuz, 'valorDimmer':luz.valorDimmer}]
 		sJsonLuz = json.dumps(lista)
@@ -104,3 +85,11 @@ def ProcesoLuz(request, id_puerto, valor, tipo):
 
 	except Exception, e:
 		print "Error en ProcesoLuz: %s" % e
+
+def ejecutarSensor(request):
+	rPi = ProcesosTemperatura()
+	humedad, temperatura = rPi.sensarTodo()
+	temp = [{'humedad':humedad, 'temperatura': temperatura}]
+	sJson = json.dumps(temp)
+	
+	return HttpResponse(sJson)

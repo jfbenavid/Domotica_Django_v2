@@ -21,8 +21,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'app.views.home', name = 'home'),
     url(r'^ProcesoLuz/(\d+) (\d+) (l|d)/$', 'app.views.ProcesoLuz', name = 'ProcesoLuz'),
-<<<<<<< HEAD
     url(r'^preferenciasAire/(\d+) (\d+) (\d)/$', 'app.views.preferenciasAire', name = 'preferenciasAire'),
-=======
->>>>>>> 733cffea32718edccf860316cc262cec88515965
+    url(r'^ejecutarSensor/$', 'app.views.ejecutarSensor', name = 'ejecutarSensor'),
 ]
