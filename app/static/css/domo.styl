@@ -160,10 +160,16 @@ section
 
 		.termometro
 			display none
+
 			.temperatura
-				height 90
-				margin-left 25px
-				width 200
+				text-align center
+				
+				span
+					display block
+			// .temperatura
+			// 	height 90
+			// 	margin-left 25px
+			// 	width 200px
 				
 			.controlTermometro
 				width 100%
@@ -221,8 +227,19 @@ section
 			.termometro
 				display block
 				float right
-				margin 30px 5%
+				margin 30px 6%
 				width 40%
+					
+				.controlTermometro
+					width 100%
+
+					span
+					input
+					img
+						display block
+						margin-left 24%
+						margin-top 5px
+						width 50%
 
 		article.tablaLuz
 			alineacionEscritorio(40%, 60px)
