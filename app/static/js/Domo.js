@@ -3,6 +3,7 @@ var gRespuestaLuz = [];
 var gsOn  	= '../static/imagenes/botonOn.png';
 var gsOff 	= '../static/imagenes/botonOff.png';
 var gbIntervalos = false
+var gbValInterval = ""
 
 function luzOverClick (puerto) {
 	$("#hiddenPuerto").val(puerto);
@@ -34,7 +35,7 @@ function mostrarTablaLuz(){
 	$(".termometro").hide();
 	$(".tablaLuz").show();
 	if(gbIntervalos == true){
-		clearInterval();
+		clearInterval(gbValInterval);
 	}
 }
 
@@ -42,6 +43,11 @@ function Inicio(){
 	InicializarControles();
 	SoloNumeros('tTMinima');
 	SoloNumeros('tTMaxima');
+
+	//si es escritorio o tablet se coloca el sensor a funcionar desde que inicia
+	if(screen.width >= 768){
+		sensar(); 
+	}
 }
 
 function InicializarControles(){	
@@ -124,15 +130,14 @@ function ProcesoLuz(control){
 }
 
 function sensar () {
-	//setInterval(consultarTemperatura, 600000);
 	gbIntervalos = true
-	setInterval(consultarTemperatura, 6000);
+	gbValInterval = setInterval(consultarTemperatura, 6000); //se va a poner 300000 para 5 minutos
 }
 
 function consultarTemperatura() {
 	$.get('ejecutarSensor/', function(data){
 		var gLista = $.parseJSON(data)[0];
-		$('#temp').html(gLista.temperatura);
-		$('#humedad').html(gLista.humedad);
+		$('#temp').html(gLista.temperatura + " °C");
+		$('#humedad').html(gLista.humedad + " %");
 	});
 }

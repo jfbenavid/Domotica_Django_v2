@@ -87,9 +87,11 @@ def ProcesoLuz(request, idPuerto, valor, tipo):
 		print "Error en ProcesoLuz: %s" % e
 
 def ejecutarSensor(request):
-	rPi = ProcesosTemperatura()
-	humedad, temperatura = rPi.sensarTodo()
+	rpi = ProcesosTemperatura(1)
+
+	humedad, temperatura = rpi.SensarTodo()
+
 	temp = [{'humedad':humedad, 'temperatura': temperatura}]
 	sJson = json.dumps(temp)
-	
+
 	return HttpResponse(sJson)

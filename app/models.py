@@ -2,9 +2,9 @@ from django.db import models
 import threading
 import logging
 import time
-import sys
-import Adafruit_DHT
-import RPi.GPIO as GPIO
+#import sys
+#import Adafruit_DHT
+#import RPi.GPIO as GPIO
 
 nombreHilo = {}
 
@@ -44,8 +44,6 @@ class ProcesosLuces():
 		GPIO.output(self.puerto, bOnOff)
 
 	def ProcesarDimmer(self):
-		# while nombreHilo['puerto' + str(self.puerto)]:
-		# 	print "este hilo es el del puerto %s y tiene %d porciento" % (self.puerto,self.valor)
 		#aqui se hace el proceso de la luz en el puerto de la raspberry
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(self.puerto, GPIO.OUT)
@@ -62,10 +60,10 @@ class ProcesosLuces():
 			print "Error en ProcesosLuces/ProcesoRaspberry: %s" % e
 
 class ProcesosTemperatura():
-	def __init__(self, arg):
- 		self.arg = arg
+	def __init__(self, prueba = 0):
+		self.prueba = prueba
 
-	def SensarTodo():
+	def SensarTodo(self):
 		try:
 			bCambiar = True
 			#el 11 representa que es el DHT11 (si fuera el DHT22 se coloca 22); el 4 representa el numero del puerto
