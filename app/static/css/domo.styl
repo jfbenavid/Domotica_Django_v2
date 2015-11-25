@@ -11,12 +11,13 @@ alineacionEscritorio(anchoDiv, margenIzq){
 
 body
 	color color_fondo
-	display flex
-	flex-direction column
+	//display flex 	///para footer abajo
+	//flex-direction column 	///para footer abajo
 	font-family Arial, Helvetica, sans-serif
 	font-size 16px
 	height 100%
-	min-height 100vh
+	//min-height 100vh 	///para footer abajo
+	margin 0 0 81px
 
 footer
 	background color_fondo
@@ -26,7 +27,9 @@ footer
 	margin-top 1em
 	min-height 5rem
 	padding 1em 0
+	position absolute
 	text-align center
+	width 100%
 		
 	h3
 		font-size 14px
@@ -42,6 +45,10 @@ footer
 			&:before
 			&:after
 				content " - "
+
+html
+	position relative
+	min-height 100%
 
 header
 	background color_fondo
@@ -127,7 +134,7 @@ nav
 					color color_letras
 
 section
-	flex 1
+	//flex 1 	///para footer abajo
 	
 	article
 		.controles

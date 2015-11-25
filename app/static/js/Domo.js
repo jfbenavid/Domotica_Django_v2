@@ -2,8 +2,8 @@ var gListaLuz = [];
 var gRespuestaLuz = [];
 var gsOn  	= '../static/imagenes/botonOn.png';
 var gsOff 	= '../static/imagenes/botonOff.png';
-var gbIntervalos = false
-var gbValInterval = ""
+var gbIntervalos = false;
+var gbValInterval = "";
 
 function luzOverClick (puerto) {
 	$("#hiddenPuerto").val(puerto);
@@ -131,7 +131,7 @@ function ProcesoLuz(control){
 
 function sensar () {
 	gbIntervalos = true
-	gbValInterval = setInterval(consultarTemperatura, 6000); //se va a poner 300000 para 5 minutos
+	gbValInterval = setInterval(function (){consultarTemperatura();}, 6000); //se va a poner 300000 para 5 minutos
 }
 
 function consultarTemperatura() {
