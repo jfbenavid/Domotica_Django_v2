@@ -76,7 +76,6 @@ class ProcesosLuces():
 			print "Error en ProcesosLuces/ProcesoRaspberry: %s" % e
 
 class ProcesosTemperatura():
-	bCambiar = True
 	def __init__(self, prueba = 0):
 		self.prueba = prueba
 
@@ -85,6 +84,7 @@ class ProcesosTemperatura():
 			#el 11 representa que es el DHT11 (si fuera el DHT22 se coloca 22); el 4 representa el numero del puerto
 			humedad, temperatura = Adafruit_DHT.read_retry(11, 4) 
 			aire = Aire.objects.get(puerto = 4)
+			bCambiar = True
 
 			if (temperatura < aire.temperaturaMinima or temperatura > aire.temperaturaMaxima):
 				if bCambiar:
