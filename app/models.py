@@ -17,6 +17,9 @@ class Luz(models.Model):
 	def __unicode__(self):
 		return "Nombre: %s - Puerto: %s - EstadoLuz: %s - ValorDimmer: %s" % (self.nombre, self.puerto, self.valorLuz, self.valorDimmer)
 
+	class Meta:
+		ordering = ['puerto']
+
 class Aire(models.Model):
 	puerto = models.IntegerField(default = 0)
 	temperaturaMinima = models.IntegerField(default = 0)
@@ -36,36 +39,49 @@ class ProcesosLuces():
 		print "Entro al metodo ProcesarLuz: [puerto: %s][valor: %s]" % (self.puerto, self.valor)
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(self.puerto, GPIO.OUT)
-		bOnOff = False
+		bOnOff = True
 
 		if (self.valor == 1):
-			bOnOff = True
+			bOnOff = False
 
 		GPIO.output(self.puerto, bOnOff)
 
 	def ProcesarDimmer(self):
-		#aqui se hace el proceso de la luz en el puerto de la raspberry
+	#aqui se hace el proceso de la luz en el puerto de la raspberry
+		frecuencia = 0
+
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(self.puerto, GPIO.OUT)
-		l = GPIO.PWM(self.puerto, 10000)
-		l.start(0)
+		#cambia la frecuencia para la etapa de potencia
+		if self.valor >= 40 and self.valor <= 60:
+			frecuencia = 60
+		elif self.valor == 70:
+			frecuencia = 80
+		else:
+			frecuencia = 100
+
+		#debido a que el transistor es inverso se debe cambiar el ciclo
+		self.valor = 100 - self.valor
+
+		l = GPIO.PWM(self.puerto, frecuencia)
+		l.start(100)
 		try:
 			while nombreHilo['puerto' + str(self.puerto)]:
 				l.ChangeDutyCycle(self.valor)
 				time.sleep(0.1)
-			print "aqui se ejecuto todo bien en el metodo ProcesarDimmer .l."
+			print "se finalizo el metodo ProcesarDimmer del puerto %s" % self.puerto
 		except Exception, e:
-			luz.stop()
+			l.stop()
 			GPIO.cleanup()
 			print "Error en ProcesosLuces/ProcesoRaspberry: %s" % e
 
 class ProcesosTemperatura():
+	bCambiar = True
 	def __init__(self, prueba = 0):
 		self.prueba = prueba
 
 	def SensarTodo(self):
 		try:
-			bCambiar = True
 			#el 11 representa que es el DHT11 (si fuera el DHT22 se coloca 22); el 4 representa el numero del puerto
 			humedad, temperatura = Adafruit_DHT.read_retry(11, 4) 
 			aire = Aire.objects.get(puerto = 4)

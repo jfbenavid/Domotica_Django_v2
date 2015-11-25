@@ -16,6 +16,6 @@ Proyecto Domotica
 cd Escritorio/Proyectos/Domotica
 git init
 git add .
-git commit -m 'se coloca el sensor en la pagina para escritorio y se hacen pruebas con la raspberry para la funcionalidad del sensor de temperatura con resultados positivos, para que funcione quitar comentarios en models.py(librerias) falta terminar diseño de la pagina para escritorio (acomodar controles del sensor)'
+git commit -m 'se cambia la frecuencia que se usa para cada caso para la etapa de potencia, se crea un orderby para mostrar la tabla ordenada por numero de puerto'
 git remote add origin git@github.com:jfbenavid/Domotica_Django_v2.git
 git push -u origin master

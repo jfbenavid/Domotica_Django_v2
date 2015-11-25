@@ -1,18 +1,14 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from django.template.loader import get_template
-from django.template import Context
-from datetime import datetime
 from models import *
 import json
 import threading
-import logging
 import time
 
 # Create your views here.
 def home(request):
 	try:
-		luz = Luz.objects.all()
+		luz = Luz.objects.all().order_by('puerto')
 		lista = [{'nombre':l.nombre, 'puerto':l.puerto, 'valorLuz':l.valorLuz, 'valorDimmer':l.valorDimmer} for l in luz]
 		sJsonLuz = json.dumps(lista)
 		aire = Aire.objects.get(puerto = 4)
@@ -87,7 +83,7 @@ def ProcesoLuz(request, idPuerto, valor, tipo):
 		print "Error en ProcesoLuz: %s" % e
 
 def ejecutarSensor(request):
-	rpi = ProcesosTemperatura(1)
+	rpi = ProcesosTemperatura()
 
 	humedad, temperatura = rpi.SensarTodo()
 

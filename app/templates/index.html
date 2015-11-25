@@ -5,7 +5,6 @@
 	<title>Centro Domotica</title>
 	<link rel="stylesheet" href="../static/css/normalize.css" />
 	<link rel="stylesheet" href="../static/css/domo.css">
-	
 </head>
 <body onload="Inicio()">
 	<header>
@@ -74,7 +73,7 @@
 					</figure>
 				</div>
 				<div class="divDimmer">
-					<input type="range" id="idDimmer" name="dimmer" value="100" min="20" max="80" step="1" onmouseup="ProcesoLuz('dimmer')" />
+					<input type="range" id="idDimmer" name="dimmer" value="100" min="10" max="90" step="10" onmouseup="ProcesoLuz('dimmer')" />
 				</div>
 			</div>
 			<div class="infoLuz">
@@ -92,20 +91,11 @@
 				</span>
 			</div>
 			<div class="termometro">
-				<!-- <svg class="temperatura">
-					<text>
-						<tspan x="130" y="30">Temperatura</tspan>
-						<tspan x="130" y="55" id="temp"></tspan>
-						<tspan x="130" y="80">Humedad</tspan>
-						<tspan x="130" y="105" id="humedad"></tspan>
-					</text>
-				</svg> -->
-				
 				<div class="temperatura">
 					<h4><span>Temperatura:</span></h4>
-					<span id="temp">cargando...</span>
+					<h4><span id="temp">cargando...</span></h4>
 					<h4><span>Humedad:</span></h4>
-					<span id="humedad">cargando...</span>
+					<h4><span id="humedad">cargando...</span></h4>
 				</div>
 
 				<div class="controlTermometro">
@@ -113,12 +103,12 @@
 					<div class="tMinima">
 						<span>Temperatura Minima:</span>
 						<span id="tTMinima">{{aire.temperaturaMinima}}</span>
-						<input type="range" id="tRMinima" min="0" max="100" onmouseup="cambiarValorPreferencia('tRMinima','tTMinima')" value="{{aire.temperaturaMinima}}">
+						<input type="range" id="tRMinima" min="-10" max="50" onmouseup="cambiarValorPreferencia('tRMinima','tTMinima')" value="{{aire.temperaturaMinima}}">
 					</div>
 					<div class="tMaxima">
 						<span>Temperatura Maxima:</span>
 						<span id="tTMaxima">{{aire.temperaturaMaxima}}</span>
-						<input type="range" id="tRMaxima" min="0" max="100" onmouseup="cambiarValorPreferencia('tRMaxima','tTMaxima')" value="{{aire.temperaturaMaxima}}">
+						<input type="range" id="tRMaxima" min="0" max="50" onmouseup="cambiarValorPreferencia('tRMaxima','tTMaxima')" value="{{aire.temperaturaMaxima}}">
 					</div>
 				</div>
 			</div>
