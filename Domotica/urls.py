@@ -18,9 +18,13 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'app.views.home', name = 'home'),
-    url(r'^ProcesoLuz/(\d+) (\d+) (l|d)/$', 'app.views.ProcesoLuz', name = 'ProcesoLuz'),
-    url(r'^preferenciasAire/(\d+) (\d+) (\d)/$', 'app.views.preferenciasAire', name = 'preferenciasAire'),
-    url(r'^ejecutarSensor/$', 'app.views.ejecutarSensor', name = 'ejecutarSensor'),
+	url(r'^admin/', include(admin.site.urls)),
+	#Pagina inicial 'Index'
+	url(r'^$', 'app.views.home', name = 'home'),
+	#Se deben pasar 3 valores (2 numericos y una letra entre l y d)
+	url(r'^ProcesoLuz/(\d+) (\d+) (l|d)/$', 'app.views.ProcesoLuz', name = 'ProcesoLuz'),
+	#Se deben pasar 3 numeros a las preferencias del aire para poder ejecutarlo correctamente
+	url(r'^preferenciasAire/(\d+) (\d+) (\d)/$', 'app.views.preferenciasAire', name = 'preferenciasAire'),
+	#Pagina que ejecuta los procesos del sensor
+	url(r'^ejecutarSensor/$', 'app.views.ejecutarSensor', name = 'ejecutarSensor'),
 ]

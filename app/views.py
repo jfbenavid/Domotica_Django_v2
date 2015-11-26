@@ -5,7 +5,7 @@ import json
 import threading
 import time
 
-# Create your views here.
+#Aqui inicia la pagina principal
 def home(request):
 	try:
 		luz = Luz.objects.all().order_by('puerto')
@@ -17,6 +17,7 @@ def home(request):
 	except Exception, e:
 		print "Error en Home: %s" % e
 
+#Se usa para cambiar los valores de las preferencias del aire en la base de datos
 def preferenciasAire(request, tMinimo, tMaximo, estado):
 	try:
 		iTempMinima = int(tMinimo)
@@ -36,16 +37,17 @@ def preferenciasAire(request, tMinimo, tMaximo, estado):
 	except Exception, e:
 		print "Error en preferenciasAire - %s" % e
 
+#Metodo para ejecutar los procesos de encencido, apagado y dimer de las luces
 def ProcesoLuz(request, idPuerto, valor, tipo):
 	try:
-		#convertir los parametros en numeros
+		#Convertir los parametros en numeros
 		iPuerto = int(idPuerto)
 		iValor	= int(valor)
 
-		#se consulta el objeto luz que contenga el puerto recibido
+		#Se consulta el objeto luz que contenga el puerto recibido
 		luz = Luz.objects.get(puerto = iPuerto)
 
-		#si el tipo de cambio lo ejecuta el switch de la luz o el dimer
+		#Si el tipo de cambio lo ejecuta el switch de la luz o el dimer,
 		#luego de eso cambia los valores del objeto luz
 		if (tipo == "l"):
 			luz.valorLuz = iValor
@@ -71,9 +73,10 @@ def ProcesoLuz(request, idPuerto, valor, tipo):
 			hiloDimmer = threading.Thread(target = rpi.ProcesarDimmer, name = 'dimmer' + str(iPuerto))
 			hiloDimmer.setDaemon(True)
 			hiloDimmer.start()
-		#guarda los cambios en el objeto
+		#Guarda los cambios en el objeto
 		luz.save()
-		#el objeto cambiado se formatea en un json para retornar a la pagina
+
+		#El objeto cambiado se formatea en un json para retornar a la pagina
 		lista = [{'nombre':luz.nombre, 'puerto':luz.puerto, 'valorLuz':luz.valorLuz, 'valorDimmer':luz.valorDimmer}]
 		sJsonLuz = json.dumps(lista)
 
@@ -82,6 +85,7 @@ def ProcesoLuz(request, idPuerto, valor, tipo):
 	except Exception, e:
 		print "Error en ProcesoLuz: %s" % e
 
+#Metodo para la ejecucion del sensado de temperatura y humedad
 def ejecutarSensor(request):
 	rpi = ProcesosTemperatura()
 

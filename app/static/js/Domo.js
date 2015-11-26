@@ -5,6 +5,7 @@ var gsOff 	= '../static/imagenes/botonOff.png';
 var gbIntervalos = false;
 var gbValInterval = "";
 
+/*Funcion que se ejecutara cada vez que se seleccione un puerto*/
 function luzOverClick (puerto) {
 	$("#hiddenPuerto").val(puerto);
 	CambiosEstados();
@@ -19,6 +20,7 @@ function luzOverClick (puerto) {
 	}
 }
 
+/*Funcion para mostrar el div del aire acondicionado*/
 function mostrarAire() {
 	$(".welcome").hide();
 	$(".controles").hide();
@@ -28,6 +30,7 @@ function mostrarAire() {
 	sensar();
 }
 
+/*Funcion para mostrar la tabla de puertos de luz*/
 function mostrarTablaLuz(){
 	$(".welcome").hide();
 	$(".controles").hide();
@@ -39,10 +42,9 @@ function mostrarTablaLuz(){
 	}
 }
 
+/*Funcion que se ejecuta cuando inicia la pagina*/
 function Inicio(){
 	InicializarControles();
-	SoloNumeros('tTMinima');
-	SoloNumeros('tTMaxima');
 
 	//si es escritorio o tablet se coloca el sensor a funcionar desde que inicia
 	if(screen.width >= 768){
@@ -50,6 +52,7 @@ function Inicio(){
 	}
 }
 
+/*guarda lo que trae el servidor y lo coloca dentro de una variable global*/
 function InicializarControles(){	
 	if (gListaLuz.length === 0){
 		var hidden = $("#hiddenDb").val();
@@ -57,20 +60,7 @@ function InicializarControles(){
 	}
 }
 
-function SoloNumeros (sIdCampo) {
-	$('#' + sIdCampo).keydown(function (e) {
-		if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 || (e.keyCode == 65 && e.ctrlKey === true) || (e.keyCode >= 35 && e.keyCode <= 39)) {
-			return;
-		}
-		if ((e.shiftKey || (e.keyCode < 49 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-			e.preventDefault();
-		}
-		if ($('#' + sIdCampo).val() > 100){
-			e.preventDefault();
-		}
-	});
-}
-
+/*Funcion para cambiar los valores de las preferencias en la base de datos*/
 function cambiarValorPreferencia(sIdCambia, sIdOtro){
 	$('#' + sIdOtro).text($('#' + sIdCambia).val());
 	var tMinima = parseInt($('#tRMinima').val());
@@ -81,6 +71,7 @@ function cambiarValorPreferencia(sIdCambia, sIdOtro){
 	});
 }
 
+/*cambia el contenido de los estados en la tabla*/
 function CambiosEstados(){
 	var iPuerto = parseInt($("#hiddenPuerto").val());
 	for (var i = 0; i < gListaLuz.length; i++) {
@@ -104,7 +95,7 @@ function CambiosEstados(){
 	}
 }
 
-//Para encender y apagar las luces, se activa cuando se da click al boton
+/*Para encender y apagar las luces, se activa cuando se da click al boton*/
 function ProcesoLuz(control){
 	var puerto	= parseInt($("#hiddenPuerto").val());
 	for (var i = 0; i < gListaLuz.length; i++) {
@@ -134,6 +125,7 @@ function sensar () {
 	gbValInterval = setInterval(function (){consultarTemperatura();}, 6000); //se va a poner 300000 para 5 minutos
 }
 
+/*Funcion que ejecuta una llamada Ajax a la pagina ejecutarSensor*/
 function consultarTemperatura() {
 	$.get('ejecutarSensor/', function(data){
 		var gLista = $.parseJSON(data)[0];
