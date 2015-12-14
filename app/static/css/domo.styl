@@ -8,16 +8,27 @@ alineacionEscritorio(anchoDiv, margenIzq){
 	margin 30px 0 0 margenIzq
 	width anchoDiv
 }
+	
+logos(flotar, ancho){
+	bottom 5px
+	float flotar
+	position absolute
+	top 5px
+	width ancho
+
+	img
+		width 52px
+}
 
 body
 	color color_fondo
-	//display flex 	///para footer abajo
-	//flex-direction column 	///para footer abajo
+	display flex 	///para footer abajo
+	flex-direction column 	///para footer abajo
 	font-family Arial, Helvetica, sans-serif
 	font-size 16px
 	height 100%
-	//min-height 100vh 	///para footer abajo
-	margin 0 0 5rem
+	min-height 100vh 	///para footer abajo
+	//margin 0 0 5rem
 
 footer
 	background color_fondo
@@ -27,7 +38,7 @@ footer
 	margin-top 1em
 	min-height 5rem
 	padding 1em 0
-	position absolute
+	//position absolute
 	text-align center
 	width 100%
 		
@@ -38,8 +49,7 @@ footer
 		strong
 			display block
 	
-		.design 
-		.electronica
+		span
 			display block
 
 			&:before
@@ -55,31 +65,20 @@ header
 	color color_letras
 	padding 0.5em
 	position relative
-	
+
 	.logo
 		border-right 1px solid white
-		bottom 5px
-		float left
-		position absolute
-		top 5px
-		width 60px
+		logos(left, 60px)
 
-		img
-			width 52px
-			
 	.logoU
 		border-left 1px solid white
-		bottom 5px
+		logos(right, 70px)
 		display inline-block
-		float right
-		position absolute
-		right 5px
-		top 5px
-		width 70px
+		right 3px
+		padding-top 7px
 
 		img
 			margin-left 10px
-			width 52px
 			
 	.titulo
 		margin 0 80px 0 70px
@@ -134,7 +133,7 @@ nav
 					color color_letras
 
 section
-	//flex 1 	///para footer abajo
+	flex 1 	///para footer abajo
 	
 	article
 		.controles
@@ -173,10 +172,6 @@ section
 				
 				span
 					display block
-			// .temperatura
-			// 	height 90
-			// 	margin-left 25px
-			// 	width 200px
 				
 			.controlTermometro
 				width 100%
@@ -221,7 +216,7 @@ section
 			width 90%
 			
 
-@media screen and (min-width: 768px)
+@media only screen and (min-device-width: 768px)
 	nav
 		display none
 
@@ -256,4 +251,4 @@ section
 
 @media screen and (min-height: 600px)
 	footer
-		margin-bottom -6rem
+		//margin-bottom -6rem

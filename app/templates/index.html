@@ -48,14 +48,14 @@
 		<article class="tablaLuz">
 			<div class="cabecera">
 				<div class="tabla"><strong>Nombre</strong></div>
-				<div class="tabla"><strong>Puerto</strong></div>
+				<!--<div class="tabla"><strong>Puerto</strong></div>-->
 				<div class="tabla"><strong>Estado</strong></div>
 				<div class="tabla"><strong>Dimmer</strong></div>
 			</div>
 			{% for l in luz %}
 				<div class="luzOver" id="puertoLuz{{l.puerto}}" onclick="luzOverClick({{l.puerto}})">
 					<div class="tabla"><span id="nombrePuerto{{l.puerto}}">{{l.nombre}}</span></div>
-					<div class="tabla"><span id="numeroPuerto{{l.puerto}}">{{l.puerto}}</span></div>
+					<!--<div class="tabla"><span id="numeroPuerto{{l.puerto}}">{{l.puerto}}</span></div>-->
 					{%if l.valorLuz == 1%}
 						<div class="tabla"><span id="estadoPuerto{{l.puerto}}">Encendido</span></div>
 					{%else%}
@@ -117,13 +117,13 @@
 	<footer>
 		<h3>
 			<strong>
-				Universidad Antonio Nariño
+				Fundación Universitaria Tecnológico Comfenalco
 			</strong>
-			<span class="electronica">
-				Electronica por Leonardo Benavides
+			<span>
+				Yoes Manuel Monterroza Diaz
 			</span>
-			<span class="design">
-				Pagina web por Fabian Benavides
+			<span>
+				Jose Fabian Benavides Moreno
 			</span>
 		</h3>
 	</footer>
