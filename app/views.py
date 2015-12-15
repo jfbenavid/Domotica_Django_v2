@@ -1,12 +1,44 @@
+# -*- encoding: utf-8 -*-
+
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
+#------------------------ para el login y control de logeo
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+##-----------------------
 from models import *
+from django.template import RequestContext
 import json
 import threading
 import time
 
-#Aqui inicia la pagina principal
+#Ejecuta el ingreso del usuario
 def home(request):
+	if not request.user.is_anonymous():
+		return HttpResponseRedirect('/inicio')
+	if request.method == 'POST':
+		formulario = AuthenticationForm(request.POST)
+		if formulario.is_valid:
+			usuario = request.POST['username']
+			clave = request.POST['password']
+			acceso = authenticate(username = usuario, password = clave)
+			if acceso is not None:
+				if acceso.is_active:
+					login(request, acceso)
+					return HttpResponseRedirect('/inicio')
+				else:
+					return render_to_response('noActivo.html', context_instance = RequestContext(request))
+			else:
+				return render_to_response('noUsuario.html', context_instance = RequestContext(request))
+	else:
+		formulario = AuthenticationForm()
+
+	return render_to_response("login.html", {'formulario': formulario}, context_instance = RequestContext(request))
+
+#Aqui inicia la pagina principal
+@login_required(login_url = '/')
+def inicio(request):
 	try:
 		luz = Luz.objects.all().order_by('puerto')
 		lista = [{'nombre':l.nombre, 'puerto':l.puerto, 'valorLuz':l.valorLuz, 'valorDimmer':l.valorDimmer} for l in luz]
@@ -18,6 +50,7 @@ def home(request):
 		print "Error en Home: %s" % e
 
 #Se usa para cambiar los valores de las preferencias del aire en la base de datos
+@login_required(login_url = '/')
 def preferenciasAire(request, tMinimo, tMaximo, estado):
 	try:
 		iTempMinima = int(tMinimo)
@@ -38,6 +71,7 @@ def preferenciasAire(request, tMinimo, tMaximo, estado):
 		print "Error en preferenciasAire - %s" % e
 
 #Metodo para ejecutar los procesos de encencido, apagado y dimer de las luces
+@login_required(login_url = '/')
 def ProcesoLuz(request, idPuerto, valor, tipo):
 	try:
 		#Convertir los parametros en numeros
@@ -86,6 +120,7 @@ def ProcesoLuz(request, idPuerto, valor, tipo):
 		print "Error en ProcesoLuz: %s" % e
 
 #Metodo para la ejecucion del sensado de temperatura y humedad
+@login_required(login_url = '/')
 def ejecutarSensor(request):
 	rpi = ProcesosTemperatura()
 
@@ -95,3 +130,8 @@ def ejecutarSensor(request):
 	sJson = json.dumps(temp)
 
 	return HttpResponse(sJson)
+
+@login_required(login_url = '/')
+def cerrar(request):
+	logout(request)
+	return HttpResponseRedirect('/')

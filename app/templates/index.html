@@ -1,24 +1,24 @@
 {% extends 'base.html' %}
-{% block articulos %}
+{% block contenido %}
 	<article class="welcome">
 		<img src="../static/imagenes/AwesomeHome.png" alt="Awesome Home" title="Awesome Home">
 	</article>
 	<article class="tablaLuz">
 		<div class="cabecera">
-			<div class="tabla"><strong>Nombre</strong></div>
+			<div class="tabla" name="nombre" ><strong>Nombre</strong></div>
 			<!--<div class="tabla"><strong>Puerto</strong></div>-->
 			<div class="tabla"><strong>Estado</strong></div>
 			<div class="tabla"><strong>Dimmer</strong></div>
 		</div>
 		{% for l in luz %}
 			<div class="luzOver" id="puertoLuz{{l.puerto}}" onclick="luzOverClick({{l.puerto}})">
-				<div class="tabla"><span id="nombrePuerto{{l.puerto}}">{{l.nombre}}</span></div>
+				<div class="tabla" name="nombre" ><span id="nombrePuerto{{l.puerto}}">{{l.nombre}}</span></div>
 				<!--<div class="tabla"><span id="numeroPuerto{{l.puerto}}">{{l.puerto}}</span></div>-->
-				{%if l.valorLuz == 1%}
+				{% if l.valorLuz == 1 %}
 					<div class="tabla"><span id="estadoPuerto{{l.puerto}}">Encendido</span></div>
-				{%else%}
+				{% else %}
 					<div class="tabla"><span id="estadoPuerto{{l.puerto}}">Apagado</span></div>
-				{%endif%}
+				{% endif %}
 				<div class="tabla"><span id="valorDimmer{{l.puerto}}">{{l.valorDimmer}}</span></div>
 			</div>
 		{% endfor %}

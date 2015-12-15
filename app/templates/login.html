@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block contenido %}
+	<article class="login">
+		<form action="" id="formulario" method="post">
+			{% csrf_token %}
+			<table>{{formulario}}</table>
+			<p><input type="submit" value="Ingresar"></p>
+		</form>
+	</article>
+{% endblock%}
