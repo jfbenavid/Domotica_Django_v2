@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Awesome Home</title>
+	<link rel="stylesheet" href="../static/css/normalize.css" />
+	<link rel="stylesheet" href="../static/css/domo.css">
+</head>
+<body onload="Inicio()">
+	<header>
+		<div class="logo">
+			<figure>
+				<img src="../static/imagenes/logo.png" alt="Domotica" title="Raspberry Pi" />
+			</figure>
+		</div>
+		<div class="titulo">
+			<h1 class="title">
+				Central Domotica
+			</h1>
+		</div>
+		<div class="logoU">
+			<figure>
+				<img src="../static/imagenes/logoU.png" alt="Universidad" title="Universidad" />
+			</figure>
+		</div>
+	</header>
+	<nav>
+		<input type="hidden" id="hiddenPuerto" value="" />
+		<input type="hidden" id="hiddenDb" value="{{ sJsonLuz }}" />
+
+		<ul class="menu">
+			<li class="menuLuz" onclick="mostrarTablaLuz()">
+				<a href="#">
+					<span class="Luz">Luz</span>
+				</a>
+			</li>
+			<li class="menuAire" onclick="mostrarAire()">
+				<a href="#">
+					<span class="Aire">Aire</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span class="opciones">Opciones</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+	<section>
+		{% block articulos %}{% endblock %}
+	</section>
+	<footer>
+		<h3>
+			<strong>
+				Fundación Universitaria Tecnológico Comfenalco
+			</strong>
+			<span>
+				Yoes Manuel Monterroza Diaz
+			</span>
+			<span>
+				Jose Fabian Benavides Moreno
+			</span>
+		</h3>
+	</footer>
+
+	<!--Carga de jquery y algunos scripts-->
+	<script type="text/javascript" src="../static/js/jquery-1.11.3.min.js" ></script>
+	<script type="text/javascript" src="../static/js/Domo.js" ></script>
+</body>
+</html>

@@ -1,135 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<title>Centro Domotica</title>
-	<link rel="stylesheet" href="../static/css/normalize.css" />
-	<link rel="stylesheet" href="../static/css/domo.css">
-</head>
-<body onload="Inicio()">
-	<header>
-		<div class="logo">
-			<figure>
-				<img src="../static/imagenes/logo.png" alt="Domotica" title="Raspberry Pi" />
-			</figure>
+{% extends 'base.html' %}
+{% block articulos %}
+	<article class="welcome">
+		<img src="../static/imagenes/AwesomeHome.png" alt="Awesome Home" title="Awesome Home">
+	</article>
+	<article class="tablaLuz">
+		<div class="cabecera">
+			<div class="tabla"><strong>Nombre</strong></div>
+			<!--<div class="tabla"><strong>Puerto</strong></div>-->
+			<div class="tabla"><strong>Estado</strong></div>
+			<div class="tabla"><strong>Dimmer</strong></div>
 		</div>
-		<div class="titulo">
-			<h1 class="title">
-				Central Domotica
-			</h1>
+		{% for l in luz %}
+			<div class="luzOver" id="puertoLuz{{l.puerto}}" onclick="luzOverClick({{l.puerto}})">
+				<div class="tabla"><span id="nombrePuerto{{l.puerto}}">{{l.nombre}}</span></div>
+				<!--<div class="tabla"><span id="numeroPuerto{{l.puerto}}">{{l.puerto}}</span></div>-->
+				{%if l.valorLuz == 1%}
+					<div class="tabla"><span id="estadoPuerto{{l.puerto}}">Encendido</span></div>
+				{%else%}
+					<div class="tabla"><span id="estadoPuerto{{l.puerto}}">Apagado</span></div>
+				{%endif%}
+				<div class="tabla"><span id="valorDimmer{{l.puerto}}">{{l.valorDimmer}}</span></div>
+			</div>
+		{% endfor %}
+	</article>
+	<article>
+		<div class="controles">
+			<div class="onOff">
+				<figure>
+					<img src="../static/imagenes/botonOn.png" alt="on-off" id="imgOnOff" class="imagen" onClick="ProcesoLuz('luz');" />
+				</figure>
+			</div>
+			<div class="divDimmer">
+				<input type="range" id="idDimmer" name="dimmer" value="100" min="10" max="90" step="10" onmouseup="ProcesoLuz('dimmer')" />
+			</div>
 		</div>
-		<div class="logoU">
-			<figure>
-				<img src="../static/imagenes/logoU.png" alt="Universidad" title="Universidad" />
-			</figure>
-		</div>
-	</header>
-	<nav>
-		<input type="hidden" id="hiddenPuerto" value="" />
-		<input type="hidden" id="hiddenDb" value="{{ sJsonLuz }}" />
-
-		<ul class="menu">
-			<li class="menuLuz" onclick="mostrarTablaLuz()">
-				<a href="#">
-					<span class="Luz">Luz</span>
-				</a>
-			</li>
-			<li class="menuAire" onclick="mostrarAire()">
-				<a href="#">
-					<span class="Aire">Aire</span>
-				</a>
-			</li>
-		</ul>
-	</nav>
-	<section>
-		<article class="welcome">
-			<img src="../static/imagenes/AwesomeHome.png" alt="Awesome Home" title="Awesome Home">
-		</article>
-		<article class="tablaLuz">
-			<div class="cabecera">
-				<div class="tabla"><strong>Nombre</strong></div>
-				<!--<div class="tabla"><strong>Puerto</strong></div>-->
-				<div class="tabla"><strong>Estado</strong></div>
-				<div class="tabla"><strong>Dimmer</strong></div>
-			</div>
-			{% for l in luz %}
-				<div class="luzOver" id="puertoLuz{{l.puerto}}" onclick="luzOverClick({{l.puerto}})">
-					<div class="tabla"><span id="nombrePuerto{{l.puerto}}">{{l.nombre}}</span></div>
-					<!--<div class="tabla"><span id="numeroPuerto{{l.puerto}}">{{l.puerto}}</span></div>-->
-					{%if l.valorLuz == 1%}
-						<div class="tabla"><span id="estadoPuerto{{l.puerto}}">Encendido</span></div>
-					{%else%}
-						<div class="tabla"><span id="estadoPuerto{{l.puerto}}">Apagado</span></div>
-					{%endif%}
-					<div class="tabla"><span id="valorDimmer{{l.puerto}}">{{l.valorDimmer}}</span></div>
-				</div>
-			{% endfor %}
-		</article>
-		<article>
-			<div class="controles">
-				<div class="onOff">
-					<figure>
-						<img src="../static/imagenes/botonOn.png" alt="on-off" id="imgOnOff" class="imagen" onClick="ProcesoLuz('luz');" />
-					</figure>
-				</div>
-				<div class="divDimmer">
-					<input type="range" id="idDimmer" name="dimmer" value="100" min="10" max="90" step="10" onmouseup="ProcesoLuz('dimmer')" />
-				</div>
-			</div>
-			<div class="infoLuz">
-				<span>
-					<strong class="estado">Estado:</strong>
-				</span>
-				<span class="port">
-					Puerto 0
-				</span>
-				<span class="infoEstadoDimmer">
-					Dimmer en 100%
-				</span>
-				<span class="infoEstadoOnOff">
-					Energia On
-				</span>
-			</div>
-			<div class="termometro">
-				<div class="temperatura">
-					<h4><span>Temperatura:</span></h4>
-					<h4><span id="temp">cargando...</span></h4>
-					<h4><span>Humedad:</span></h4>
-					<h4><span id="humedad">cargando...</span></h4>
-				</div>
-
-				<div class="controlTermometro">
-					<h3><span>Preferencias</span></h3>
-					<div class="tMinima">
-						<span>Temperatura Minima:</span>
-						<span id="tTMinima">{{aire.temperaturaMinima}}</span>
-						<input type="range" id="tRMinima" min="-10" max="50" onmouseup="cambiarValorPreferencia('tRMinima','tTMinima')" value="{{aire.temperaturaMinima}}">
-					</div>
-					<div class="tMaxima">
-						<span>Temperatura Maxima:</span>
-						<span id="tTMaxima">{{aire.temperaturaMaxima}}</span>
-						<input type="range" id="tRMaxima" min="0" max="50" onmouseup="cambiarValorPreferencia('tRMaxima','tTMaxima')" value="{{aire.temperaturaMaxima}}">
-					</div>
-				</div>
-			</div>
-		</article>
-	</section>
-	<footer>
-		<h3>
-			<strong>
-				Fundación Universitaria Tecnológico Comfenalco
-			</strong>
+		<div class="infoLuz">
 			<span>
-				Yoes Manuel Monterroza Diaz
+				<strong class="estado">Estado:</strong>
 			</span>
-			<span>
-				Jose Fabian Benavides Moreno
+			<span class="port">
+				Puerto 0
 			</span>
-		</h3>
-	</footer>
+			<span class="infoEstadoDimmer">
+				Dimmer en 100%
+			</span>
+			<span class="infoEstadoOnOff">
+				Energia On
+			</span>
+		</div>
+		<div class="termometro">
+			<div class="temperatura">
+				<h4><span>Temperatura:</span></h4>
+				<h4><span id="temp">cargando...</span></h4>
+				<h4><span>Humedad:</span></h4>
+				<h4><span id="humedad">cargando...</span></h4>
+			</div>
 
-	<!--Carga de jquery y algunos scripts-->
-	<script type="text/javascript" src="../static/js/jquery-1.11.3.min.js" ></script>
-	<script type="text/javascript" src="../static/js/Domo.js" ></script>
-</body>
-</html>
+			<div class="controlTermometro">
+				<h3><span>Preferencias</span></h3>
+				<div class="tMinima">
+					<span>Temperatura Minima:</span>
+					<span id="tTMinima">{{aire.temperaturaMinima}}</span>
+					<input type="range" id="tRMinima" min="-10" max="50" onmouseup="cambiarValorPreferencia('tRMinima','tTMinima')" value="{{aire.temperaturaMinima}}">
+				</div>
+				<div class="tMaxima">
+					<span>Temperatura Maxima:</span>
+					<span id="tTMaxima">{{aire.temperaturaMaxima}}</span>
+					<input type="range" id="tRMaxima" min="0" max="50" onmouseup="cambiarValorPreferencia('tRMaxima','tTMaxima')" value="{{aire.temperaturaMaxima}}">
+				</div>
+			</div>
+		</div>
+	</article>
+{% endblock %}
