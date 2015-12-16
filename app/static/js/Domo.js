@@ -66,7 +66,7 @@ function cambiarValorPreferencia(sIdCambia, sIdOtro){
 	var tMinima = parseInt($('#tRMinima').val());
 	var tMaxima = parseInt($('#tRMaxima').val());
 	//var bEstado = $().val();
-	$.get('preferenciasAire/' + tMinima + ' ' + tMaxima + ' 1' /*+ bEstado*/, function(data){
+	$.get('../preferenciasAire/' + tMinima + ' ' + tMaxima + ' 1' /*+ bEstado*/, function(data){
 		alert('Los cambios se han efectuado correctamente');
 	});
 }
@@ -102,14 +102,14 @@ function ProcesoLuz(control){
 		if (gListaLuz[i].puerto == puerto) {
 			if (control == "luz") {
 				var sLuz = (gListaLuz[i].valorLuz == 1) ? " 0" : " 1";
-				$.get('ProcesoLuz/' + puerto + sLuz + ' l', function(data){
+				$.get('../ProcesoLuz/' + puerto + sLuz + ' l', function(data){
 					gListaLuz[i] = $.parseJSON(data)[0];
 					CambiosEstados();
 					alert('muy bien la luz!' + gListaLuz[i].valorLuz);
 				});
 			}
 			else{
-				$.get('ProcesoLuz/' + puerto + ' ' + parseInt($("#idDimmer").val()) + ' d', function(data){
+				$.get('../ProcesoLuz/' + puerto + ' ' + parseInt($("#idDimmer").val()) + ' d', function(data){
 					gListaLuz[i] = $.parseJSON(data)[0];
 					CambiosEstados();
 					alert('muy bien el dimmer!' + gListaLuz[i].valorDimmer);
@@ -127,7 +127,7 @@ function sensar () {
 
 /*Funcion que ejecuta una llamada Ajax a la pagina ejecutarSensor*/
 function consultarTemperatura() {
-	$.get('ejecutarSensor/', function(data){
+	$.get('../ejecutarSensor/', function(data){
 		var gLista = $.parseJSON(data)[0];
 		$('#temp').html(gLista.temperatura + " °C");
 		$('#humedad').html(gLista.humedad + " %");
