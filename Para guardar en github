@@ -16,6 +16,6 @@ Proyecto Domotica
 cd Escritorio/Proyectos/Domotica
 git init
 git add .
-git commit -m 'se crea el login para ingresar a la pagina, hace falta crear la opcion para la gestion de agregado y eliminacion de puertos; se cambia el home para que este sea el login ahora y solo se redirecciona si se esta logeado con una cuenta de usuario existente en la consola de administracion'
+git commit -m 'se coloca el nav solo para usuarios cuando se loguean'
 git remote add origin git@github.com:jfbenavid/Domotica_Django_v2.git
 git push -u origin master

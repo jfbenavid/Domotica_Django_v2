@@ -24,6 +24,7 @@
 			</figure>
 		</div>
 	</header>
+	{% if not user.is_anonymous %}
 	<nav>
 		<input type="hidden" id="hiddenPuerto" value="" />
 		<input type="hidden" id="hiddenDb" value="{{ sJsonLuz }}" />
@@ -51,6 +52,7 @@
 			</li>
 		</ul>
 	</nav>
+	{% endif %}
 	<section>
 		{% block contenido %}{% endblock %}
 	</section>
