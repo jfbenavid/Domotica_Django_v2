@@ -1,22 +1,13 @@
 color_fondo = #444
 color_letras = rgba(white, 0.5)
-color_tabla_luz = rgba(black,0.1)
 color_nav = #22BCE0
 
-alineacionEscritorio(anchoDiv, margenIzq){
-	display block
-	float left
-	margin 30px 0 0 margenIzq
-	width anchoDiv
-}
-	
-logos(flotar, ancho){
+logos(flotar, ancho)
 	bottom 5px
 	float flotar
 	position absolute
 	top 5px
 	width ancho
-}
 
 body
 	color color_fondo
@@ -26,7 +17,6 @@ body
 	font-size 16px
 	height 100%
 	min-height 100vh 	///para footer abajo
-	//margin 0 0 5rem
 
 footer
 	background color_fondo
@@ -36,7 +26,6 @@ footer
 	margin-top 1em
 	min-height 5rem
 	padding 1em 0
-	//position absolute
 	text-align center
 	width 100%
 		
@@ -94,201 +83,108 @@ header
 			line-height 60px
 
 nav
-	background color_nav
-	border-left 10px solid white
-	position relative
-	
-	&:before
-		border-bottom 20px solid transparent
-		border-left 7px solid white
-		border-top 20px solid transparent
-		content ""
-		left 0px
-		position absolute
-		top 0
-	
-	.menu
-		height 40px
-		line-height 40px
-		margin 0
-		padding-left: 10px;
-		overflow-x auto
-		white-space nowrap
+	.escritorio
+		display none
+
+	.movil
+		background color_nav
+		border-left 10px solid white
+		position relative
 		
-		li
-			display inline-block
+		&:before
+			border-bottom 20px solid transparent
+			border-left 7px solid white
+			border-top 20px solid transparent
+			content ""
+			left 0px
+			position absolute
+			top 0
+		
+		.menu
+			height 40px
+			line-height 40px
+			margin 0
+			padding-left: 10px;
+			overflow-x auto
+			white-space nowrap
 			
-			a
-				text-decoration none
-
-				span
-					color white
-					display block
-					margin 0 0.5em
-					padding 0 0.2em
-
-			&:hover
-				background rgba(black,0.1)
-				cursor pointer
+			li
+				display inline-block
 				
-				span
-					color color_letras
+				a
+					text-decoration none
+
+					span
+						color white
+						display block
+						margin 0 0.5em
+						padding 0 0.2em
+
+				&:hover
+					background rgba(black,0.1)
+					cursor pointer
+					
+					span
+						color color_letras
 
 section
 	flex 1 	///para footer abajo
-	
-	article
-		width 100%
-
-		.botonIngreso
-			background color_fondo
-			border-radius 8px
-			float right
-			margin-right 20px
-			width 90px
-
-			input
-				background-color transparent
-				border none
-				color color_letras
-				font-weight bold
-				height 35px
-				text-align center
-				width 100%
-
-		.controles
-			display none
-			margin-top 10px
-			top 10px
-
-			.onOff
-				margin-left 7.5%
-				width 85%
-				
-				figure
-					img
-						margin-left 5%
-						width 90%
-
-			.divDimmer
-				margin-left 10%
-				text-align center
-				width 80%
-
-		.infoLuz
-			display none
-			margin-left 20%
-			margin-top 20px
-			width 80%
-
-			span
-				display block
-
-		.login
-			color rgba(black, 0.7)//color_letras
-			margin 10px 20px 10px 15px
-
-			& > *
-				display block
-
-			label:nth-child(odd)
-				font-weight bold
-				margin-top 10px
-
-			input:nth-child(even)
-				color rgba(black, 0.7)
-				font-size 1.2em
-				height 25px
-				margin-top 3px
-				width 100%
-
-		.termometro
-			display none
-
-			.temperatura
-				text-align center
-				
-				span
-					display block
-				
-			.controlTermometro
-				width 100%
-
-				span
-				input
-				img
-					display block
-					margin-left 9%
-					margin-top 5px
-					width 80%
-		
-	article.tablaLuz
-		background color_tabla_luz
-		display none
-		margin-top 1px
-		text-align center
-		width 100%
-		
-		.cabecera
-			background rgba(black, 0.2)
-			margin-bottom 1px
-
-		.tabla
-			display inline-block
-			height 40px
-			line-height 40px
-			width 24%
-			
-			&:hover
-				cursor pointer
-
-			&[name = nombre]
-				width 48%
-
-		.luzOver:hover
-			background color_tabla_luz
-
-	article.welcome
-		margin-top 10px
-		margin-left 10%
-
-		img
-			width 90%
-			
 
 @media only screen and (min-device-width: 768px)
+	anchoAlto(ancho = 40px, alto = 40px)
+		height alto
+		width ancho
+
 	nav
-		display none
+		.escritorio
+			anchoAlto(69px, 90%)
+			background-color color_fondo
+			display block
+			overflow hidden
+			position absolute
+			-webkit-transition width 0.5s
+			-moz-transition width 0.5s
+			
+			&:hover
+				width 200px
 
-	section
+			.logoPrincipal
+				anchoAlto()
+				background-image url(../imagenes/menu.png)
+				background-size 40px 40px
+				margin 10px 10px 70px 14px
 
-		article
-			.controles
-				alineacionEscritorio(25%, 15%)
+			.opcion
+				anchoAlto(200px)
+				padding 6px 0 6px 14px
 
-			.termometro
-				display block
-				float right
-				margin 30px 6%
-				width 40%
+				&:hover
+					background rgba(white, 0.5)
+					cursor pointer
+
+				&:nth-child(2)
+					.logoMenu
+						background-image url(../imagenes/home.png)
+
+				&:nth-child(3)
+					.logoMenu
+						background-image url(../imagenes/config.png)
 					
-				.controlTermometro
-					width 100%
+				&:nth-child(4)
+					.logoMenu
+						background-image url(../imagenes/cancel.png)
 
-					span
-					input
-					img
-						display block
-						margin-left 24%
-						margin-top 5px
-						width 50%
+				.logoMenu
+					anchoAlto()
+					background-size 40px 40px
+					float left
+					height 40px
+					width 40px
 
-		article.tablaLuz
-			alineacionEscritorio(40%, 60px)
+				span
+					color color_letras
+					margin-left 20px
+					line-height 40px
 
-		article.welcome
+		.movil
 			display none
-
-@media screen and (min-height: 600px)
-	footer
-		//margin-bottom -6rem

@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% block estilos %}
+	<link rel="stylesheet" href="../static/css/index.css">
+{% endblock %}
 {% block contenido %}
 	<article class="welcome">
 		<img src="../static/imagenes/AwesomeHome.png" alt="Awesome Home" title="Awesome Home">
@@ -71,4 +74,9 @@
 			</div>
 		</div>
 	</article>
+{% endblock %}
+
+{% block javascript %}
+	<script type="text/javascript" src="../static/js/jquery-1.11.3.min.js" ></script>
+	<script type="text/javascript" src="../static/js/Domo.js" ></script>
 {% endblock %}

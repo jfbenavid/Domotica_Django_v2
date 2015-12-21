@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
+
+{% block estilos %}
+	<link rel="stylesheet" href="../static/css/login.css">
+{% endblock %}
+
 {% block contenido %}
+	<aside>
+		<figure>
+			<img src="../static/imagenes/AwesomeHome.png" alt="AwesomeHome">
+		</figure>
+	</aside>
 	<article>
 		<form action="" id="formulario" method="post">
 			{% csrf_token %}

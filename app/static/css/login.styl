@@ -1,0 +1,61 @@
+color_fondo = #444
+color_letras = rgba(white, 0.5)
+
+section
+	aside
+		display none	
+
+	article
+		width 100%
+
+		.botonIngreso
+			background color_fondo
+			border-radius 8px
+			float right
+			margin-right 20px
+			width 90px
+
+			input
+				background-color transparent
+				border none
+				color color_letras
+				font-weight bold
+				height 35px
+				text-align center
+				width 100%
+
+		.login
+			color rgba(black, 0.7)//color_letras
+			margin 10px 20px 10px 15px
+
+			& > *
+				display block
+
+			label:nth-child(odd)
+				font-weight bold
+				margin-top 10px
+
+			input:nth-child(even)
+				color rgba(black, 0.7)
+				font-size 1.2em
+				height 25px
+				margin-top 3px
+				width 100%
+
+@media only screen and (min-device-width: 768px)
+	section
+		article
+			display block
+			float left
+			margin 13% 0 0 15%
+			width 20%
+
+		aside
+			display block
+			float left
+			margin 0 40px 0 5%
+			width 40%
+
+			img
+				padding 25px 15px 0 10%
+				width 100%
