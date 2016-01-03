@@ -30,5 +30,9 @@ urlpatterns = [
 	#Pagina que ejecuta los procesos del sensor
 	url(r'^ejecutarSensor/$', 'app.views.ejecutarSensor', name = 'ejecutarSensor'),
 	#Url para cerrar la sesion activa
-	url(r'^cerrar/$', 'app.views.cerrar'),
+	url(r'^cerrar/$', 'app.views.cerrar', name = 'cerrar'),
+	#Pagina con formulario para agregar nuevo puerto
+	url(r'^opciones/$', 'app.views.opciones', name = 'opciones'),
+	url(r'^opciones/agregarPuerto/$', 'app.views.agregarPuerto', name = 'agregarPuerto'),
+	url(r'^opciones/crearUsuario/$', 'app.views.crearUsuario', name = 'crearUsuario'),
 ]

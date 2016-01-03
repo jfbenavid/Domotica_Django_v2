@@ -1,27 +1,36 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Awesome Home</title>
-	<link rel="stylesheet" href="../static/css/normalize.css" />
-	<link rel="stylesheet" href="../static/css/domo.css">
+	<link rel="stylesheet" href="{% static 'css/normalize.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/domo.css' %}">
 	{% block estilos %}{% endblock %}
 </head>
 <body onload="Inicio()">
 	<header>
 		<div class="logo">
 			<figure>
-				<img src="../static/imagenes/logo.png" alt="Domotica" title="Raspberry Pi" />
+				<img src="{% static 'imagenes/logo.png' %}" alt="Domotica" title="Raspberry Pi" />
 			</figure>
 		</div>
 		<div class="titulo">
 			<h1 class="title">
 				Central Domotica
 			</h1>
+			{% if not user.is_anonymous %}
+			<div class="sesion">
+				<span>
+					Bienvenido {{usuario.username|capfirst}}
+				</span>
+			</div>
+			{% endif %}
 		</div>
 		<div class="logoU">
 			<figure>
-				<img src="../static/imagenes/logoU.png" alt="Universidad" title="Universidad" />
+				<img src="{% static 'imagenes/logoU.png' %}" alt="Universidad" title="Universidad" />
 			</figure>
 		</div>
 	</header>
@@ -31,23 +40,14 @@
 		<input type="hidden" id="hiddenDb" value="{{ sJsonLuz }}" />
 		<div class="movil">
 			<ul class="menu">
-				<li class="menuLuz" onclick="mostrarTablaLuz()">
-					<a href="#">
-						<span class="Luz">Luz</span>
-					</a>
-				</li>
-				<li class="menuAire" onclick="mostrarAire()">
-					<a href="#">
-						<span class="Aire">Aire</span>
-					</a>
-				</li>
+				{% block navMovil %}{% endblock %}
 				<li>
-					<a href="#">
+					<a href="{% url 'app.views.opciones' %}">
 						<span class="opciones">Opciones</span>
 					</a>
 				</li>
 				<li>
-					<a href="../cerrar">
+					<a href="{% url 'app.views.cerrar' %}">
 						<span class="cerrar">Cerrar Sesión</span>
 					</a>
 				</li>
@@ -56,15 +56,15 @@
 		<div class="escritorio">
 			<div class="logoPrincipal">
 			</div>
-			<div class="opcion" onclick="location.href='../inicio'">
+			<div class="opcion" onclick="location.href='{% url 'app.views.inicio' %}'">
 				<div class="logoMenu"></div>
 				<span>Inicio</span>
 			</div>
-			<div class="opcion" onclick="location.href='../opciones'">
+			<div class="opcion" onclick="location.href='{% url 'app.views.opciones' %}'">
 				<div class="logoMenu"></div>
 				<span>Opciones</span>
 			</div>
-			<div class="opcion" onclick="location.href='../cerrar'">
+			<div class="opcion" onclick="location.href='{% url 'app.views.cerrar' %}'">
 				<div class="logoMenu"></div>
 				<span>Cerrar sesión</span>
 			</div>
@@ -88,7 +88,7 @@
 		</h3>
 	</footer>
 
-	<!--Carga de jquery y algunos scripts-->
+	{# Carga de jquery y algunos scripts #}
 	{% block javascript %}{% endblock %}
 </body>
 </html>

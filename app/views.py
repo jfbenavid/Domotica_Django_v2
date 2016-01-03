@@ -1,14 +1,15 @@
 # -*- encoding: utf-8 -*-
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 #------------------------ para el login y control de logeo
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 ##-----------------------
-from models import *
+from forms import *
 from django.template import RequestContext
+from models import *
 import json
 import threading
 import time
@@ -43,6 +44,7 @@ def inicio(request):
 		luz = Luz.objects.all().order_by('puerto')
 		lista = [{'nombre':l.nombre, 'puerto':l.puerto, 'valorLuz':l.valorLuz, 'valorDimmer':l.valorDimmer} for l in luz]
 		sJsonLuz = json.dumps(lista)
+		usuario = request.user
 		aire = Aire.objects.get(puerto = 4)
 		template = "index.html"
 		return render_to_response(template, locals())
@@ -78,8 +80,8 @@ def ProcesoLuz(request, idPuerto, valor, tipo):
 		iPuerto = int(idPuerto)
 		iValor	= int(valor)
 
-		#Se consulta el objeto luz que contenga el puerto recibido
-		luz = Luz.objects.get(puerto = iPuerto)
+		#Se consulta el objeto luz que contenga el puerto recibido, si no encuentra nada muestra un notfound
+		luz = get_object_or_404(Luz.objects.get(puerto = iPuerto))
 
 		#Si el tipo de cambio lo ejecuta el switch de la luz o el dimer,
 		#luego de eso cambia los valores del objeto luz
@@ -135,3 +137,56 @@ def ejecutarSensor(request):
 def cerrar(request):
 	logout(request)
 	return HttpResponseRedirect('/')
+
+def opciones(request):
+	usuario = request.user
+	return render_to_response('opciones.html', locals())
+
+@login_required(login_url = '/')
+def agregarPuerto(request):
+	try:
+		usuario = request.user
+		if request.method == 'POST':
+			form = LuzForm(request.POST)
+			if form.is_valid():
+				luz = Luz.objects.all()
+				existe = False
+				for x in luz:
+					print 'puertobd = %s recogido = %s' % (x.puerto, request.POST['puerto'])
+					if str(x.puerto) == str(request.POST['puerto']):
+						existe = True
+						break
+
+				if existe:
+					print 'el puerto que intenta ingresar ya existe'
+
+				else:
+					form.save()
+					
+				return HttpResponseRedirect('/agregarPuerto')
+		else:
+			form = LuzForm()
+
+		return render_to_response("opcionesFormulario.html", context_instance = RequestContext(request, {'form':form, 'usuario':usuario}))
+	except Exception, e:
+		print 'ha ocurrido un error en agregarPuerto()' + str(e)
+		raise e
+	
+
+@login_required(login_url = '/')
+def crearUsuario(request):
+	try:
+		usuario = request.user
+		if request.method == 'POST':
+			form = UserCreationForm(request.POST)
+			if form.is_valid():
+				form.save()
+				return HttpResponseRedirect('/inicio')
+		else:
+			form = UserCreationForm()
+
+		return render_to_response("opcionesFormulario.html", context_instance = RequestContext(request, {'form':form, 'usuario':usuario}))
+
+	except Exception, e:
+		print 'error en la creacion de usuario: %s' % e 
+		

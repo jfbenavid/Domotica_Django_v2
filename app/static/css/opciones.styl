@@ -1,0 +1,58 @@
+color_fondo = #444
+color_letras = rgba(white, 0.5)
+
+section
+	article
+		width 100%
+
+		.botonAgregar
+			background color_fondo
+			border-radius 8px
+			float right
+			margin-right 5%
+			width 90px
+
+			input
+				background transparent
+				border none
+				color color_letras
+				font-weight bold
+				height 35px
+				text-align center
+				width 100%
+
+		.form
+			color rgba(black, 0.7)
+			margin 0 auto
+			width 90%
+
+			& > *
+				display block
+
+			label
+				font-weight bold
+				margin-bottom 5px
+
+			input
+				color rgba(black, 0.7)
+				font-size 1.2em
+				height 25px
+				width 98%
+
+	aside
+		.opciones
+			ul
+				margin 1.5em
+				
+				li
+					list-style-type none
+					
+					a
+						text-decoration none
+
+						span
+							color rgba(gray, 0.8)
+							display block
+							font-weight bold
+							margin 0.5em 0
+							padding 0.2em 0

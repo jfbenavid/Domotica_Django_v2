@@ -87,23 +87,23 @@ section
 			background color_tabla_luz
 
 	article.welcome
-		margin-top 10px
-		margin-left 10%
-
 		img
+			display block
+			margin auto
+			padding-top 20px
 			width 90%
 
 @media only screen and (min-device-width: 768px)
 	section
 		article
 			.controles
-				alineacionEscritorio(25%, 15%)
+				alineacionEscritorio(25%, 11%)
 
 			.termometro
 				display block
 				float right
 				margin 30px 6%
-				width 40%
+				width 36%
 					
 				.controlTermometro
 					width 100%
@@ -121,3 +121,13 @@ section
 
 		article.welcome
 			display none
+			
+@media only screen and (min-device-width: 1024px)
+	section
+		article
+			.controles
+				margin-left 15%
+
+			.termometro
+				width 38%
+		

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block estilos %}
+	<link rel="stylesheet" href="{% static 'css/opciones.css' %}">
+{% endblock %}
+
+{% block navMovil %}
+	<li class="menuLuz" onclick="mostrarTablaLuz()">
+		<a href="{% url 'app.views.inicio' %}">
+			<span>Inicio</span>
+		</a>
+	</li>
+{% endblock %}
+
+{% block contenido %}
+<aside>
+	<div class="opciones">
+		<ul>
+			<li><a href="{% url 'app.views.agregarPuerto' %}"><span>Agregar puerto</span></a></li>
+			<li><a href="{% url 'app.views.crearUsuario' %}"><span>Agregar usuario</span></a></li>
+		</ul>
+	</div>
+</aside>
+<article>
+	{% block formulario %}{% endblock %}
+</article>
+{% endblock %}

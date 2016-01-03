@@ -3,7 +3,11 @@ color_letras = rgba(white, 0.5)
 
 section
 	aside
-		display none	
+		img
+			display block
+			margin auto
+			padding-top 10px
+			width 70%
 
 	article
 		width 100%
@@ -13,10 +17,11 @@ section
 			border-radius 8px
 			float right
 			margin-right 20px
+			margin-top 20px
 			width 90px
 
 			input
-				background-color transparent
+				background transparent
 				border none
 				color color_letras
 				font-weight bold
@@ -26,21 +31,23 @@ section
 
 		.login
 			color rgba(black, 0.7)//color_letras
-			margin 10px 20px 10px 15px
+			margin 0 auto
+			width 90%
+			//margin 10px 20px 10px 15px
 
 			& > *
 				display block
 
-			label:nth-child(odd)
+			label
 				font-weight bold
 				margin-top 10px
 
-			input:nth-child(even)
+			input
 				color rgba(black, 0.7)
 				font-size 1.2em
 				height 25px
 				margin-top 3px
-				width 100%
+				width 98%
 
 @media only screen and (min-device-width: 768px)
 	section

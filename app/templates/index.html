@@ -2,6 +2,19 @@
 {% block estilos %}
 	<link rel="stylesheet" href="../static/css/index.css">
 {% endblock %}
+{% block navMovil %}
+	<li class="menuLuz" onclick="mostrarTablaLuz()">
+		<a href="#">
+			<span class="Luz">Luz</span>
+		</a>
+	</li>
+	<li class="menuAire" onclick="mostrarAire()">
+		<a href="#">
+			<span class="Aire">Aire</span>
+		</a>
+	</li>
+{% endblock %}
+
 {% block contenido %}
 	<article class="welcome">
 		<img src="../static/imagenes/AwesomeHome.png" alt="Awesome Home" title="Awesome Home">
