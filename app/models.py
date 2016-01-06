@@ -13,7 +13,7 @@ nombreHilo = {}		#para manejar los hilos del dimmer
 #creacion y uso de la base de datos
 class Luz(models.Model):
 	nombre = models.CharField(max_length = 60, default = "")
-	puerto = models.IntegerField(default = 0)
+	puerto = models.IntegerField(default = 0, unique = True)
 	valorLuz = models.IntegerField(default = 0)
 	valorDimmer = models.IntegerField(default = 0)
 	

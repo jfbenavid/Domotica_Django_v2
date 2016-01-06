@@ -16,6 +16,6 @@ Proyecto Domotica
 cd Escritorio/Proyectos/Domotica
 git init
 git add .
-git commit -m 'se crean los estilos para las paginas de opciones en version escritorio quedando asi finalizado el diseño de estas paginas; falta ver como se logra colocar los puertos validando la existencia de otro con el mismo numero'
+git commit -m 'se cambio el modelo para que el puerto ingresado sea unico e irrepetible'
 git remote add origin git@github.com:jfbenavid/Domotica_Django_v2.git
 git push -u origin master

@@ -149,20 +149,7 @@ def agregarPuerto(request):
 		if request.method == 'POST':
 			form = LuzForm(request.POST)
 			if form.is_valid():
-				luz = Luz.objects.all()
-				existe = False
-				for x in luz:
-					print 'puertobd = %s recogido = %s' % (x.puerto, request.POST['puerto'])
-					if str(x.puerto) == str(request.POST['puerto']):
-						existe = True
-						break
-
-				if existe:
-					print 'el puerto que intenta ingresar ya existe'
-
-				else:
-					form.save()
-					
+				form.save()
 				return HttpResponseRedirect('/agregarPuerto')
 		else:
 			form = LuzForm()
