@@ -26,6 +26,7 @@ footer
 	margin-top 1em
 	min-height 5rem
 	padding 1em 0
+	//position absolute
 	text-align center
 	width 100%
 		
@@ -135,6 +136,24 @@ nav
 section
 	flex 1 	///para footer abajo
 
+	aside
+		.opciones
+			ul
+				margin 1.5em
+				
+				li
+					list-style-type none
+					
+					a
+						text-decoration none
+
+						span
+							color rgba(gray, 0.8)
+							display block
+							font-weight bold
+							margin 0.5em 0
+							padding 0.2em 0
+
 @media only screen and (min-device-width: 768px)
 	anchoAlto(ancho = 40px, alto = 40px)
 		height alto
@@ -147,11 +166,9 @@ section
 			display block
 			overflow hidden
 			position absolute
-			-webkit-transition width 0.5s
-			-moz-transition width 0.5s
 			
 			&:hover
-				width 200px
+				overflow visible
 
 			.logoPrincipal
 				anchoAlto()
@@ -160,12 +177,17 @@ section
 				margin 10px 10px 70px 14px
 
 			.opcion
-				anchoAlto(200px)
+				anchoAlto(69px)
+				border-radius 5px
 				padding 6px 0 6px 14px
+				white-space nowrap
+				-moz-transition width 0.5s
+				-webkit-transition width 0.5s
 
 				&:hover
-					background rgba(white, 0.5)
+					background color_fondo //rgba(white, 0.5)
 					cursor pointer
+					width 180px
 
 				&:nth-child(2)
 					.logoMenu

@@ -1,69 +1,25 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+
 {% block estilos %}
-	<link rel="stylesheet" href="../static/css/index.css">
-{% endblock %}
-{% block navMovil %}
-	<li class="menuLuz" onclick="mostrarTablaLuz()">
-		<a href="#">
-			<span class="Luz">Luz</span>
-		</a>
-	</li>
-	<li class="menuAire" onclick="mostrarAire()">
-		<a href="#">
-			<span class="Aire">Aire</span>
-		</a>
-	</li>
+	<link rel="stylesheet" href="{% static 'css/index.css' %}">
 {% endblock %}
 
 {% block contenido %}
+	<aside>
+		<div class="opciones">
+			<ul>
+				<li><a href="{% url 'app.views.luz' %}"><span>Luz</span></a></li>
+				<li><a href="{% url 'app.views.aire' %}"><span>Aire</span></a></li>
+			</ul>
+		</div>
+	</aside>
+	{% block opcion %}
 	<article class="welcome">
-		<img src="../static/imagenes/AwesomeHome.png" alt="Awesome Home" title="Awesome Home">
+		<img src="{% static 'imagenes/AwesomeHome.png' %}" alt="Awesome Home" title="Awesome Home">
 	</article>
-	<article class="tablaLuz">
-		<div class="cabecera">
-			<div class="tabla" name="nombre" ><strong>Nombre</strong></div>
-			<!--<div class="tabla"><strong>Puerto</strong></div>-->
-			<div class="tabla"><strong>Estado</strong></div>
-			<div class="tabla"><strong>Dimmer</strong></div>
-		</div>
-		{% for l in luz %}
-			<div class="luzOver" id="puertoLuz{{l.puerto}}" onclick="luzOverClick({{l.puerto}})">
-				<div class="tabla" name="nombre" ><span id="nombrePuerto{{l.puerto}}">{{l.nombre}}</span></div>
-				<!--<div class="tabla"><span id="numeroPuerto{{l.puerto}}">{{l.puerto}}</span></div>-->
-				{% if l.valorLuz == 1 %}
-					<div class="tabla"><span id="estadoPuerto{{l.puerto}}">Encendido</span></div>
-				{% else %}
-					<div class="tabla"><span id="estadoPuerto{{l.puerto}}">Apagado</span></div>
-				{% endif %}
-				<div class="tabla"><span id="valorDimmer{{l.puerto}}">{{l.valorDimmer}}</span></div>
-			</div>
-		{% endfor %}
-	</article>
-	<article>
-		<div class="controles">
-			<div class="onOff">
-				<figure>
-					<img src="../static/imagenes/botonOn.png" alt="on-off" id="imgOnOff" class="imagen" onClick="ProcesoLuz('luz');" />
-				</figure>
-			</div>
-			<div class="divDimmer">
-				<input type="range" id="idDimmer" name="dimmer" value="100" min="10" max="90" step="10" onmouseup="ProcesoLuz('dimmer')" />
-			</div>
-		</div>
-		<div class="infoLuz">
-			<span>
-				<strong class="estado">Estado:</strong>
-			</span>
-			<span class="port">
-				Puerto 0
-			</span>
-			<span class="infoEstadoDimmer">
-				Dimmer en 100%
-			</span>
-			<span class="infoEstadoOnOff">
-				Energia On
-			</span>
-		</div>
+	{% endblock %}
+	<!-- <article>
 		<div class="termometro">
 			<div class="temperatura">
 				<h4><span>Temperatura:</span></h4>
@@ -86,7 +42,7 @@
 				</div>
 			</div>
 		</div>
-	</article>
+	</article> -->
 {% endblock %}
 
 {% block javascript %}

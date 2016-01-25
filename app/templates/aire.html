@@ -1,0 +1,51 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+
+{% block estilos %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'css/aire.css' %}">
+{% endblock %}
+
+{% block opcion %}
+<article class="termometro">
+	<div class="temperatura">
+		<h4>
+			<span>Temperatura Ambiente:</span>
+			<span id="temp">Cargando...</span>
+			<span>Humedad Ambiente:</span>
+			<span id="humedad">Cargando...</span>
+		</h4>
+	</div>
+	<div class="uso">
+		<span>Control:</span>
+		<label id="lManual" ><input value="1" name="uso" type="radio" id="usoManual" onclick="switchControles('manual')" />Manual</label>
+		<label id="lAuto" ><input value="2" name="uso" type="radio" id="usoAuto" onclick="switchControles('auto')" />Automatico</label>
+	</div>
+	<div class="aireAutomatico">
+		<span>Preferencia:</span>
+		<select name="" id="preferencia">
+			<option value="1">Alto</option>
+			<option value="2">Medio</option>
+			<option value="3">Bajo</option>
+		</select>
+	</div>
+	<div class="infoAire">
+		<span>Aire Acondicionado:</span>
+		<span class="temp">Cargando...</span>
+		<span class="ventilacion">Cargando...</span>
+	</div>
+	<div class="aireManual">
+		<figure>
+			<img src="{% static 'imagenes/power.png' %}" alt="Power" title="Power" id="power">
+			<img src="{% static 'imagenes/buttonUp.png' %}" alt="Arriba" title="Arriba" id="airUp">
+			<img src="{% static 'imagenes/buttonDown.png' %}" alt="Abajo" title="Abajo" id="airDown">
+			<img src="{% static 'imagenes/buttonFan.png' %}" alt="Ventilacion" title="Ventilacion" id="airDown">
+		</figure>
+	</div>
+</article>
+{% endblock %}
+
+{% block javascript %}
+	<script type="text/javascript" src="../static/js/jquery-1.11.3.min.js" ></script>
+	<script type="text/javascript" src="../static/js/Aire.js" ></script>
+{% endblock %}

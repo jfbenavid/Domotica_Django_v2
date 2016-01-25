@@ -1,0 +1,61 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+
+{% block estilos %}
+	{{block.super}}
+	<link rel="stylesheet" href="{% static 'css/luz.css' %}">
+{% endblock %}
+
+{% block opcion %}
+	<article class="tablaLuz">
+		<div class="cabecera">
+			<div class="tabla" name="nombre" ><strong>Nombre</strong></div>
+			<!--<div class="tabla"><strong>Puerto</strong></div>-->
+			<div class="tabla"><strong>Estado</strong></div>
+			<div class="tabla"><strong>Dimmer</strong></div>
+		</div>
+		{% for l in luz %}
+			<div class="luzOver" id="puertoLuz{{l.puerto}}" onclick="luzOverClick({{l.puerto}})">
+				<div class="tabla" name="nombre" ><span id="nombrePuerto{{l.puerto}}">{{l.nombre}}</span></div>
+				<!--<div class="tabla"><span id="numeroPuerto{{l.puerto}}">{{l.puerto}}</span></div>-->
+				{% if l.valorLuz == 1 %}
+					<div class="tabla"><span id="estadoPuerto{{l.puerto}}">Encendido</span></div>
+				{% else %}
+					<div class="tabla"><span id="estadoPuerto{{l.puerto}}">Apagado</span></div>
+				{% endif %}
+				<div class="tabla"><span id="valorDimmer{{l.puerto}}">{{l.valorDimmer}}</span></div>
+			</div>
+		{% endfor %}
+	</article>
+	<article>
+		<div class="controles">
+			<div class="onOff">
+				<figure>
+					<img src="{% static 'imagenes/botonOn.png' %}" alt="on-off" id="imgOnOff" class="imagen" onClick="ProcesoLuz('luz');" />
+				</figure>
+			</div>
+			<div class="divDimmer">
+				<input type="range" id="idDimmer" name="dimmer" value="100" min="10" max="90" step="10" onmouseup="ProcesoLuz('dimmer')" />
+			</div>
+		</div>
+		<div class="infoLuz">
+			<span>
+				<strong class="estado">Estado:</strong>
+			</span>
+			<span class="port">
+				Puerto cargando
+			</span>
+			<span class="infoEstadoDimmer">
+				Dimmer cargando
+			</span>
+			<span class="infoEstadoOnOff">
+				Energia cargando
+			</span>
+		</div>
+	</article>
+{% endblock %}
+
+{% block javascript %}
+	<script type="text/javascript" src="../static/js/jquery-1.11.3.min.js" ></script>
+	<script type="text/javascript" src="../static/js/Luz.js" ></script>
+{% endblock %}

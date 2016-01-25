@@ -1,0 +1,128 @@
+color_fondo = #444
+color_letras = rgba(white, 0.5)
+color_tabla_luz = rgba(black,0.1)
+
+section
+	article
+		width 100%
+
+		.controles
+			display none
+			margin-top 10px
+			top 10px
+
+			.onOff
+				margin-left 7.5%
+				width 85%
+				
+				figure
+					img
+						margin-left 5%
+						width 90%
+
+			.divDimmer
+				margin-left 10%
+				text-align center
+				width 80%
+
+		.infoLuz
+			display none
+			margin-left 20%
+			margin-top 20px
+			width 80%
+
+			span
+				display block
+				
+	article.tablaLuz
+		background color_tabla_luz
+		margin-top 1px
+		text-align center
+		width 100%
+		
+		.cabecera
+			background rgba(black, 0.2)
+			margin-bottom 1px
+
+		.tabla
+			display inline-block
+			height 40px
+			line-height 40px
+			overflow-x auto
+			white-space nowrap
+			width 24%
+
+			&:hover
+				cursor pointer
+
+			&[name = nombre]
+				width 48%
+
+		.luzOver:hover
+			background color_tabla_luz
+
+	// aside
+	// 	display none
+	// 	.opciones
+	// 		ul
+	// 			margin 1.5em
+				
+	// 			li
+	// 				list-style-type none
+					
+	// 				a
+	// 					text-decoration none
+
+	// 					span
+	// 						color rgba(gray, 0.8)
+	// 						display block
+	// 						font-weight bold
+	// 						margin 0.5em 0
+	// 						padding 0.2em 0
+
+@media only screen and (min-device-width: 768px)
+	section
+		//margin-left 80px
+		
+		// aside
+		// 	display block
+		// 	margin-top 3em
+		// 	width 30%
+			
+		article
+			position absolute
+			left 20%
+			top 7em
+			width 35%
+
+			.controles
+				margin-left 40%
+				width 100%
+
+				.onOff
+					margin-left 9%
+			
+			.infoLuz
+				margin-left 30%
+
+		article.tablaLuz
+			width 60%
+
+@media only screen and (min-device-width: 980px)
+	section
+		article
+			left 15%
+			width 78%
+
+			.controles
+				display block
+				float right
+				width 35%
+			
+			.infoLuz
+				display block
+				margin 9.5em 0 0 70%
+				
+		article.tablaLuz
+			width 40%
+			z-index 1

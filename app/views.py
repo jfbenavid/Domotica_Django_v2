@@ -49,28 +49,61 @@ def inicio(request):
 		template = "index.html"
 		return render_to_response(template, locals())
 	except Exception, e:
-		print "Error en Home: %s" % e
+		print "Error en Home:\n %s" % e
+
+@login_required(login_url = '/')
+def luz(request):
+	try:
+		luz = Luz.objects.all().order_by('puerto')
+		lista = [{'nombre':l.nombre, 'puerto':l.puerto, 'valorLuz':l.valorLuz, 'valorDimmer':l.valorDimmer} for l in luz]
+		sJsonLuz = json.dumps(lista)
+		usuario = request.user
+		template = "luz.html"
+		return render_to_response(template, locals())
+	except Exception, e:
+		print "Error en Luz:\n %s" % e
+
+@login_required(login_url = '/')
+def aire(request):
+	try:
+		usuario = request.user
+		
+		aire = Aire.objects.get(puerto = 4)
+		lista = {'control': aire.control, 'preferencia': aire.preferencia}
+		sJsonLuz = json.dumps(lista)
+
+		return render_to_response("aire.html", locals())
+	except Exception, e:
+		print "Error en link Aire:\n %s" % e
 
 #Se usa para cambiar los valores de las preferencias del aire en la base de datos
 @login_required(login_url = '/')
-def preferenciasAire(request, tMinimo, tMaximo, estado):
+def preferenciasAire(request, control, preferencia):
 	try:
-		iTempMinima = int(tMinimo)
-		iTempMaxima = int(tMaximo)
+		iControl = int(control)
+		iPreferencia = int(preferencia)
 
 		aire = Aire.objects.get(puerto = 4)
-		aire.temperaturaMinima = iTempMinima
-		aire.temperaturaMaxima = iTempMaxima
-		aire.estado = estado
+		aire.control = iControl
+		aire.preferencia = iPreferencia
 		aire.save()
 
-		lista = [{'tMinima':aire.temperaturaMinima, 'tMaxima':aire.temperaturaMaxima, 'valorLuz':aire.estado}]
+		sControl = 'manual' if iControl == 1 else 'automatico'
+
+		if iPreferencia == 1:
+			sPreferencia = 'bajo'
+		elif iPreferencia == 2:
+			sPreferencia = 'medio'
+		elif iPreferencia == 3:
+			sPreferencia = 'alto'
+
+		lista = {'control':sControl, 'preferencia':sPreferencia}
 		sJsonLuz = json.dumps(lista)
 
 		return HttpResponse(sJsonLuz)
 
 	except Exception, e:
-		print "Error en preferenciasAire - %s" % e
+		print "Error en preferenciasAire:\n %s" % e
 
 #Metodo para ejecutar los procesos de encencido, apagado y dimer de las luces
 @login_required(login_url = '/')
@@ -81,7 +114,8 @@ def ProcesoLuz(request, idPuerto, valor, tipo):
 		iValor	= int(valor)
 
 		#Se consulta el objeto luz que contenga el puerto recibido, si no encuentra nada muestra un notfound
-		luz = get_object_or_404(Luz.objects.get(puerto = iPuerto))
+		#luz = get_object_or_404(Luz.objects.get(puerto = iPuerto))
+		luz = Luz.objects.get(puerto = iPuerto)
 
 		#Si el tipo de cambio lo ejecuta el switch de la luz o el dimer,
 		#luego de eso cambia los valores del objeto luz
@@ -119,25 +153,30 @@ def ProcesoLuz(request, idPuerto, valor, tipo):
 		return HttpResponse(sJsonLuz)
 
 	except Exception, e:
-		print "Error en ProcesoLuz: %s" % e
+		print "Error en ProcesoLuz:\n %s" % e
 
 #Metodo para la ejecucion del sensado de temperatura y humedad
 @login_required(login_url = '/')
-def ejecutarSensor(request):
-	rpi = ProcesosTemperatura()
+def ejecutarSensor(request, preferencia):
+	try:
+		rpi = ProcesosTemperatura()
 
-	humedad, temperatura = rpi.SensarTodo()
+		humedad, temperatura = rpi.Sensar()
 
-	temp = [{'humedad':humedad, 'temperatura': temperatura}]
-	sJson = json.dumps(temp)
+		temp = {'humedad':humedad, 'temperatura': temperatura}
+		sJson = json.dumps(temp)
 
-	return HttpResponse(sJson)
+		return HttpResponse(sJson)
+	except Exception, e:
+		print "Error en ejecutarSensor:\n %s" % e
+	
 
 @login_required(login_url = '/')
 def cerrar(request):
 	logout(request)
 	return HttpResponseRedirect('/')
 
+@login_required(login_url = '/')
 def opciones(request):
 	usuario = request.user
 	return render_to_response('opciones.html', locals())
@@ -156,10 +195,9 @@ def agregarPuerto(request):
 
 		return render_to_response("opcionesFormulario.html", context_instance = RequestContext(request, {'form':form, 'usuario':usuario}))
 	except Exception, e:
-		print 'ha ocurrido un error en agregarPuerto()' + str(e)
+		print 'ha ocurrido un error en agregarPuerto():\n' + str(e)
 		raise e
 	
-
 @login_required(login_url = '/')
 def crearUsuario(request):
 	try:
@@ -175,5 +213,23 @@ def crearUsuario(request):
 		return render_to_response("opcionesFormulario.html", context_instance = RequestContext(request, {'form':form, 'usuario':usuario}))
 
 	except Exception, e:
-		print 'error en la creacion de usuario: %s' % e 
-		
+		print 'error en la creacion de usuario:\n %s' % e 
+
+@login_required(login_url = '/')
+def temperaturaAuto(request, preferencia):
+	try:
+		rpi = ProcesosTemperatura()
+
+		humedad, temperatura = rpi.Sensar()
+
+		#valores a colocar
+		#prueba = rpi.IniciarProceso(temperatura, humedad, preferencia)
+		prueba = rpi.IniciarProceso(22, 71, preferencia)
+		print 'los valores son: \ntemperaturaSalida: %s \nventiladorSalida: %s' % (prueba.resultado_Tem, prueba.resultado_Hum)
+
+		temp = {'humedad':humedad, 'temperatura': temperatura}
+		sJson = json.dumps(temp)
+
+		return HttpResponse(sJson)
+	except Exception, e:
+		print "Error en temperaturaAuto:\n %s" % e

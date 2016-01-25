@@ -12,34 +12,6 @@ section
 	article
 		width 100%
 
-		.controles
-			display none
-			margin-top 10px
-			top 10px
-
-			.onOff
-				margin-left 7.5%
-				width 85%
-				
-				figure
-					img
-						margin-left 5%
-						width 90%
-
-			.divDimmer
-				margin-left 10%
-				text-align center
-				width 80%
-
-		.infoLuz
-			display none
-			margin-left 20%
-			margin-top 20px
-			width 80%
-
-			span
-				display block
-
 		.termometro
 			display none
 
@@ -60,38 +32,15 @@ section
 					margin-top 5px
 					width 80%
 		
-	article.tablaLuz
-		background color_tabla_luz
-		display none
-		margin-top 1px
-		text-align center
-		width 100%
-		
-		.cabecera
-			background rgba(black, 0.2)
-			margin-bottom 1px
-
-		.tabla
-			display inline-block
-			height 40px
-			line-height 40px
-			width 24%
-			
-			&:hover
-				cursor pointer
-
-			&[name = nombre]
-				width 48%
-
-		.luzOver:hover
-			background color_tabla_luz
-
 	article.welcome
 		img
 			display block
 			margin auto
 			padding-top 20px
 			width 90%
+
+	aside
+		display none
 
 @media only screen and (min-device-width: 768px)
 	section
@@ -120,7 +69,14 @@ section
 			alineacionEscritorio(40%, 100px)
 
 		article.welcome
-			display none
+			margin-left 25%
+			position absolute
+			top 6em
+			width 70%
+
+		aside
+			display block
+			margin-left 8%
 			
 @media only screen and (min-device-width: 1024px)
 	section
@@ -131,3 +87,5 @@ section
 			.termometro
 				width 38%
 		
+		article.welcome
+			width 35%
