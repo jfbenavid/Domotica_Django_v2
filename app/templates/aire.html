@@ -29,17 +29,17 @@
 			<option value="3">Bajo</option>
 		</select>
 	</div>
-	<div class="infoAire">
+	<!-- <div class="infoAire">
 		<span>Aire Acondicionado:</span>
 		<span class="temp">Cargando...</span>
 		<span class="ventilacion">Cargando...</span>
-	</div>
+	</div> -->
 	<div class="aireManual">
 		<figure>
-			<img src="{% static 'imagenes/power.png' %}" alt="Power" title="Power" id="power">
-			<img src="{% static 'imagenes/buttonUp.png' %}" alt="Arriba" title="Arriba" id="airUp">
-			<img src="{% static 'imagenes/buttonDown.png' %}" alt="Abajo" title="Abajo" id="airDown">
-			<img src="{% static 'imagenes/buttonFan.png' %}" alt="Ventilacion" title="Ventilacion" id="airDown">
+			<img src="{% static 'imagenes/power.png' %}" alt="Power" title="Power" id="power" onclick="controlManual(1)" />
+			<img src="{% static 'imagenes/buttonUp.png' %}" alt="Arriba" title="Arriba" id="airUp" onclick="controlManual(2)" />
+			<img src="{% static 'imagenes/buttonDown.png' %}" alt="Abajo" title="Abajo" id="airDown" onclick="controlManual(3)" />
+			<img src="{% static 'imagenes/buttonFan.png' %}" alt="Ventilacion" title="Ventilacion" id="airDown" onclick="controlManual(4)" />
 		</figure>
 	</div>
 </article>

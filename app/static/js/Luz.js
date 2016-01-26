@@ -64,14 +64,14 @@ function ProcesoLuz(control){
 				$.get('../ProcesoLuz/' + puerto + sLuz + ' l', function(data){
 					gListaLuz[i] = $.parseJSON(data)[0];
 					CambiosEstados();
-					alert('muy bien la luz!' + gListaLuz[i].valorLuz);
+					//alert('muy bien la luz!' + gListaLuz[i].valorLuz);
 				});
 			}
 			else{
 				$.get('../ProcesoLuz/' + puerto + ' ' + parseInt($("#idDimmer").val()) + ' d', function(data){
 					gListaLuz[i] = $.parseJSON(data)[0];
 					CambiosEstados();
-					alert('muy bien el dimmer!' + gListaLuz[i].valorDimmer);
+					//alert('muy bien el dimmer!' + gListaLuz[i].valorDimmer);
 				});
 			}
 			break;

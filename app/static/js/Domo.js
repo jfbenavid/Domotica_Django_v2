@@ -7,6 +7,7 @@ var gbValInterval = "";
 
 
 
+
 /*Funcion para mostrar el div del aire acondicionado*/
 /*function mostrarAire() {
 	$(".welcome").hide();

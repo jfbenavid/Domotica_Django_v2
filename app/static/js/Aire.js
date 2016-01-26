@@ -1,9 +1,18 @@
 gConfig = []
 
+function usarAjaxGet (ruta) {
+	var retorno;
+	$.get(ruta, function (data) {
+		retorno = data;
+	})
+	return retorno;
+}
+
 function cambiarPreferencia (control) {
-	$.get('../preferenciasAire/' + control + ' ' + $('select[id=preferencia]').val(), function (data) {
-		alert('el control se cambio');
-	});
+	var retorno = usarAjaxGet('../preferenciasAire/' + control + ' ' + $('select[id=preferencia]').val());
+	/*$.get('../preferenciasAire/' + control + ' ' + $('select[id=preferencia]').val(), function (data) {
+		//alert('el control se cambio');
+	});*/
 }
 
 function cambioControl (esconder, mostrar, normal, negrita){
@@ -15,19 +24,22 @@ function cambioControl (esconder, mostrar, normal, negrita){
 
 /*Funcion que ejecuta una llamada Ajax a la pagina ejecutarSensor*/
 function sensarTemperatura() {
-	if ($('input:radio[name=uso]:checked').val() == 1) {
-		$.get('../ejecutarSensor/', function(data){
+	var glista;
+	if ($('input:radio[id=usoManual]:checked').val() == 1) {
+		glista = $.parseJSON(usarAjaxGet('../ejecutarSensor/'));
+		/*$.get('../ejecutarSensor/', function(data){
 			var gLista = $.parseJSON(data);
 			$('#temp').html(gLista.temperatura + " °C");
 			$('#humedad').html(gLista.humedad + " %");
-		});
+		});*/
 	}
 	else{
-		$.get('../temperaturaAuto/' + $('select[id=preferencia]').val(), function(data){
+		glista = $.parseJSON(usarAjaxGet('../temperaturaAuto/' + $('select[id=preferencia]').val()));
+		/*$.get('../temperaturaAuto/' + $('select[id=preferencia]').val(), function(data){
 			var gLista = $.parseJSON(data);
 			$('#temp').html(gLista.temperatura + " °C");
 			$('#humedad').html(gLista.humedad + " %");
-		});
+		});*/
 	}
 }
 
@@ -51,6 +63,9 @@ function InicializarControles () {
 
 function Inicio () {
 	InicializarControles();
+	
+	$('select[id=preferencia]').change(function(){cambiarPreferencia(2);});
+
 	setInterval(function (){
 		sensarTemperatura();
 	}, 6000);
@@ -67,4 +82,21 @@ function switchControles (control) {
 	}
 }
 
-
+function controlManual (control) {
+	var boton = "";
+	if (control == 1)
+		boton = "key_power";
+	else if(control == 2)
+		boton = "key_volumeup";
+	else if(control == 3)
+		boton = "key_volumedown";
+	else if(control == 4)
+		boton = "key_slow";
+	else
+		alert('Error en pulsar un boton del control manual!');
+	
+	usarAjaxGet('../controlManual/' + boton);
+	/*$.get('../controlManual/' + boton, function (data) {
+		//alert('el control se cambio');
+	});*/
+}

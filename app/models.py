@@ -1,12 +1,13 @@
 from django.db import models
+from subprocess import call
 import threading
 import logging
 import time
 
 #lo siguiente es importante para las funcionalidades dentro de la raspberry
-#import sys
-#import Adafruit_DHT	#Para el sensado de temperatura
-#import RPi.GPIO as GPIO	#Para poder utilizar los puertos GPIO
+import sys
+import Adafruit_DHT	#Para el sensado de temperatura
+import RPi.GPIO as GPIO	#Para poder utilizar los puertos GPIO
 
 nombreHilo = {}		#para manejar los hilos del dimmer
 
@@ -88,7 +89,7 @@ class ProcesosLuces():
 
 #Clase para el sensado de temperatura y humedad
 class ProcesosTemperatura():
-	def __init__(self, prueba = 0):
+	def __init__(self, prueba = ""):
 		self.prueba = prueba
 
 	def Sensar(self):
@@ -115,6 +116,9 @@ class ProcesosTemperatura():
 
 		except Exception, e:
 			print "Hubo un error en SensarTodo(): \n %s" % e
+
+	def controlManual(self, accion):
+		call(['irsend','SEND_ONCE','hyundai', accion])
 
 	#-----------------------------// Logica Difusa  //----------------------------------
 
@@ -313,7 +317,10 @@ class ProcesosTemperatura():
 			tuplaResultado = ReglaPrincipal(cTemperatura, cHumedad, cPreferencia)
 			resultado_Tem  = ResultadoTemperatura(tuplaResultado[0])
 			resultado_Hum  = ResultadoHumedad(tuplaResultado[1])
-			return (resultado_Tem, resultado_Hum)
+			
+			lista = {'temperatura':resultado_Tem,'humedad':resultado_Hum}
+			#return (resultado_Tem, resultado_Hum)
+			return lista
 
 		if cTemperatura == cPreferencia:
 			return "0"

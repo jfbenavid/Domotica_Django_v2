@@ -157,7 +157,7 @@ def ProcesoLuz(request, idPuerto, valor, tipo):
 
 #Metodo para la ejecucion del sensado de temperatura y humedad
 @login_required(login_url = '/')
-def ejecutarSensor(request, preferencia):
+def ejecutarSensor(request):
 	try:
 		rpi = ProcesosTemperatura()
 
@@ -189,7 +189,7 @@ def agregarPuerto(request):
 			form = LuzForm(request.POST)
 			if form.is_valid():
 				form.save()
-				return HttpResponseRedirect('/agregarPuerto')
+				return HttpResponseRedirect('/luz')
 		else:
 			form = LuzForm()
 
@@ -223,9 +223,15 @@ def temperaturaAuto(request, preferencia):
 		humedad, temperatura = rpi.Sensar()
 
 		#valores a colocar
-		#prueba = rpi.IniciarProceso(temperatura, humedad, preferencia)
-		prueba = rpi.IniciarProceso(22, 71, preferencia)
-		print 'los valores son: \ntemperaturaSalida: %s \nventiladorSalida: %s' % (prueba.resultado_Tem, prueba.resultado_Hum)
+		prueba = rpi.IniciarProceso(temperatura, humedad, preferencia)
+		#prueba = rpi.IniciarProceso(22, 71, preferencia)
+		print 'los valores son: \ntemperaturaSalida: %s \nventiladorSalida: %s' % (prueba.temperatura, prueba.humedad)
+
+		if prueba != 0:
+			if prueba.temperatura > temperatura:
+				rpi.controlManual('key_volumeup')
+			elif prueba.temperatura < temperatura:
+				rpi.controlManual('key_volumedown')
 
 		temp = {'humedad':humedad, 'temperatura': temperatura}
 		sJson = json.dumps(temp)
@@ -233,3 +239,11 @@ def temperaturaAuto(request, preferencia):
 		return HttpResponse(sJson)
 	except Exception, e:
 		print "Error en temperaturaAuto:\n %s" % e
+
+@login_required(login_url = '/')
+def controlManual(request, accion):
+	try:
+		rpi = ProcesosTemperatura()
+		rpi.controlManual(accion)
+	except Exception, e:
+		print "Error en controlManual:\n %s" % e
