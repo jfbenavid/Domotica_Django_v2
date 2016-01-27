@@ -76,11 +76,12 @@ class ProcesosLuces():
 			frecuencia = 100
 
 		l = GPIO.PWM(self.puerto, frecuencia)
-		l.start(100)
+		l.start(self.valor)
 		try:
 			while nombreHilo['puerto' + str(self.puerto)]:
-				l.ChangeDutyCycle(self.valor)
-				time.sleep(0.1)
+				pass #para que no se cierre el ciclo hasta que yo diga
+				#l.ChangeDutyCycle(self.valor)
+				#time.sleep(0.1)
 			print "se finalizo el metodo ProcesarDimmer del puerto %s" % self.puerto
 		except Exception, e:
 			l.stop()
@@ -118,12 +119,12 @@ class ProcesosTemperatura():
 			print "Hubo un error en SensarTodo(): \n %s" % e
 
 	def controlManual(self, accion):
-		call(['irsend','SEND_ONCE','hyundai', accion])
+		call(['irsend','SEND_ONCE','simply', accion])
 
 	#-----------------------------// Logica Difusa  //----------------------------------
 
 	#Se establece el estado de la humedad como Bajo, Medio o Alto segun el valor capturado por el censor
-	def EstablecerHumedad(vHumedad):
+	def EstablecerHumedad(self, vHumedad):
 		slHumedad = ""
 		if(vHumedad < 34):
 			slHumedad = "Bajo"
@@ -135,7 +136,7 @@ class ProcesosTemperatura():
 		return slHumedad
 
 	#Se establece el estado de la temperatura como Bajo, Medio o Alto segun el valor capturado por el censor
-	def EstablecerTemperatura(vTemperatura):
+	def EstablecerTemperatura(self, vTemperatura):
 		slTemperatura =""
 		if(vTemperatura <= 19):
 			slTemperatura = "Bajo"
@@ -147,19 +148,19 @@ class ProcesosTemperatura():
 		return slTemperatura 
 
 	#Se establece el estado de la preferencia como Bajo, Medio o Alto segun el valor ingresado o seleccionado por el usuario
-	def EstablecerPreferencia(vPeferencia):
-		slPreferencia =""
+	def EstablecerPreferencia(self, vPeferencia):
+		slPreferencia = ""
 		if(vPeferencia == "1"):
-			slTemperatura = "Alto"
+			slPreferencia = "Alto"
 		if(vPeferencia == "2"):
-			slTemperatura = "Medio"
+			slPreferencia = "Medio"
 		if(vPeferencia == "3"):
-			slTemperatura = "Bajo"
+			slPreferencia = "Bajo"
 
-		return slTemperatura
+		return slPreferencia
 
 	#Se define el rango de salida de la temperatura y de la humedad
-	def ReglaPrincipal(Temperatura, Humedad, Promedio):
+	def ReglaPrincipal(self, Temperatura, Humedad, Promedio):
 		Temperatura_Sal = ""
 		Ventilador_Sal  = ""
 
@@ -167,114 +168,116 @@ class ProcesosTemperatura():
 			Temperatura_Sal = "Alto"
 			Ventilador_Sal  = "Bajo"
 
-	  	if(Temperatura == "Alto" and Humedad == "Alto" and Promedio == "Medio"):
+	  	elif(Temperatura == "Alto" and Humedad == "Alto" and Promedio == "Medio"):
 	  		Temperatura_Sal = "Medio"
 	  		Ventilador_Sal  = "Bajo"
 
-	  	if(Temperatura == "Alto" and Humedad == "Alto" and Promedio == "Bajo"):
+	  	elif(Temperatura == "Alto" and Humedad == "Alto" and Promedio == "Bajo"):
 	  		Temperatura_Sal = "Bajo"
 	  		Ventilador_Sal  = "Bajo"
 
-		if(Temperatura == "Alto" and Humedad == "Medio" and Promedio == "Alto"):
+		elif(Temperatura == "Alto" and Humedad == "Medio" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
 			Ventilador_Sal  = "Medio"
 
-		if(Temperatura == "Alto" and Humedad == "Medio" and Promedio == "Medio"):
+		elif(Temperatura == "Alto" and Humedad == "Medio" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
 			Ventilador_Sal  = "Medio"
 
-		if(Temperatura == "Alto" and Humedad == "Medio" and Promedio == "Bajo"):
+		elif(Temperatura == "Alto" and Humedad == "Medio" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
 			Ventilador_Sal  = "Medio"
 
-		if(Temperatura == "Alto" and Humedad == "Bajo" and Promedio == "Alto"):
+		elif(Temperatura == "Alto" and Humedad == "Bajo" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
 			Ventilador_Sal  = "Bajo"
 
-		if(Temperatura == "Alto" and Humedad == "Bajo" and Promedio == "Medio"):
+		elif(Temperatura == "Alto" and Humedad == "Bajo" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
 			Ventilador_Sal  = "Medio"
 
-		if(Temperatura == "Alto " and Humedad == "Bajo" and Promedio == "Bajo"):
+		elif(Temperatura == "Alto " and Humedad == "Bajo" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
 			Ventilador_Sal  = "Alto"
 
-		if(Temperatura == "Medio" and Humedad == "Alto" and Promedio == "Alto"):
+		elif(Temperatura == "Medio" and Humedad == "Alto" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
 			Ventilador_Sal  = "Bajo"
 
-		if(Temperatura == "Medio" and Humedad == "Alto" and Promedio == "Medio"):
+		elif(Temperatura == "Medio" and Humedad == "Alto" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
 			Ventilador_Sal  = "Bajo"
 
-		if(Temperatura == "Medio" and Humedad == "Alto" and Promedio == "Bajo"):
+		elif(Temperatura == "Medio" and Humedad == "Alto" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
 			Ventilador_Sal  = "Bajo"
 
-		if(Temperatura == "Medio" and Humedad == "Medio" and Promedio == "Alto"):
+		elif(Temperatura == "Medio" and Humedad == "Medio" and Promedio == "Alto"):
 			emperatura_Sal = "Alto"
 			Ventilador_Sal = "Medio"
 
-		if(Temperatura == "Medio" and Humedad == "Medio" and Promedio == "Medio"):
+		elif(Temperatura == "Medio" and Humedad == "Medio" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
 			Ventilador_Sal  = "Medio"
 
-		if(Temperatura == "Medio" and Humedad == "Medio" and Promedio == "Bajo"):
+		elif(Temperatura == "Medio" and Humedad == "Medio" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
 			Ventilador_Sal  = "Medio"
 
-		if(Temperatura == "Medio" and Humedad == "Bajo" and Promedio == "Alto"):
+		elif(Temperatura == "Medio" and Humedad == "Bajo" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
 			Ventilador_Sal  = "Bajo"
 
-		if(Temperatura == "Medio" and Humedad == "Bajo" and Promedio == "Medio"):
+		elif(Temperatura == "Medio" and Humedad == "Bajo" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
 			Ventilador_Sal  = "Medio"
 
-		if(Temperatura == "Medio" and Humedad == "Bajo" and Promedio == "Bajo"):
+		elif(Temperatura == "Medio" and Humedad == "Bajo" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
 			Ventilador_Sal  = "Alto"
 
-		if(Temperatura == "Bajo" and Humedad == "Alto" and Promedio == "Alto"):
+		elif(Temperatura == "Bajo" and Humedad == "Alto" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
 			Ventilador_Sal  = "Bajo"
 
-		if(Temperatura == "Bajo" and Humedad == "Alto" and Promedio == "Medio"):
+		elif(Temperatura == "Bajo" and Humedad == "Alto" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
 			Ventilador_Sal  = "Medio"
 
-		if(Temperatura == "Bajo" and Humedad == "Alto" and Promedio == "Bajo"):
+		elif(Temperatura == "Bajo" and Humedad == "Alto" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
 			Ventilador_Sal  = "Alto"
 
-		if(Temperatura == "Bajo" and Humedad == "Medio" and Promedio == "Alto"):
+		elif(Temperatura == "Bajo" and Humedad == "Medio" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
 			Ventilador_Sal  = "Medio"
 
-		if(Temperatura == "Bajo" and Humedad == "Medio" and Promedio == "Medio"):
+		elif(Temperatura == "Bajo" and Humedad == "Medio" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
 			Ventilador_Sal  = "Medio"
 
-		if(Temperatura == "Bajo" and Humedad == "Medio" and Promedio == "Bajo"):
+		elif(Temperatura == "Bajo" and Humedad == "Medio" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
 			Ventilador_Sal  = "Medio"
 
-		if(Temperatura == "Bajo" and Humedad == "Bajo" and Promedio == "Alto"):
+		elif(Temperatura == "Bajo" and Humedad == "Bajo" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
 			Ventilador_Sal  = "Bajo"
 
-		if(Temperatura == "Bajo" and Humedad == "Bajo" and Promedio == "Medio"):
+		elif(Temperatura == "Bajo" and Humedad == "Bajo" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
 			Ventilador_Sal  = "Medio"
 
-		if(Temperatura == "Bajo" and Humedad == "Bajo" and Promedio == "Bajo"):
+		elif(Temperatura == "Bajo" and Humedad == "Bajo" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
 			Ventilador_Sal  = "Alto"
 
-		return (Temperatura_Sal, Ventilador_Sal)
+		lista = {'temp':Temperatura_Sal,'fan':Ventilador_Sal}
+		#return (Temperatura_Sal, Ventilador_Sal)
+		return lista
 
 	#Se define la nueva temperatura segun el estado quese procese 
-	def ResultadoTemperatura(Temperatura_Salida):
+	def ResultadoTemperatura(self, Temperatura_Salida):
 		if Temperatura_Salida == "Bajo":
 			return "16"
 
@@ -285,7 +288,7 @@ class ProcesosTemperatura():
 			return  "26" 
 
 	#Se define la nueva humedad segun el estado quese procese 
-	def ResultadoHumedad(Ventilador_Salida):
+	def ResultadoHumedad(self, Ventilador_Salida):
 		if Ventilador_Salida == "Bajo":
 			return "3"
 
@@ -296,37 +299,26 @@ class ProcesosTemperatura():
 			return "1"
 
 	#Fincion que inicia el proceso difuso
-	def IniciarProceso(sTemperatura, sHumedad, iPreferencia):
-		#sTemperatura = int(input("Ingrese Temperatura"))
-		#sHumedad 	 = int(input("Ingrese Humedad"))
-		#sPreferencia = str(input("Ingrese Preferencia\n 1 = Alto \n 2 = Medio \n 3 = Bajo"))#muy frio, mas frio, frio , menos frio, poco frio
-		if iPreferencia == 1:
-			sPreferencia = 'Alto'
-		elif iPreferencia == 2:
-			sPreferencia = 'Medio'
-		elif iPreferencia == 3:
-			sPreferencia = 'Bajo'
-
+	def IniciarProceso(self, sTemperatura, sHumedad, iPreferencia):
+		sPreferencia = str(iPreferencia)
+		
 		#cTemperatura = capturar estado de la Temperatura
-		cTemperatura = EstablecerTemperatura(sTemperatura)
+		cTemperatura = self.EstablecerTemperatura(sTemperatura)
 		#cHumedad = capturar estado de la humedad
-		cHumedad = EstablecerHumedad(sHumedad)
+		cHumedad = self.EstablecerHumedad(sHumedad)
 		#cPreferencia = capturar estado de la preferencia del usuario
-		cPreferencia = EstablecerPreferencia(sPreferencia)
+		cPreferencia = self.EstablecerPreferencia(sPreferencia)
 		if cTemperatura != cPreferencia:
-			tuplaResultado = ReglaPrincipal(cTemperatura, cHumedad, cPreferencia)
-			resultado_Tem  = ResultadoTemperatura(tuplaResultado[0])
-			resultado_Hum  = ResultadoHumedad(tuplaResultado[1])
+			resultado = self.ReglaPrincipal(cTemperatura, cHumedad, cPreferencia)
+			tempSalida  = self.ResultadoTemperatura(resultado['temp'])
+			ventiladorSalida  = self.ResultadoHumedad(resultado['fan'])
 			
-			lista = {'temperatura':resultado_Tem,'humedad':resultado_Hum}
-			#return (resultado_Tem, resultado_Hum)
+			lista = {'temperatura':tempSalida,'ventilador':ventiladorSalida}
+			#return (tempSalida, ventiladorSalida)
 			return lista
 
 		if cTemperatura == cPreferencia:
 			return "0"
-
-
-
 
 	#capturarResultado = IniciarProceso()
 	#if len(capturarResultado) == 2:

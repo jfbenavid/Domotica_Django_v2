@@ -16,6 +16,6 @@ Proyecto Domotica
 cd Escritorio/Proyectos/Domotica
 git init
 git add .
-git commit -m 'se termina la parte del control del aire acondicionado; se quitan comentarios de librerias a usar en la RPi para pruebas finales'
+git commit -m 'se hicieron cambios a la logica difusa debido a que hacia falta tratarlos como si estuviesen en una clase; se termino el control remoto manual y el control automatico del aire acondicionado; tambien se cambio el proceso del dimmer(se elimino lo que iba dentro del while debido a que no se necesita). Por ultimo, se arregla el touch para el dimmer ya que antes no funcionaba.'
 git remote add origin git@github.com:jfbenavid/Domotica_Django_v2.git
 git push -u origin master

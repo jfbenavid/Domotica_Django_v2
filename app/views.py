@@ -223,15 +223,24 @@ def temperaturaAuto(request, preferencia):
 		humedad, temperatura = rpi.Sensar()
 
 		#valores a colocar
-		prueba = rpi.IniciarProceso(temperatura, humedad, preferencia)
+		difusa = rpi.IniciarProceso(temperatura, humedad, preferencia)
 		#prueba = rpi.IniciarProceso(22, 71, preferencia)
-		print 'los valores son: \ntemperaturaSalida: %s \nventiladorSalida: %s' % (prueba.temperatura, prueba.humedad)
+		print 'los valores son: \ntemperaturaSalida: %s \nventiladorSalida: %s' % (difusa['temperatura'], difusa['humedad'])
 
-		if prueba != 0:
-			if prueba.temperatura > temperatura:
+		if difusa != 0:
+			if difusa['temperatura'] > temperatura:
 				rpi.controlManual('key_volumeup')
-			elif prueba.temperatura < temperatura:
+			elif difusa['temperatura'] < temperatura:
 				rpi.controlManual('key_volumedown')
+
+			#para decidir lo que pasa con el ventilador
+			#nivelHumedad = EstablecerHumedad(humedad)
+			#if nivelHumedad == "Bajo":
+			#	pass
+			#elif nivelHumedad == "Medio":
+			#	pass
+			#elif nivelHumedad == "Alto":
+			#	pass
 
 		temp = {'humedad':humedad, 'temperatura': temperatura}
 		sJson = json.dumps(temp)
@@ -245,5 +254,7 @@ def controlManual(request, accion):
 	try:
 		rpi = ProcesosTemperatura()
 		rpi.controlManual(accion)
+
+		return HttpResponse('excelente')
 	except Exception, e:
 		print "Error en controlManual:\n %s" % e

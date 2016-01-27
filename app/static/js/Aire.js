@@ -26,20 +26,18 @@ function cambioControl (esconder, mostrar, normal, negrita){
 function sensarTemperatura() {
 	var glista;
 	if ($('input:radio[id=usoManual]:checked').val() == 1) {
-		glista = $.parseJSON(usarAjaxGet('../ejecutarSensor/'));
-		/*$.get('../ejecutarSensor/', function(data){
+		$.get('../ejecutarSensor/', function(data){
 			var gLista = $.parseJSON(data);
 			$('#temp').html(gLista.temperatura + " °C");
 			$('#humedad').html(gLista.humedad + " %");
-		});*/
+		});
 	}
 	else{
-		glista = $.parseJSON(usarAjaxGet('../temperaturaAuto/' + $('select[id=preferencia]').val()));
-		/*$.get('../temperaturaAuto/' + $('select[id=preferencia]').val(), function(data){
+		$.get('../temperaturaAuto/' + $('select[id=preferencia]').val(), function(data){
 			var gLista = $.parseJSON(data);
 			$('#temp').html(gLista.temperatura + " °C");
 			$('#humedad').html(gLista.humedad + " %");
-		});*/
+		});
 	}
 }
 
