@@ -5,9 +5,9 @@ import logging
 import time
 
 #lo siguiente es importante para las funcionalidades dentro de la raspberry
-import sys
-import Adafruit_DHT	#Para el sensado de temperatura
-import RPi.GPIO as GPIO	#Para poder utilizar los puertos GPIO
+# import sys
+# import Adafruit_DHT	#Para el sensado de temperatura
+# import RPi.GPIO as GPIO	#Para poder utilizar los puertos GPIO
 
 nombreHilo = {}		#para manejar los hilos del dimmer
 
@@ -29,13 +29,15 @@ class Aire(models.Model):
 	control = models.IntegerField(default = 1)
 	preferencia = models.IntegerField(default = 1)
 	puerto = models.IntegerField(default = 0)
+	temperaturaControl = models.IntegerField(default = 17)
+	estado = models.BooleanField(default = False)
 	#temperaturaMinima = models.IntegerField(default = 0)
 	#temperaturaMaxima = models.IntegerField(default = 0)
 	#estado = models.IntegerField(default = 0)
 
 	def __unicode__(self):
 		#return "Puerto: %s - Temperatura Maxima: %s - Temperatura Minima: %s - Estado: %s" % (self.puerto, self.temperaturaMaxima, self.temperaturaMinima, self.estado)
-		return "Preferencia: %s, Control: %s" % (self.preferencia, self.control)
+		return "Preferencia: %s, Control: %s, temperatura: %s, estado: %s" % (self.preferencia, self.control, self.temperaturaControl, self.estado)
 
 #Clase usada para el manejo de las luces (encendido/apagado y dimmer)
 class ProcesosLuces():

@@ -69,7 +69,7 @@ def aire(request):
 		usuario = request.user
 		
 		aire = Aire.objects.get(puerto = 4)
-		lista = {'control': aire.control, 'preferencia': aire.preferencia}
+		lista = {'control': aire.control, 'preferencia': aire.preferencia, 'estado': aire.estado, 'temperatura': aire.temperaturaControl}
 		sJsonLuz = json.dumps(lista)
 
 		return render_to_response("aire.html", locals())
@@ -169,7 +169,6 @@ def ejecutarSensor(request):
 		return HttpResponse(sJson)
 	except Exception, e:
 		print "Error en ejecutarSensor:\n %s" % e
-	
 
 @login_required(login_url = '/')
 def cerrar(request):
@@ -234,13 +233,13 @@ def temperaturaAuto(request, preferencia):
 				rpi.controlManual('key_volumedown')
 
 			#para decidir lo que pasa con el ventilador
-			#nivelHumedad = EstablecerHumedad(humedad)
-			#if nivelHumedad == "Bajo":
-			#	pass
-			#elif nivelHumedad == "Medio":
-			#	pass
-			#elif nivelHumedad == "Alto":
-			#	pass
+			nivelHumedad = EstablecerHumedad(humedad)
+			if nivelHumedad == "Bajo":
+				pass
+			elif nivelHumedad == "Medio":
+				pass
+			elif nivelHumedad == "Alto":
+				pass
 
 		temp = {'humedad':humedad, 'temperatura': temperatura}
 		sJson = json.dumps(temp)
@@ -250,8 +249,21 @@ def temperaturaAuto(request, preferencia):
 		print "Error en temperaturaAuto:\n %s" % e
 
 @login_required(login_url = '/')
-def controlManual(request, accion):
+def controlManual(request, accion, tipo, estadoTemp):
+	#tipo = 1:estado, 2:temperatura
 	try:
+		print("entro a ejecutar controlManual")
+
+		aire = Aire.objects.get(puerto = 4)
+
+		if int(tipo) == 1:
+			estado = bool(int(estadoTemp))
+			aire.estado = estado
+		else:
+			aire.temperaturaControl = estadoTemp
+
+		aire.save()
+
 		rpi = ProcesosTemperatura()
 		rpi.controlManual(accion)
 

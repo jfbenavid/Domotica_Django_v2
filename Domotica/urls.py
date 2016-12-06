@@ -38,5 +38,6 @@ urlpatterns = [
 	url(r'^opciones/crearUsuario/$', 'app.views.crearUsuario', name = 'crearUsuario'),
 	url(r'^luz/$', 'app.views.luz', name = 'luz'),
 	url(r'^aire/$', 'app.views.aire', name = 'aire'),
-	url(r'^controlManual/(\w+)$', 'app.views.controlManual', name = 'controlManual'),
+	url(r'^controlManual/(\w+) (\d) (1|0)$', 'app.views.controlManual', name = 'controlManual'),
+	url(r'^controlManual/(\w+) (\d) (\w+)$', 'app.views.controlManual', name = 'controlManual'),
 ]

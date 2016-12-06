@@ -1,0 +1,9 @@
+para recrear la base de datos
+python manage.py syncdb
+
+usuario: domo
+pass: 123456
+email: domo@domo.com
+
+para mostrar sql de la aplicacion
+python manage.py sqlall app

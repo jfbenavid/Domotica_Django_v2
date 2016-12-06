@@ -1,4 +1,8 @@
 gConfig = []
+configAire = {
+	temperaturas: { '16':'0', '17':'1', '18':'2', '19':'3', '20':'4', '21':'5', '22':'6', '23':'7', '24':'8', '25':'9' },
+	estado: {'apagar' : 'powerOff', 'encender': 'powerOn'}
+}
 
 function usarAjaxGet (ruta) {
 	var retorno;
@@ -57,6 +61,11 @@ function InicializarControles () {
 		cambioControl('.aireManual','.aireAutomatico','#lManual','#lAuto');
 		$('#usoAuto').attr('checked', true);
 	}
+
+	var textoEstado = gConfig.estado ? 'Encendido.' : 'Apagado.';
+	$('#estado').text(textoEstado);
+
+	$('#tempActual').text(gConfig.temperatura);
 }
 
 function Inicio () {
@@ -80,21 +89,39 @@ function switchControles (control) {
 	}
 }
 
-function controlManual (control) {
-	var boton = "";
-	if (control == 1)
-		boton = "key_power";
-	else if(control == 2)
-		boton = "key_volumeup";
-	else if(control == 3)
-		boton = "key_volumedown";
-	else if(control == 4)
-		boton = "key_slow";
-	else
-		alert('Error en pulsar un boton del control manual!');
-	
-	usarAjaxGet('../controlManual/' + boton);
-	/*$.get('../controlManual/' + boton, function (data) {
-		//alert('el control se cambio');
-	});*/
+function ControlEstado (estado) {
+	if (!estado) {
+		$('#estado').text('Encendido.');
+		controlManual(configAire.estado.encender, 1, 1);
+		$('#power').attr('onclick', 'ControlEstado(true)');
+	} else{
+		$('#estado').text('Apagado.');
+		controlManual(configAire.estado.apagar, 1, 0);
+		$('#power').attr('onclick', 'ControlEstado(false)');
+	}
+}
+
+function subirTemperatura () {
+	var actual = parseInt($('#tempActual').text());
+	if (actual < 25 && actual > 15) {
+		actual++;
+		$('#tempActual').text(actual);
+		controlManual(configAire.temperaturas[actual.toString()], 2, actual);
+	}
+}
+
+function bajarTemperatura () {
+	var actual = parseInt($('#tempActual').text());
+	if (actual < 26 && actual > 16) {
+		actual--;
+		$('#tempActual').text(actual);
+		controlManual(configAire.temperaturas[actual.toString()], 2, actual);
+	}
+}
+
+function controlManual (control, tipo, estadoTemp) {
+	usarAjaxGet('../controlManual/' + control + ' ' + tipo + ' ' + estadoTemp);
+	//$.get('../controlManual/' + control + ' ' + tipo + ' ' + estadoTemp, function (data) {
+		//alert(data);
+	//});
 }

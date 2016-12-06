@@ -35,11 +35,20 @@
 		<span class="ventilacion">Cargando...</span>
 	</div> -->
 	<div class="aireManual">
+		<div class="infoAire">
+			<div>
+				<strong class="estado">Estado: </strong>
+				<span id="estado">Encendido.</span>
+			</div>
+			<div>
+				<strong class="estado">Ultima temperatura configurada: </strong>
+				<span id="tempActual">15</span>
+			</div>
+		</div>
 		<figure>
-			<img src="{% static 'imagenes/power.png' %}" alt="Power" title="Power" id="power" onclick="controlManual(1)" />
-			<img src="{% static 'imagenes/buttonUp.png' %}" alt="Arriba" title="Arriba" id="airUp" onclick="controlManual(2)" />
-			<img src="{% static 'imagenes/buttonDown.png' %}" alt="Abajo" title="Abajo" id="airDown" onclick="controlManual(3)" />
-			<img src="{% static 'imagenes/buttonFan.png' %}" alt="Ventilacion" title="Ventilacion" id="airDown" onclick="controlManual(4)" />
+			<img src="{% static 'imagenes/power.png' %}" alt="Power" title="Power" id="power" onclick="ControlEstado(true)" />
+			<img src="{% static 'imagenes/buttonUp.png' %}" alt="Arriba" title="Arriba" onclick="subirTemperatura()" />
+			<img src="{% static 'imagenes/buttonDown.png' %}" alt="Abajo" title="Abajo" onclick="bajarTemperatura()" />
 		</figure>
 	</div>
 </article>
