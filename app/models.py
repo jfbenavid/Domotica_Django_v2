@@ -31,6 +31,7 @@ class Aire(models.Model):
 	puerto = models.IntegerField(default = 0)
 	temperaturaControl = models.IntegerField(default = 17)
 	estado = models.BooleanField(default = False)
+	estadoVentilacion = models.CharField(max_length = 6, default = "")
 	#temperaturaMinima = models.IntegerField(default = 0)
 	#temperaturaMaxima = models.IntegerField(default = 0)
 	#estado = models.IntegerField(default = 0)
@@ -300,7 +301,7 @@ class ProcesosTemperatura():
 		if Ventilador_Salida == "Alto":
 			return "1"
 
-	#Fincion que inicia el proceso difuso
+	#Funcion que inicia el proceso difuso
 	def IniciarProceso(self, sTemperatura, sHumedad, iPreferencia):
 		sPreferencia = str(iPreferencia)
 		

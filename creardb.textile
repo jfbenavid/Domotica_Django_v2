@@ -7,3 +7,6 @@ email: domo@domo.com
 
 para mostrar sql de la aplicacion
 python manage.py sqlall app
+
+
+el puerto del aire es el 4

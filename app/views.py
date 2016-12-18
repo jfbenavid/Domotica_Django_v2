@@ -69,7 +69,7 @@ def aire(request):
 		usuario = request.user
 		
 		aire = Aire.objects.get(puerto = 4)
-		lista = {'control': aire.control, 'preferencia': aire.preferencia, 'estado': aire.estado, 'temperatura': aire.temperaturaControl}
+		lista = {'control': aire.control, 'preferencia': aire.preferencia, 'estado': aire.estado, 'temperatura': aire.temperaturaControl, 'ventilador': aire.estadoVentilacion}
 		sJsonLuz = json.dumps(lista)
 
 		return render_to_response("aire.html", locals())
@@ -124,23 +124,23 @@ def ProcesoLuz(request, idPuerto, valor, tipo):
 			if (luz.valorLuz == 0):
 				luz.valorDimmer = 0
 				#se crea objeto de la clase ProcesosLuces con los valores de los parametros
-				rpi = ProcesosLuces(iPuerto, iValor, False)
+				procesosLuz = ProcesosLuces(iPuerto, iValor, False)
 
 			else:
 				luz.valorDimmer = 100
-				rpi = ProcesosLuces(iPuerto, iValor)
+				procesosLuz = ProcesosLuces(iPuerto, iValor)
 					
-			rpi.ProcesarLuz()
+			procesosLuz.ProcesarLuz()
 		else:
-			rpi = ProcesosLuces(iPuerto, iValor, False)
+			procesosLuz = ProcesosLuces(iPuerto, iValor, False)
 			time.sleep(0.05)
 			luz.valorDimmer = iValor
 			if (luz.valorDimmer != 100): 
-				rpi = ProcesosLuces(iPuerto, iValor)
+				procesosLuz = ProcesosLuces(iPuerto, iValor)
 			else:
 				return ProcesoLuz(iPuerto, 100, 'l')
 
-			hiloDimmer = threading.Thread(target = rpi.ProcesarDimmer, name = 'dimmer' + str(iPuerto))
+			hiloDimmer = threading.Thread(target = procesosLuz.ProcesarDimmer, name = 'dimmer' + str(iPuerto))
 			hiloDimmer.setDaemon(True)
 			hiloDimmer.start()
 		#Guarda los cambios en el objeto
@@ -159,9 +159,9 @@ def ProcesoLuz(request, idPuerto, valor, tipo):
 @login_required(login_url = '/')
 def ejecutarSensor(request):
 	try:
-		rpi = ProcesosTemperatura()
+		procesosAire = ProcesosTemperatura()
 
-		humedad, temperatura = rpi.Sensar()
+		humedad, temperatura = procesosAire.Sensar()
 
 		temp = {'humedad':humedad, 'temperatura': temperatura}
 		sJson = json.dumps(temp)
@@ -217,29 +217,46 @@ def crearUsuario(request):
 @login_required(login_url = '/')
 def temperaturaAuto(request, preferencia):
 	try:
-		rpi = ProcesosTemperatura()
+		temperaturas = { '16':'KEY_TEMPERATURE16', '17':'KEY_TEMPERATURE17', '18':'KEY_TEMPERATURE18', '19':'KEY_TEMPERATURE19', '20':'KEY_TEMPERATURE20', '21':'KEY_TEMPERATURE21', '22':'KEY_TEMPERATURE22', '23':'KEY_TEMPERATURE23', '24':'KEY_TEMPERATURE23', '25':'KEY_TEMPERATURE23' }
+		switchHumedad = {'1':'KEY_FANSPEEDHIGH', '2':'KEY_FANSPEEDMED', '3':'KEY_FANSPEEDLOW'}
+		procesosAire = ProcesosTemperatura()
+		aire = Aire.objects.get(puerto = 4)
 
-		humedad, temperatura = rpi.Sensar()
+		humedad, temperatura = procesosAire.Sensar()
 
 		#valores a colocar
-		difusa = rpi.IniciarProceso(temperatura, humedad, preferencia)
-		#prueba = rpi.IniciarProceso(22, 71, preferencia)
-		print 'los valores son: \ntemperaturaSalida: %s \nventiladorSalida: %s' % (difusa['temperatura'], difusa['humedad'])
+		#print("humedad", type(humedad))
+		#print("temperatura", type(temperatura))
+		
+		#difusa es la que se debe usar para enviar la señal al aire
+		difusa = procesosAire.IniciarProceso(int(temperatura), int(humedad), preferencia)
+
+		#prueba = procesosAire.IniciarProceso(22, 71, preferencia)
 
 		if difusa != 0:
 			if difusa['temperatura'] > temperatura:
-				rpi.controlManual('key_volumeup')
-			elif difusa['temperatura'] < temperatura:
-				rpi.controlManual('key_volumedown')
+				temperatura = temperatura + 1
+				procesosAire.controlManual(temperaturas[str(temperatura)])
 
-			#para decidir lo que pasa con el ventilador
-			nivelHumedad = EstablecerHumedad(humedad)
-			if nivelHumedad == "Bajo":
-				pass
-			elif nivelHumedad == "Medio":
-				pass
-			elif nivelHumedad == "Alto":
-				pass
+			else:
+				temperatura = temperatura - 1
+				procesosAire.controlManual(temperaturas[str(temperatura)])
+
+			aire.temperaturaControl = temperatura
+
+			if difusa['ventilador'] == "1":
+				aire.estadoVentilacion = "alto"
+				procesosAire.controlManual(switchHumedad["1"])
+
+			if difusa['ventilador'] == "2":
+				aire.estadoVentilacion = "medio"
+				procesosAire.controlManual(switchHumedad["2"])
+
+			if difusa['ventilador'] == "3":
+				aire.estadoVentilacion = "bajo"
+				procesosAire.controlManual(switchHumedad["3"])
+
+
 
 		temp = {'humedad':humedad, 'temperatura': temperatura}
 		sJson = json.dumps(temp)
@@ -252,20 +269,20 @@ def temperaturaAuto(request, preferencia):
 def controlManual(request, accion, tipo, estadoTemp):
 	#tipo = 1:estado, 2:temperatura
 	try:
-		print("entro a ejecutar controlManual")
-
 		aire = Aire.objects.get(puerto = 4)
 
 		if int(tipo) == 1:
 			estado = bool(int(estadoTemp))
 			aire.estado = estado
-		else:
+		elif int(tipo) == 2:
 			aire.temperaturaControl = estadoTemp
+		else:
+			aire.estadoVentilacion = estadoTemp
 
 		aire.save()
 
-		rpi = ProcesosTemperatura()
-		rpi.controlManual(accion)
+		procesosAire = ProcesosTemperatura()
+		procesosAire.controlManual(accion)
 
 		return HttpResponse('excelente')
 	except Exception, e:

@@ -16,6 +16,6 @@ Proyecto Domotica
 cd Escritorio/Proyectos/Domotica
 git init
 git add .
-git commit -m 'se cambia la logica para funcionar con el control remoto LIRC.'
+git commit -m 'se cambia la logica para funcionar con el control remoto LIRC. Se hacen cambios en la logica difusa para su correcto funcionamiento. Se agrega boton de ventilacion en el control manual.'
 git remote add origin git@github.com:jfbenavid/Domotica_Django_v2.git
 git push -u origin master

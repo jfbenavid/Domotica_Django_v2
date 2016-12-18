@@ -1,7 +1,8 @@
 gConfig = []
 configAire = {
-	temperaturas: { '16':'0', '17':'1', '18':'2', '19':'3', '20':'4', '21':'5', '22':'6', '23':'7', '24':'8', '25':'9' },
-	estado: {'apagar' : 'powerOff', 'encender': 'powerOn'}
+	temperaturas: { '16':'KEY_TEMPERATURE16', '17':'KEY_TEMPERATURE17', '18':'KEY_TEMPERATURE18', '19':'KEY_TEMPERATURE19', '20':'KEY_TEMPERATURE20', '21':'KEY_TEMPERATURE21', '22':'KEY_TEMPERATURE22', '23':'KEY_TEMPERATURE23', '24':'KEY_TEMPERATURE23', '25':'KEY_TEMPERATURE23' },
+	estado: {'apagar' : 'powerOff', 'encender': 'powerOn'},
+	ventilacion: {'1':'KEY_FANSPEEDHIGH', '2':'KEY_FANSPEEDMED', '3':'KEY_FANSPEEDLOW'}
 }
 
 function usarAjaxGet (ruta) {
@@ -66,6 +67,7 @@ function InicializarControles () {
 	$('#estado').text(textoEstado);
 
 	$('#tempActual').text(gConfig.temperatura);
+	$('#ventilacion').text(gConfig.ventilador);
 }
 
 function Inicio () {
@@ -75,7 +77,7 @@ function Inicio () {
 
 	setInterval(function (){
 		sensarTemperatura();
-	}, 6000);
+	}, 300000);
 }
 
 function switchControles (control) {
@@ -117,6 +119,29 @@ function bajarTemperatura () {
 		$('#tempActual').text(actual);
 		controlManual(configAire.temperaturas[actual.toString()], 2, actual);
 	}
+}
+
+function cambiarVentilacion() {
+	var actual = $('#ventilacion').text();
+	var control = '';
+	var estado = '';
+	switch(actual){
+		case 'alta':
+			control = configAire.ventilacion.baja;
+			estado = 'baja';
+			break;
+		case 'media':
+			control = configAire.ventilacion.alta;
+			estado = 'alta';
+			break;
+		case 'baja':
+			control = configAire.ventilacion.media;
+			estado = 'media';
+			break;
+	}
+
+	$('#ventilacion').text(estado);
+	controlManual(control, 3, estado);
 }
 
 function controlManual (control, tipo, estadoTemp) {

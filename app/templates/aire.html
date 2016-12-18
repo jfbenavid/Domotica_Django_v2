@@ -44,11 +44,16 @@
 				<strong class="estado">Ultima temperatura configurada: </strong>
 				<span id="tempActual">15</span>
 			</div>
+			<div>
+				<strong class="estado">Ventilacion: </strong>
+				<span id="ventilacion">media</span>
+			</div>
 		</div>
 		<figure>
 			<img src="{% static 'imagenes/power.png' %}" alt="Power" title="Power" id="power" onclick="ControlEstado(true)" />
 			<img src="{% static 'imagenes/buttonUp.png' %}" alt="Arriba" title="Arriba" onclick="subirTemperatura()" />
 			<img src="{% static 'imagenes/buttonDown.png' %}" alt="Abajo" title="Abajo" onclick="bajarTemperatura()" />
+			<img src="{% static 'imagenes/buttonFan.png' %}" alt="Ventilador" title="Ventilador" onclick="cambiarVentilacion()" />
 		</figure>
 	</div>
 </article>
