@@ -165,115 +165,87 @@ class ProcesosTemperatura():
 	#Se define el rango de salida de la temperatura y de la humedad
 	def ReglaPrincipal(self, Temperatura, Humedad, Promedio):
 		Temperatura_Sal = ""
-		Ventilador_Sal  = ""
 
 		if(Temperatura == "Alto" and Humedad == "Alto" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
-			Ventilador_Sal  = "Bajo"
 
 	  	elif(Temperatura == "Alto" and Humedad == "Alto" and Promedio == "Medio"):
 	  		Temperatura_Sal = "Medio"
-	  		Ventilador_Sal  = "Bajo"
 
 	  	elif(Temperatura == "Alto" and Humedad == "Alto" and Promedio == "Bajo"):
 	  		Temperatura_Sal = "Bajo"
-	  		Ventilador_Sal  = "Bajo"
 
 		elif(Temperatura == "Alto" and Humedad == "Medio" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
-			Ventilador_Sal  = "Medio"
 
 		elif(Temperatura == "Alto" and Humedad == "Medio" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
-			Ventilador_Sal  = "Medio"
 
 		elif(Temperatura == "Alto" and Humedad == "Medio" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
-			Ventilador_Sal  = "Medio"
 
 		elif(Temperatura == "Alto" and Humedad == "Bajo" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
-			Ventilador_Sal  = "Bajo"
 
 		elif(Temperatura == "Alto" and Humedad == "Bajo" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
-			Ventilador_Sal  = "Medio"
 
 		elif(Temperatura == "Alto " and Humedad == "Bajo" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
-			Ventilador_Sal  = "Alto"
 
 		elif(Temperatura == "Medio" and Humedad == "Alto" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
-			Ventilador_Sal  = "Bajo"
 
 		elif(Temperatura == "Medio" and Humedad == "Alto" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
-			Ventilador_Sal  = "Bajo"
 
 		elif(Temperatura == "Medio" and Humedad == "Alto" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
-			Ventilador_Sal  = "Bajo"
 
 		elif(Temperatura == "Medio" and Humedad == "Medio" and Promedio == "Alto"):
 			emperatura_Sal = "Alto"
-			Ventilador_Sal = "Medio"
 
 		elif(Temperatura == "Medio" and Humedad == "Medio" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
-			Ventilador_Sal  = "Medio"
 
 		elif(Temperatura == "Medio" and Humedad == "Medio" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
-			Ventilador_Sal  = "Medio"
 
 		elif(Temperatura == "Medio" and Humedad == "Bajo" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
-			Ventilador_Sal  = "Bajo"
 
 		elif(Temperatura == "Medio" and Humedad == "Bajo" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
-			Ventilador_Sal  = "Medio"
 
 		elif(Temperatura == "Medio" and Humedad == "Bajo" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
-			Ventilador_Sal  = "Alto"
 
 		elif(Temperatura == "Bajo" and Humedad == "Alto" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
-			Ventilador_Sal  = "Bajo"
 
 		elif(Temperatura == "Bajo" and Humedad == "Alto" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
-			Ventilador_Sal  = "Medio"
 
 		elif(Temperatura == "Bajo" and Humedad == "Alto" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
-			Ventilador_Sal  = "Alto"
 
 		elif(Temperatura == "Bajo" and Humedad == "Medio" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
-			Ventilador_Sal  = "Medio"
 
 		elif(Temperatura == "Bajo" and Humedad == "Medio" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
-			Ventilador_Sal  = "Medio"
 
 		elif(Temperatura == "Bajo" and Humedad == "Medio" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
-			Ventilador_Sal  = "Medio"
 
 		elif(Temperatura == "Bajo" and Humedad == "Bajo" and Promedio == "Alto"):
 			Temperatura_Sal = "Alto"
-			Ventilador_Sal  = "Bajo"
 
 		elif(Temperatura == "Bajo" and Humedad == "Bajo" and Promedio == "Medio"):
 			Temperatura_Sal = "Medio"
-			Ventilador_Sal  = "Medio"
 
 		elif(Temperatura == "Bajo" and Humedad == "Bajo" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
-			Ventilador_Sal  = "Alto"
 
 		lista = {'temp':Temperatura_Sal,'fan':Ventilador_Sal}
 		#return (Temperatura_Sal, Ventilador_Sal)

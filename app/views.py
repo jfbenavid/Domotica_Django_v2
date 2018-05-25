@@ -196,7 +196,7 @@ def agregarPuerto(request):
 	except Exception, e:
 		print 'ha ocurrido un error en agregarPuerto():\n' + str(e)
 		raise e
-	
+
 @login_required(login_url = '/')
 def crearUsuario(request):
 	try:
@@ -287,3 +287,24 @@ def controlManual(request, accion, tipo, estadoTemp):
 		return HttpResponse('excelente')
 	except Exception, e:
 		print "Error en controlManual:\n %s" % e
+
+@login_required(login_url = '/')
+def cambiarPreferenciaAire(request):
+	try:
+		usuario = request.user
+		aire = Aire.objects.get(puerto = 4)
+		if request.method == 'POST':
+			form = AireForm(request.POST)
+			if form.is_valid():
+				data = form.cleaned_data
+				aire.preferencia = data["preferencia"]
+				aire.save()
+				return HttpResponseRedirect("/aire")
+		else:
+			form = AireForm()
+
+		return render_to_response("preferenciaAire.html", context_instance = RequestContext(request, {'form':form, 'usuario':usuario}))
+
+	except Exception, e:
+		print 'ha ocurrido un error en cambiarPreferenciaAire():\n' + str(e)
+		raise e

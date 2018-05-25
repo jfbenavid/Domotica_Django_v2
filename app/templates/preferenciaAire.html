@@ -1,0 +1,31 @@
+{% extends 'opciones.html' %}
+
+{% load staticfiles %}
+
+{% block estilos %}
+	{{block.super}}
+	<link rel="stylesheet" href="{% static 'css/creaPuerto.css' %}">
+{% endblock %}
+
+{% block formulario %}
+	<div class="formulario">
+		<form method="post">
+			{% csrf_token %}
+			<div class="form">
+                <select name="{{form.preferencia.id_for_label}}" id="{{form.preferencia.id_for_label}}">
+                    <option value="1">Bajo</option>
+                    <option value="2">Medio</option>
+                    <option value="3">Alto</option>
+                </select>
+            </div>
+			<div class="botonAgregar">
+				<input type="submit" value="Agregar">
+			</div>
+		</form>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $("#{{form.preferencia.id_for_label}}").val("{{form.preferencia}}");
+        });
+    </script>
+{% endblock %}

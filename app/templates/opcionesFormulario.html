@@ -10,7 +10,7 @@
 {% block formulario %}
 	<div class="formulario">
 		<form method="post">
-				{% csrf_token %}
+			{% csrf_token %}
 			<div class="form">{{form.as_p}}</div>
 			<div class="botonAgregar">
 				<input type="submit" value="Agregar">

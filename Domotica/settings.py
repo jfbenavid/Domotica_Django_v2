@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'Domotica.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'domotica'#os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'domotica.db'#os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
