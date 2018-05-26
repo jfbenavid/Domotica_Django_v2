@@ -302,8 +302,9 @@ def cambiarPreferenciaAire(request):
 				return HttpResponseRedirect("/aire")
 		else:
 			form = AireForm()
+			form.fields["preferencia"].initial = aire.preferencia
 
-		return render_to_response("preferenciaAire.html", context_instance = RequestContext(request, {'form':form, 'usuario':usuario}))
+		return render_to_response("opcionesFormulario.html", context_instance = RequestContext(request, {'form':form, 'usuario':usuario}))
 
 	except Exception, e:
 		print 'ha ocurrido un error en cambiarPreferenciaAire():\n' + str(e)

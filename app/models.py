@@ -10,7 +10,7 @@ import time
 # import RPi.GPIO as GPIO	#Para poder utilizar los puertos GPIO
 
 nombreHilo = {}		#para manejar los hilos del dimmer
-
+preferencias = ([(1, "Bajo"), (2, "Medio"), (3, "Alto")])
 #creacion y uso de la base de datos
 class Luz(models.Model):
 	nombre = models.CharField(max_length = 60, default = "")
@@ -27,7 +27,7 @@ class Luz(models.Model):
 
 class Aire(models.Model):
 	control = models.IntegerField(default = 1)
-	preferencia = models.IntegerField(default = 1)
+	preferencia = models.IntegerField(default = 1, choices=preferencias)
 	puerto = models.IntegerField(default = 0)
 	temperaturaControl = models.IntegerField(default = 17)
 	estado = models.BooleanField(default = False)
