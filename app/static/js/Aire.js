@@ -13,10 +13,7 @@ function usarAjaxGet (ruta) {
 }
 
 function cambiarPreferencia (control) {
-	var retorno = usarAjaxGet('../preferenciasAire/' + control + ' ' + $('select[id=preferencia]').val());
-	/*$.get('../preferenciasAire/' + control + ' ' + $('select[id=preferencia]').val(), function (data) {
-		//alert('el control se cambio');
-	});*/
+	var retorno = usarAjaxGet('../preferenciasAire/' + control);
 }
 
 function cambioControl (esconder, mostrar, normal, negrita){
@@ -37,7 +34,7 @@ function sensarTemperatura() {
 		});
 	}
 	else{
-		$.get('../temperaturaAuto/' + $('select[id=preferencia]').val(), function(data){
+		$.get('../temperaturaAuto/', function(data){
 			var gLista = $.parseJSON(data);
 			$('#temp').html(gLista.temperatura + " °C");
 			$('#humedad').html(gLista.humedad + " %");
@@ -71,8 +68,6 @@ function InicializarControles () {
 function Inicio () {
 	InicializarControles();
 	
-	$('select[id=preferencia]').change(function(){cambiarPreferencia(2);});
-
 	setInterval(function (){
 		sensarTemperatura();
 	}, 300000);

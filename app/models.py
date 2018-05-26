@@ -247,9 +247,7 @@ class ProcesosTemperatura():
 		elif(Temperatura == "Bajo" and Humedad == "Bajo" and Promedio == "Bajo"):
 			Temperatura_Sal = "Bajo"
 
-		lista = {'temp':Temperatura_Sal,'fan':Ventilador_Sal}
-		#return (Temperatura_Sal, Ventilador_Sal)
-		return lista
+		return {'temp':Temperatura_Sal}
 
 	#Se define la nueva temperatura segun el estado quese procese 
 	def ResultadoTemperatura(self, Temperatura_Salida):
@@ -261,17 +259,6 @@ class ProcesosTemperatura():
 
 		if Temperatura_Salida == "Alto":
 			return  "26" 
-
-	#Se define la nueva humedad segun el estado quese procese 
-	def ResultadoHumedad(self, Ventilador_Salida):
-		if Ventilador_Salida == "Bajo":
-			return "3"
-
-		if Ventilador_Salida == "Medio":
-			return "2"
-
-		if Ventilador_Salida == "Alto":
-			return "1"
 
 	#Funcion que inicia el proceso difuso
 	def IniciarProceso(self, sTemperatura, sHumedad, iPreferencia):
@@ -286,10 +273,8 @@ class ProcesosTemperatura():
 		if cTemperatura != cPreferencia:
 			resultado = self.ReglaPrincipal(cTemperatura, cHumedad, cPreferencia)
 			tempSalida  = self.ResultadoTemperatura(resultado['temp'])
-			ventiladorSalida  = self.ResultadoHumedad(resultado['fan'])
 			
-			lista = {'temperatura':tempSalida,'ventilador':ventiladorSalida}
-			#return (tempSalida, ventiladorSalida)
+			lista = {'temperatura':tempSalida}
 			return lista
 
 		if cTemperatura == cPreferencia:

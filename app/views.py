@@ -78,26 +78,17 @@ def aire(request):
 
 #Se usa para cambiar los valores de las preferencias del aire en la base de datos
 @login_required(login_url = '/')
-def preferenciasAire(request, control, preferencia):
+def preferenciasAire(request, control):
 	try:
 		iControl = int(control)
-		iPreferencia = int(preferencia)
 
 		aire = Aire.objects.get(puerto = 4)
 		aire.control = iControl
-		aire.preferencia = iPreferencia
 		aire.save()
 
 		sControl = 'manual' if iControl == 1 else 'automatico'
 
-		if iPreferencia == 1:
-			sPreferencia = 'bajo'
-		elif iPreferencia == 2:
-			sPreferencia = 'medio'
-		elif iPreferencia == 3:
-			sPreferencia = 'alto'
-
-		lista = {'control':sControl, 'preferencia':sPreferencia}
+		lista = {'control':sControl}
 		sJsonLuz = json.dumps(lista)
 
 		return HttpResponse(sJsonLuz)
@@ -215,23 +206,16 @@ def crearUsuario(request):
 		print 'error en la creacion de usuario:\n %s' % e 
 
 @login_required(login_url = '/')
-def temperaturaAuto(request, preferencia):
+def temperaturaAuto(request):
 	try:
 		temperaturas = { '16':'KEY_TEMPERATURE16', '17':'KEY_TEMPERATURE17', '18':'KEY_TEMPERATURE18', '19':'KEY_TEMPERATURE19', '20':'KEY_TEMPERATURE20', '21':'KEY_TEMPERATURE21', '22':'KEY_TEMPERATURE22', '23':'KEY_TEMPERATURE23', '24':'KEY_TEMPERATURE23', '25':'KEY_TEMPERATURE23' }
-		switchHumedad = {'1':'KEY_FANSPEEDHIGH', '2':'KEY_FANSPEEDMED', '3':'KEY_FANSPEEDLOW'}
 		procesosAire = ProcesosTemperatura()
 		aire = Aire.objects.get(puerto = 4)
 
 		humedad, temperatura = procesosAire.Sensar()
-
-		#valores a colocar
-		#print("humedad", type(humedad))
-		#print("temperatura", type(temperatura))
 		
 		#difusa es la que se debe usar para enviar la señal al aire
-		difusa = procesosAire.IniciarProceso(int(temperatura), int(humedad), preferencia)
-
-		#prueba = procesosAire.IniciarProceso(22, 71, preferencia)
+		difusa = procesosAire.IniciarProceso(int(temperatura), int(humedad), aire.preferencia)
 
 		if difusa != 0:
 			if difusa['temperatura'] > temperatura:
@@ -243,20 +227,6 @@ def temperaturaAuto(request, preferencia):
 				procesosAire.controlManual(temperaturas[str(temperatura)])
 
 			aire.temperaturaControl = temperatura
-
-			if difusa['ventilador'] == "1":
-				aire.estadoVentilacion = "alto"
-				procesosAire.controlManual(switchHumedad["1"])
-
-			if difusa['ventilador'] == "2":
-				aire.estadoVentilacion = "medio"
-				procesosAire.controlManual(switchHumedad["2"])
-
-			if difusa['ventilador'] == "3":
-				aire.estadoVentilacion = "bajo"
-				procesosAire.controlManual(switchHumedad["3"])
-
-
 
 		temp = {'humedad':humedad, 'temperatura': temperatura}
 		sJson = json.dumps(temp)
