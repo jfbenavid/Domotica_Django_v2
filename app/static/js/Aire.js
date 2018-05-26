@@ -38,6 +38,7 @@ function sensarTemperatura() {
 			var gLista = $.parseJSON(data);
 			$('#temp').html(gLista.temperatura + " °C");
 			$('#humedad').html(gLista.humedad + " %");
+			$('#tempActualAuto').text(gLista.tempSalida);
 		});
 	}
 }
@@ -70,7 +71,7 @@ function Inicio () {
 	
 	setInterval(function (){
 		sensarTemperatura();
-	}, 300000);
+	}, 10000);
 }
 
 function switchControles (control) {

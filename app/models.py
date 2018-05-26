@@ -5,9 +5,9 @@ import logging
 import time
 
 #lo siguiente es importante para las funcionalidades dentro de la raspberry
-# import sys
-# import Adafruit_DHT	#Para el sensado de temperatura
-# import RPi.GPIO as GPIO	#Para poder utilizar los puertos GPIO
+import sys
+import Adafruit_DHT	#Para el sensado de temperatura
+import RPi.GPIO as GPIO	#Para poder utilizar los puertos GPIO
 
 nombreHilo = {}		#para manejar los hilos del dimmer
 preferencias = ([(1, "Bajo"), (2, "Medio"), (3, "Alto")])
@@ -32,12 +32,8 @@ class Aire(models.Model):
 	temperaturaControl = models.IntegerField(default = 17)
 	estado = models.BooleanField(default = False)
 	estadoVentilacion = models.CharField(max_length = 6, default = "")
-	#temperaturaMinima = models.IntegerField(default = 0)
-	#temperaturaMaxima = models.IntegerField(default = 0)
-	#estado = models.IntegerField(default = 0)
 
 	def __unicode__(self):
-		#return "Puerto: %s - Temperatura Maxima: %s - Temperatura Minima: %s - Estado: %s" % (self.puerto, self.temperaturaMaxima, self.temperaturaMinima, self.estado)
 		return "Preferencia: %s, Control: %s, temperatura: %s, estado: %s" % (self.preferencia, self.control, self.temperaturaControl, self.estado)
 
 #Clase usada para el manejo de las luces (encendido/apagado y dimmer)
@@ -274,16 +270,8 @@ class ProcesosTemperatura():
 			resultado = self.ReglaPrincipal(cTemperatura, cHumedad, cPreferencia)
 			tempSalida  = self.ResultadoTemperatura(resultado['temp'])
 			
-			lista = {'temperatura':tempSalida}
+			lista = {'temperatura': tempSalida}
 			return lista
 
 		if cTemperatura == cPreferencia:
 			return "0"
-
-	#capturarResultado = IniciarProceso()
-	#if len(capturarResultado) == 2:
-	#	print("La nueva temperatura es: %s y la velocidad %s" %(capturarResultado[0], capturarResultado[1]))
-#
-	#if capturarResultado == "0":
-	#	print("temperatura estable")
-	#-----------------------------// Logica Difusa  //----------------------------------

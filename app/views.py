@@ -212,23 +212,29 @@ def temperaturaAuto(request):
 		procesosAire = ProcesosTemperatura()
 		aire = Aire.objects.get(puerto = 4)
 
-		humedad, temperatura = procesosAire.Sensar()
-		
+		#humedad, temperatura = procesosAire.Sensar()
+		humedad, temperatura = 25,23
 		#difusa es la que se debe usar para enviar la señal al aire
 		difusa = procesosAire.IniciarProceso(int(temperatura), int(humedad), aire.preferencia)
 
-		if difusa != 0:
-			if difusa['temperatura'] > temperatura:
-				temperatura = temperatura + 1
-				procesosAire.controlManual(temperaturas[str(temperatura)])
+		if difusa != '0':
+			tempSalida = int(difusa['temperatura'])
+			procesosAire.controlManual(temperaturas[str(difusa['temperatura'])])
 
-			else:
-				temperatura = temperatura - 1
-				procesosAire.controlManual(temperaturas[str(temperatura)])
+			#if difusa['temperatura'] > temperatura:
+			#	tempSalida = temperatura + 1
+			#	procesosAire.controlManual(temperaturas[str(temperatura)])
 
-			aire.temperaturaControl = temperatura
+			#else:
+			#	tempSalida = temperatura - 1
+			#	procesosAire.controlManual(temperaturas[str(temperatura)])
 
-		temp = {'humedad':humedad, 'temperatura': temperatura}
+			aire.temperaturaControl = tempSalida
+		else:
+			tempSalida = aire.temperaturaControl
+
+		aire.save()
+		temp = {'humedad':humedad, 'temperatura': temperatura, 'tempSalida': tempSalida}
 		sJson = json.dumps(temp)
 
 		return HttpResponse(sJson)

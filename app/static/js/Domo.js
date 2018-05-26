@@ -5,21 +5,6 @@ var gsOff 	= '../static/imagenes/botonOff.png';
 var gbIntervalos = false;
 var gbValInterval = "";
 
-
-
-
-/*Funcion para mostrar el div del aire acondicionado*/
-/*function mostrarAire() {
-	$(".welcome").hide();
-	$(".controles").hide();
-	$(".infoLuz").hide();
-	$(".tablaLuz").hide();
-	$(".termometro").show();
-	sensar();
-}*/
-
-
-
 /*Funcion que se ejecuta cuando inicia la pagina*/
 function Inicio(){
 	InicializarControles();
@@ -40,8 +25,6 @@ function cambiarValorPreferencia(sIdCambia, sIdOtro){
 		//alert('Los cambios se han efectuado correctamente');
 	});
 }
-
-
 
 function sensar () {
 	gbIntervalos = true
