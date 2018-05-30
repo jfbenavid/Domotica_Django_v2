@@ -212,8 +212,8 @@ def temperaturaAuto(request):
 		procesosAire = ProcesosTemperatura()
 		aire = Aire.objects.get(puerto = 4)
 
-		#humedad, temperatura = procesosAire.Sensar()
-		humedad, temperatura = 25,23
+		humedad, temperatura = procesosAire.Sensar()
+		#humedad, temperatura = 25,23
 		#difusa es la que se debe usar para enviar la señal al aire
 		difusa = procesosAire.IniciarProceso(int(temperatura), int(humedad), aire.preferencia)
 
