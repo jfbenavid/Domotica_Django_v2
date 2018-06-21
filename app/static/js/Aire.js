@@ -49,8 +49,6 @@ function InicializarControles () {
 		gConfig = $.parseJSON(hidden);
 	}
 	
-	$('#preferencia option[value=' + gConfig.preferencia + ']').prop('selected',true);
-
 	if(gConfig.control == 1){
 		cambioControl('.aireAutomatico','.aireManual','#lAuto','#lManual');
 		$('#usoManual').attr('checked', true);

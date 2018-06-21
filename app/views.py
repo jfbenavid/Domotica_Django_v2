@@ -213,21 +213,23 @@ def temperaturaAuto(request):
 		aire = Aire.objects.get(puerto = 4)
 
 		humedad, temperatura = procesosAire.Sensar()
-		#humedad, temperatura = 25,23
+		#humedad, temperatura = 85, 23
+
+		file = open("ruta/in.txt", "w")
+		file.write(str(temperatura) + "," + str(humedad))
+		file.close()
+
 		#difusa es la que se debe usar para enviar la señal al aire
-		difusa = procesosAire.IniciarProceso(int(temperatura), int(humedad), aire.preferencia)
+		procesosAire.IniciarProceso()
+
+		#todo: una vez ejecutado el .jar, leer el archivo para saber cual es el resultado de la logica difusa
+		file = open("ruta/out.txt", "r")
+		difusa = file.read()
+		file.close()
 
 		if difusa != '0':
 			tempSalida = int(difusa['temperatura'])
 			procesosAire.controlManual(temperaturas[str(difusa['temperatura'])])
-
-			#if difusa['temperatura'] > temperatura:
-			#	tempSalida = temperatura + 1
-			#	procesosAire.controlManual(temperaturas[str(temperatura)])
-
-			#else:
-			#	tempSalida = temperatura - 1
-			#	procesosAire.controlManual(temperaturas[str(temperatura)])
 
 			aire.temperaturaControl = tempSalida
 		else:
@@ -263,25 +265,3 @@ def controlManual(request, accion, tipo, estadoTemp):
 		return HttpResponse('excelente')
 	except Exception, e:
 		print "Error en controlManual:\n %s" % e
-
-@login_required(login_url = '/')
-def cambiarPreferenciaAire(request):
-	try:
-		usuario = request.user
-		aire = Aire.objects.get(puerto = 4)
-		if request.method == 'POST':
-			form = AireForm(request.POST)
-			if form.is_valid():
-				data = form.cleaned_data
-				aire.preferencia = data["preferencia"]
-				aire.save()
-				return HttpResponseRedirect("/aire")
-		else:
-			form = AireForm()
-			form.fields["preferencia"].initial = aire.preferencia
-
-		return render_to_response("opcionesFormulario.html", context_instance = RequestContext(request, {'form':form, 'usuario':usuario}))
-
-	except Exception, e:
-		print 'ha ocurrido un error en cambiarPreferenciaAire():\n' + str(e)
-		raise e

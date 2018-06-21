@@ -7,7 +7,7 @@ class LuzForm(forms.ModelForm):
 		model = Luz
 		exclude = ("valorLuz", "valorDimmer", )
 
-class AireForm(forms.ModelForm):
-	class Meta:
-		model = Aire
-		exclude = ("control", "puerto", "temperaturaControl", "estado", "estadoVentilacion")
+# class AireForm(forms.ModelForm):
+# 	class Meta:
+# 		model = Aire
+# 		exclude = ("control", "puerto", "temperaturaControl", "estado", "estadoVentilacion")
